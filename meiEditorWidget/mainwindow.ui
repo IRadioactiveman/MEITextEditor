@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1303</width>
-    <height>680</height>
+    <width>1302</width>
+    <height>675</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -53,7 +53,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="meta">
      <attribute name="title">
@@ -582,19 +582,6 @@
      <attribute name="title">
       <string>Music</string>
      </attribute>
-     <widget class="QRadioButton" name="radioButton">
-      <property name="geometry">
-       <rect>
-        <x>130</x>
-        <y>150</y>
-        <width>82</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>RadioButton</string>
-      </property>
-     </widget>
     </widget>
    </widget>
    <widget class="QCheckBox" name="adjustByHand">
@@ -625,7 +612,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1303</width>
+     <width>1302</width>
      <height>21</height>
     </rect>
    </property>

@@ -69,6 +69,10 @@ private:
     QWidget *musicTab;
 
 
+
+    QString indent(int a);
+
+
 private slots:
     void onCheck();
     void onMeta();

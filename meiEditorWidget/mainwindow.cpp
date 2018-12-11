@@ -157,61 +157,61 @@ void MainWindow::onMeta(){
     QString s;
 
     s += qtTextBeg; s += qtN;
-    s += qtT; s += qtHeaderBeg; s += qtN;
-    s += qtT; s += qtT; s += qtIdBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += title; s += qtN;
-    s += qtT; s += qtT; s += qtIdEnd; s += qtN;
-    s += qtT; s += qtT; s += qtFiledescriptionBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtTitlestmtBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtTitleBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += title; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtTitleEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtResponsibilityBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtAgentBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT;  s += composer; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtAgentEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtResponsibilityEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtTitlestmtEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtPublicationBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtResponsibilityBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtAgentBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += author1; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtAgentEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtAgentBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += author2; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtAgentEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtResponsibilityEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtAvailabilityBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtUserestrictBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += availability; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtUserestrictEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtAvailabilityEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtPublicationEnd; s += qtN;
-    s += qtT; s += qtT; s += qtFiledescriptionEnd; s += qtN;
-    s += qtT; s += qtT; s += qtEditorialdeclarationBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtParagraphBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += comments; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtParagraphEnd; s += qtN;
-    s += qtT; s += qtT; s += qtEditorialdeclarationEnd; s += qtN;
-    s += qtT; s += qtT; s += qtProfiledescriptionBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtLangusageBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtLanguageBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += language; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtLanguageEnd;  s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtLangusageEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtMusicclassBeg;  s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT;  s += qtKeywordsBeg; s += qtN;
+    s += indent(1); s += qtHeaderBeg; s += qtN;
+    s += indent(2); s += qtIdBeg; s += qtN;
+    s += indent(3); s += title; s += qtN;
+    s += indent(2); s += qtIdEnd; s += qtN;
+    s += indent(2); s += qtFiledescriptionBeg; s += qtN;
+    s += indent(3); s += qtTitlestmtBeg; s += qtN;
+    s += indent(4); s += qtTitleBeg; s += qtN;
+    s += indent(5); s += title; s += qtN;
+    s += indent(4); s += qtTitleEnd; s += qtN;
+    s += indent(4); s += qtResponsibilityBeg; s += qtN;
+    s += indent(5); s += qtAgentBeg; s += qtN;
+    s += indent(6);  s += composer; s += qtN;
+    s += indent(5); s += qtAgentEnd; s += qtN;
+    s += indent(4); s += qtResponsibilityEnd; s += qtN;
+    s += indent(3); s += qtTitlestmtEnd; s += qtN;
+    s += indent(3); s += qtPublicationBeg; s += qtN;
+    s += indent(4); s += qtResponsibilityBeg; s += qtN;
+    s += indent(5); s += qtAgentBeg; s += qtN;
+    s += indent(6); s += author1; s += qtN;
+    s += indent(5); s += qtAgentEnd; s += qtN;
+    s += indent(5); s += qtAgentBeg; s += qtN;
+    s += indent(6); s += author2; s += qtN;
+    s += indent(5); s += qtAgentEnd; s += qtN;
+    s += indent(4); s += qtResponsibilityEnd; s += qtN;
+    s += indent(4); s += qtAvailabilityBeg; s += qtN;
+    s += indent(5); s += qtUserestrictBeg; s += qtN;
+    s += indent(6); s += availability; s += qtN;
+    s += indent(5); s += qtUserestrictEnd; s += qtN;
+    s += indent(4); s += qtAvailabilityEnd; s += qtN;
+    s += indent(3); s += qtPublicationEnd; s += qtN;
+    s += indent(2); s += qtFiledescriptionEnd; s += qtN;
+    s += indent(2); s += qtEditorialdeclarationBeg; s += qtN;
+    s += indent(3); s += qtParagraphBeg; s += qtN;
+    s += indent(4); s += comments; s += qtN;
+    s += indent(3); s += qtParagraphEnd; s += qtN;
+    s += indent(2); s += qtEditorialdeclarationEnd; s += qtN;
+    s += indent(2); s += qtProfiledescriptionBeg; s += qtN;
+    s += indent(3); s += qtLangusageBeg; s += qtN;
+    s += indent(4); s += qtLanguageBeg; s += qtN;
+    s += indent(4); s += qtT; s += language; s += qtN;
+    s += indent(4); s += qtLanguageEnd;  s += qtN;
+    s += indent(3); s += qtLangusageEnd; s += qtN;
+    s += indent(3); s += qtMusicclassBeg;  s += qtN;
+    s += indent(4); s += qtKeywordsBeg; s += qtN;
 
     for(int i = 0; i < keywords.size(); i++){
-        s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtTermBeg; s += qtN;
-        s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += keywords[i]; s += qtN;
-        s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtTermEnd; s += qtN;
+        s += indent(5); s += qtTermBeg; s += qtN;
+        s += indent(6); s += keywords[i]; s += qtN;
+        s += indent(6); s += qtTermEnd; s += qtN;
     }
 
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtKeywordsEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtMusicclassEnd; s += qtN;
-    s += qtT; s += qtT; s += qtProfiledescriptionEnd; s += qtN;
-    s += qtT; s += qtHeaderEnd; s += qtN;
+    s += indent(4); s += qtKeywordsEnd; s += qtN;
+    s += indent(3); s += qtMusicclassEnd; s += qtN;
+    s += indent(2); s += qtProfiledescriptionEnd; s += qtN;
+    s += indent(1); s += qtHeaderEnd; s += qtN;
     s += qtTextEnd;
 
     mainTextEdit->textCursor().insertText(s);
@@ -241,55 +241,55 @@ void MainWindow::onCreateSource(){
 
     QString s;
 
-    s += qtT; s += qtT; s += qtSourcedescriptionBeg; s += qtN;
+    s += indent(2); s += qtSourcedescriptionBeg; s += qtN;
 
     //example on checking for empty String, can be used for optional parameters
     if(ID.isEmpty()){
-        s += qtT; s += qtT; s += qtT; s += qtSourceBeg; s += qtN;
+        s += indent(3); s += qtSourceBeg; s += qtN;
     }
     else{
-       s += qtT; s += qtT; s += qtT; s += qtSourceAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
+       s += indent(3); s += qtSourceAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
     }
 
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtTitlestmtBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtTitleBeg; s += qtN;
+    s += indent(4); s += qtTitlestmtBeg; s += qtN;
+    s += indent(5); s += qtTitleBeg; s += qtN;
     s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += title; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtTitleEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtResponsibilityBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtAgentBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += author; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtAgentEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtResponsibilityEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtTitlestmtEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtPublicationBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtPubstatusBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += pubstatus; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtPubstatusEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtPublicationEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtPhysdescriptionEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtExtentBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += extent; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtExtentEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtPhysmediumBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += medium; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtPhysmediumEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtDimensionsAttBeg; s += qtAttUnits; s += "\""; s += unit; s += "\""; s += qtClosingBracket; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += x; s += " x "; s += y; s += unit; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtDimensionsEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtConditionBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += condition; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtConditionEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtProvenanceBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtCorpnameBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += "test"; s += qtN; // add additional field in ui!!
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtCorpnameEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtProvenanceEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtPhysdescriptionEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtHandlistBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtHandAttBeg; s += qtAttCharacter; s += "\""; s += handwriting; s += "\""; s += "/"; s += qtClosingBracket; s += qtN; // add additional attributes!!
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtHandlistEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtSourceEnd; s += qtN;
-    s += qtT; s += qtT; s += qtSourcedescriptionEnd;// s += qtN;
+    s += indent(5); s += qtTitleEnd; s += qtN;
+    s += indent(5); s += qtResponsibilityBeg; s += qtN;
+    s += indent(6); s += qtAgentBeg; s += qtN;
+    s += indent(7); s += author; s += qtN;
+    s += indent(6); s += qtAgentEnd; s += qtN;
+    s += indent(5); s += qtResponsibilityEnd; s += qtN;
+    s += indent(4); s += qtTitlestmtEnd; s += qtN;
+    s += indent(4); s += qtPublicationBeg; s += qtN;
+    s += indent(5); s += qtPubstatusBeg; s += qtN;
+    s += indent(6); s += pubstatus; s += qtN;
+    s += indent(5); s += qtPubstatusEnd; s += qtN;
+    s += indent(4); s += qtPublicationEnd; s += qtN;
+    s += indent(4); s += qtPhysdescriptionEnd; s += qtN;
+    s += indent(5); s += qtExtentBeg; s += qtN;
+    s += indent(6); s += extent; s += qtN;
+    s += indent(5); s += qtExtentEnd; s += qtN;
+    s += indent(5); s += qtPhysmediumBeg; s += qtN;
+    s += indent(6); s += medium; s += qtN;
+    s += indent(5); s += qtPhysmediumEnd; s += qtN;
+    s += indent(5); s += qtDimensionsAttBeg; s += qtAttUnits; s += "\""; s += unit; s += "\""; s += qtClosingBracket; s += qtN;
+    s += indent(6); s += x; s += " x "; s += y; s += unit; s += qtN;
+    s += indent(5); s += qtDimensionsEnd; s += qtN;
+    s += indent(5); s += qtConditionBeg; s += qtN;
+    s += indent(6); s += condition; s += qtN;
+    s += indent(5); s += qtConditionEnd; s += qtN;
+    s += indent(5); s += qtProvenanceBeg; s += qtN;
+    s += indent(6); s += qtCorpnameBeg; s += qtN;
+    s += indent(7); s += "test"; s += qtN; // add additional field in ui!!
+    s += indent(6); s += qtCorpnameEnd; s += qtN;
+    s += indent(5); s += qtProvenanceEnd; s += qtN;
+    s += indent(4); s += qtPhysdescriptionEnd; s += qtN;
+    s += indent(4); s += qtHandlistBeg; s += qtN;
+    s += indent(5); s += qtHandAttBeg; s += qtAttCharacter; s += "\""; s += handwriting; s += "\""; s += "/"; s += qtClosingBracket; s += qtN; // add additional attributes!!
+    s += indent(4); s += qtHandlistEnd; s += qtN;
+    s += indent(3); s += qtSourceEnd; s += qtN;
+    s += indent(2); s += qtSourcedescriptionEnd;// s += qtN;
 
     mainTextEdit->textCursor().insertText(s);
 
@@ -319,50 +319,50 @@ void MainWindow::onAddSource(){
     QString s;
 
     if(ID.isEmpty()){
-        s += qtT; s += qtT; s += qtT; s += qtSourceBeg; s += qtN;
+        s += indent(3); s += qtSourceBeg; s += qtN;
     }
     else{
-        s += qtT; s += qtT; s += qtT; s += qtSourceAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
+       s += indent(3); s += qtSourceAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
     }
 
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtTitlestmtBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtTitleBeg; s += qtN;
+    s += indent(4); s += qtTitlestmtBeg; s += qtN;
+    s += indent(5); s += qtTitleBeg; s += qtN;
     s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += title; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtTitleEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtResponsibilityBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtAgentBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += author; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtAgentEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtResponsibilityEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtTitlestmtEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtPublicationBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtPubstatusBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += pubstatus; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtPubstatusEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtPublicationEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtPhysdescriptionEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtExtentBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += extent; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtExtentEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtPhysmediumBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += medium; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtPhysmediumEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtDimensionsAttBeg; s += qtAttUnits; s += "\""; s += unit; s += "\""; s += qtClosingBracket; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += x; s += " x "; s += y; s += unit; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtDimensionsEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtConditionBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += condition; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtConditionEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtProvenanceBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtCorpnameBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += "test"; s += qtN; // add additional field in ui!!
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtCorpnameEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtProvenanceEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtPhysdescriptionEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtHandlistBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtHandAttBeg; s += qtAttCharacter; s += "\""; s += handwriting; s += "\""; s += "/"; s += qtClosingBracket; s += qtN; // add additional attributes!!
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtHandlistEnd; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtSourceEnd; s += qtN;
+    s += indent(5); s += qtTitleEnd; s += qtN;
+    s += indent(5); s += qtResponsibilityBeg; s += qtN;
+    s += indent(6); s += qtAgentBeg; s += qtN;
+    s += indent(7); s += author; s += qtN;
+    s += indent(6); s += qtAgentEnd; s += qtN;
+    s += indent(5); s += qtResponsibilityEnd; s += qtN;
+    s += indent(4); s += qtTitlestmtEnd; s += qtN;
+    s += indent(4); s += qtPublicationBeg; s += qtN;
+    s += indent(5); s += qtPubstatusBeg; s += qtN;
+    s += indent(6); s += pubstatus; s += qtN;
+    s += indent(5); s += qtPubstatusEnd; s += qtN;
+    s += indent(4); s += qtPublicationEnd; s += qtN;
+    s += indent(4); s += qtPhysdescriptionEnd; s += qtN;
+    s += indent(5); s += qtExtentBeg; s += qtN;
+    s += indent(6); s += extent; s += qtN;
+    s += indent(5); s += qtExtentEnd; s += qtN;
+    s += indent(5); s += qtPhysmediumBeg; s += qtN;
+    s += indent(6); s += medium; s += qtN;
+    s += indent(5); s += qtPhysmediumEnd; s += qtN;
+    s += indent(5); s += qtDimensionsAttBeg; s += qtAttUnits; s += "\""; s += unit; s += "\""; s += qtClosingBracket; s += qtN;
+    s += indent(6); s += x; s += " x "; s += y; s += unit; s += qtN;
+    s += indent(5); s += qtDimensionsEnd; s += qtN;
+    s += indent(5); s += qtConditionBeg; s += qtN;
+    s += indent(6); s += condition; s += qtN;
+    s += indent(5); s += qtConditionEnd; s += qtN;
+    s += indent(5); s += qtProvenanceBeg; s += qtN;
+    s += indent(6); s += qtCorpnameBeg; s += qtN;
+    s += indent(7); s += "test"; s += qtN; // add additional field in ui!!
+    s += indent(6); s += qtCorpnameEnd; s += qtN;
+    s += indent(5); s += qtProvenanceEnd; s += qtN;
+    s += indent(4); s += qtPhysdescriptionEnd; s += qtN;
+    s += indent(4); s += qtHandlistBeg; s += qtN;
+    s += indent(5); s += qtHandAttBeg; s += qtAttCharacter; s += "\""; s += handwriting; s += "\""; s += "/"; s += qtClosingBracket; s += qtN; // add additional attributes!!
+    s += indent(4); s += qtHandlistEnd; s += qtN;
+    s += indent(3); s += qtSourceEnd; s += qtN;
 
     mainTextEdit->textCursor().insertText(s);
 }
@@ -376,4 +376,12 @@ void MainWindow::onFinishSource(){
     QString *music = new QString("Music");
     tabWidget->addTab(musicTab, *music);
     tabWidget->removeTab(tabWidget->currentIndex());
+}
+
+QString MainWindow::indent(int a){
+    QString s;
+    for(int i = 0; i < a; i++){
+        s += qtT;
+    }
+    return s;
 }

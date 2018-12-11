@@ -26,6 +26,11 @@ static const char *meiAttType = " type=";
 static const char *meiAttColor = " color=";
 static const char *meiAttInk = " ink=";
 static const char *meiAttN = " n=";
+static const char *meiSourceAtt = " source=";
+static const char *meiOctAtt = " oct=";
+static const char *meiPnameAtt = " pname=";
+static const char *meiStaffAtt = " staff=";
+static const char *meiIdrefAtt = " idref=";
 
 static const char *meiMetaText = "";
 
@@ -124,5 +129,67 @@ static const char *meiPubstatusEnd = "</pubstatus>";
 static const char *meiDimensionsBeg = "<dimensions>";
 static const char *meiDimensionsAttBeg = "<dimensions";
 static const char *meiDimensionsEnd = "</dimensions>";
+
+static const char *meiWorkBeg = "<work>";
+static const char *meiWorkEnd = "</work>";
+
+static const char *meiMusicBeg = "<music>";
+static const char *meiMusicEnd = "</music>";
+
+static const char *meiScoreBeg = "<score>";
+static const char *meiScoreEnd = "</score>";
+
+static const char *meiScoredefBeg = "<scoredef>";
+static const char *meiScoredefEnd = "</scoredef>";
+
+static const char *meiStaffgrpBeg = "<staffgrp>";
+static const char *meiStaffgrpEnd = "</staffgrp>";
+static const char *meiStaffgrpAttBeg = "<staffgrp";
+
+static const char *meiClefBeg = "<clef>";
+static const char *meiClefEnd = "</clef>";
+static const char *meiClefAttBeg = "<clef";
+
+static const char *meiSectionBeg = "<section>";
+static const char *meiSectionEnd = "</section>";
+
+static const char *meiPbBeg = "<pb>";
+static const char *meiPbEnd = "</pb>";
+static const char *meiPbAttBeg = "<pb";
+
+static const char *meiSbBeg = "<sb>";
+static const char *meiSbEnd = "</sb>";
+static const char *meiSbAttBeg = "<sb";
+
+static const char *meiSyllableBeg = "<syllable>";
+static const char *meiSyllableEnd = "</syllable>";
+
+static const char *meiSylBeg = "<syl>";
+static const char *meiSylEnd = "</syl>";
+static const char *meiSylAttBeg = "<syl";
+
+static const char *meiRendBeg = "<rend>";
+static const char *meiRendAttBeg = "<rend";
+static const char *meiRendEnd = "</rend>";
+
+static const char *meiNeumeBeg = "<neume>";
+static const char *meiNeumeEnd = "</neume>";
+static const char *meiNeumeAttBeg = "<neume";
+
+static const char *meiNcBeg = "<nc>";
+static const char *meiNcEnd = "</nc>";
+static const char *meiNcAttBeg = "<nc";
+
+static const char *meiAnnotBeg = "<annot>";
+static const char *meiAnnotEnd = "</annot>";
+static const char *meiAnnotAttBeg = "<annot";
+
+static const char *meiAppstBeg = "<appst>";
+static const char *meiAppstEnd = "</appst>";
+static const char *meiAppstAttBeg = "<appst";
+
+static const char *meiRdgBeg = "<rdg>";
+static const char *meiRdgEnd = "</rdg>";
+static const char *meiRdgAttBeg = "<rdg";
 
 #endif // XMLTEXT_H
