@@ -4,6 +4,7 @@ installationsanweisungen:
 
 notwendige features:
 -new, load, save...
+-VARIANTEN!
 
 mögliche features:
 -zeilenangabe
