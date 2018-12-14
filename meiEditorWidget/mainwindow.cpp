@@ -69,7 +69,7 @@ void MainWindow::setup(){
 
     mainTextEdit = ui->textEdit;
     mainTextEdit->setReadOnly(readOnly);
-    mainTextEdit->setTabStopDistance(30);
+    mainTextEdit->setTabStopDistance(10);
 
     tabWidget = ui->tabWidget;
 
