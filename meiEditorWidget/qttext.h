@@ -26,11 +26,10 @@ static QString *qtAttType = new QString(meiAttType);
 static QString *qtAttColor = new QString(meiAttColor);
 static QString *qtAttInk = new QString(meiAttInk);
 static QString *qtAttN = new QString(meiAttN);
-static QString *qtSourceAtt = new QString(meiSourceAtt);
-static QString *qtOctAtt = new QString(meiOctAtt);
-static QString *qtPnameAtt = new QString(meiPnameAtt);
-static QString *qtStaffAtt = new QString(meiStaffAtt);
-static QString *qtIdrefAtt = new QString(meiIdrefAtt);
+static QString *qtAttOct = new QString(meiAttOct);
+static QString *qtAttPname = new QString(meiAttPname);
+static QString *qtAttStaff = new QString(meiAttStaff);
+static QString *qtAttIdref = new QString(meiAttIdref);
 
 static QString *qtTextBeg = new QString(meiTextBeg);
 static QString *qtTextEnd = new QString(meiTextEnd);
@@ -142,6 +141,13 @@ static QString *qtAppstAttBeg = new QString(meiAppstAttBeg);
 static QString *qtRdgBeg = new QString(meiRdgBeg);
 static QString *qtRdgEnd = new QString(meiRdgEnd);
 static QString *qtRdgAttBeg = new QString(meiRdgAttBeg);
-
+static QString *qtMdivBeg = new QString(meiMdivBeg);
+static QString *qtMdivEnd = new QString(meiMdivEnd);
+static QString *qtStaffdefBeg = new QString(meiStaffdefBeg);
+static QString *qtStaffdefEnd = new QString(meiStaffdefEnd);
+static QString *qtStaffdefAttBeg = new QString(meiStaffdefAttBeg);
+static QString *qtStaffBeg = new QString(meiStaffBeg);
+static QString *qtStaffEnd = new QString(meiStaffEnd);
+static QString *qtStaffAttBeg = new QString(meiStaffAttBeg);
 
 #endif // QTTEXT_H

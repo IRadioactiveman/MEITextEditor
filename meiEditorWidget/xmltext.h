@@ -26,12 +26,10 @@ static const char *meiAttType = " type=";
 static const char *meiAttColor = " color=";
 static const char *meiAttInk = " ink=";
 static const char *meiAttN = " n=";
-static const char *meiSourceAtt = " source=";
-static const char *meiOctAtt = " oct=";
-static const char *meiPnameAtt = " pname=";
-static const char *meiStaffAtt = " staff=";
-static const char *meiIdrefAtt = " idref=";
-
+static const char *meiAttOct = " oct=";
+static const char *meiAttPname = " pname=";
+static const char *meiAttStaff = " staff=";
+static const char *meiAttIdref = " idref=";
 static const char *meiMetaText = "";
 
 static const char *meiTextBeg = "<mei>";
@@ -191,5 +189,16 @@ static const char *meiAppstAttBeg = "<appst";
 static const char *meiRdgBeg = "<rdg>";
 static const char *meiRdgEnd = "</rdg>";
 static const char *meiRdgAttBeg = "<rdg";
+
+static const char *meiMdivBeg = "<mdiv>";
+static const char *meiMdivEnd = "</mdiv>";
+
+static const char *meiStaffdefBeg = "<staffdef>";
+static const char *meiStaffdefAttBeg = "<staffdef";
+static const char *meiStaffdefEnd = "</staffdef>";
+
+static const char *meiStaffBeg = "<staff>";
+static const char *meiStaffAttBeg = "<staff";
+static const char *meiStaffEnd = "</staff>";
 
 #endif // XMLTEXT_H

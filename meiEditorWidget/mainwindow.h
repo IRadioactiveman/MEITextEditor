@@ -11,6 +11,8 @@
 #include "ui_mainwindow.h"
 #include <QTextCursor>
 #include <QLineEdit>
+#include <memory>
+using namespace std;
 
 namespace Ui {
 class MainWindow;
@@ -65,13 +67,50 @@ private:
     QPushButton *sourceCreateButton;
     QPushButton *sourceAddButton;
     QPushButton *sourceFinishButton;
+    bool sourcesAdded;
+    QString *genericSource;
+    int sourceCounter;
+    QList<QString> sources;
+    QMenu *sourcesMenu;
 
-    QWidget *musicTab;
+    QWidget *staffTab;
+    QLineEdit *staffIDLine;
+    QLineEdit *staffLinecountLine;
+    QLineEdit *staffCleflineLine;
+    QLineEdit *staffClefshapeLine;
+    QPushButton *staffCreateButton;
+    QPushButton *staffAddclefButton;
+    QPushButton *staffFinishButton;
+    bool staffAdded;
+    QString *genericStaff;
+    int staffCounter;
+    QList<QString> staffs;
+    QMenu *staffMenu;
 
+    QWidget *sylTab;
+    QLineEdit *sylPageLine;
+    QLineEdit *sylLineLine;
+    QLineEdit *sylSyllableLine;
+    QTextEdit *sylCommentText;
+    QPushButton *sylCreateButton;
+    QPushButton *sylAddButton;
+    QPushButton *sylVariantButton;
+    QPushButton *sylFinishButton;
+    QToolButton *sylSourceToolbutton;
+    QToolButton *sylStaffToolbutton;
+    QString sylCurrentSource;
+    QString sylCurrentStaff;
 
+    QWidget *pitchTab;
+    QLineEdit *pitchOctaveLine;
+    QLineEdit *pitchPitchLine;
+    QTextEdit *pitchCommentText;
+    QPushButton *pitchAddButton;
+    QPushButton *pitchFinishButton;
 
     QString indent(int a);
-
+    void sourcesToActions();
+    void staffsToActions();
 
 private slots:
     void onCheck();
@@ -79,6 +118,17 @@ private slots:
     void onCreateSource();
     void onAddSource();
     void onFinishSource();
+    void onCreateStaff();
+    void onAddclefStaff();
+    void onFinishStaff();
+    void onCreateSyllable();
+    void onAddVariant();
+    void onFinishSyllable();
+    void onAddPitch();
+    void onFinishPitch();
+    void onAddSyllable();
+    void onSelectSource();
+    void onSelectStaff();
 
     /*
     void slotActionTriggered();
