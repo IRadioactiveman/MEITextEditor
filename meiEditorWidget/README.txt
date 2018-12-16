@@ -5,6 +5,7 @@ installationsanweisungen:
 notwendige features:
 -new, load, save...
 -VARIANTEN!
+-typen von neumen bei der definition von pitches einfügen
 
 mögliche features:
 -zeilenangabe
@@ -20,3 +21,7 @@ andere todos:
 -code schlanker machen, repetition vermeiden bzw in funktionen auslagern
 -eingaben aus vorigen schritten clearen
 -installationsvoraussetzungen vereinfachen
+
+abgrenzung zu neon3:
+-ausdifferenziertere quellenbeschreibung
+-sowie ausdifferenziertere beschreibung von neumen (silben etc.) 
