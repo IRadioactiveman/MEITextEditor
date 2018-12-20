@@ -255,7 +255,7 @@ void MainWindow::onMeta(){
     for(int i = 0; i < keywords.size(); i++){
         s += indent(5); s += qtTermBeg; s += qtN;
         s += indent(6); s += keywords[i]; s += qtN;
-        s += indent(6); s += qtTermEnd; s += qtN;
+        s += indent(5); s += qtTermEnd; s += qtN;
     }
 
     s += indent(4); s += qtKeywordsEnd; s += qtN;
