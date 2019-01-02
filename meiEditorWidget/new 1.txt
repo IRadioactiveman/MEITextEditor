@@ -1,0 +1,10 @@
+zusammengesetzte neumen:
+2er und 3er gruppen direkt verfügbar machen
+pitches zum anklicken, nicht selbst schreiben
+ebenso oktave
+
+formatierung anpassen
+
+mei header: genre, mode (8 stück), 
+sources: location, bibliothek etc., time(publication date?), 
+staff: linienfarbe, clefchange
