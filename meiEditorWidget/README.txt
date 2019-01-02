@@ -1,6 +1,8 @@
 installationsanweisungen:
 -download von qt 5.11: https://www.qt.io/download (open source, inklusive qt creator)
 -öffnen der .pro datei mit qt creator und einfach ausführen
+ODER
+download des ordners build-... und ausführen der .exe, funktioniert hoffentlich
 
 notwendige features:
 -new, load, save...
