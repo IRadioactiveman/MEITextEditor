@@ -2,7 +2,10 @@ installationsanweisungen:
 -download von qt 5.11: https://www.qt.io/download (open source, inklusive qt creator)
 -öffnen der .pro datei mit qt creator und einfach ausführen
 ODER
-download des ordners build-... und ausführen der .exe, funktioniert hoffentlich
+-download des ordners build-... und ausführen der .exe, funktioniert hoffentlich
+-sollte eine meldung erscheinen "MSCVP140.dll nicht gefunden", download vcredist.xXX.exe (XX ist 32 oder 64) von
+https://support.microsoft.com/de-de/help/2977003/the-latest-supported-visual-c-downloads 
+unter Visual Studio 2017
 
 notwendige features:
 -new, load, save...
