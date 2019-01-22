@@ -12,6 +12,8 @@
 #include <QTextCursor>
 #include <QLineEdit>
 #include <memory>
+#include "myglwidget.h"
+#include "renderwidget.h"
 using namespace std;
 
 namespace Ui {
@@ -39,6 +41,8 @@ private:
     bool readOnly;
 
     QTextEdit *mainTextEdit;
+
+    //QOpenGLWidget * openGLWidget;
 
     QTabWidget *tabWidget;
 

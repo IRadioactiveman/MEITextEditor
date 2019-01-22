@@ -26,12 +26,22 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    myglwidget.cpp \
+    rendersegment.cpp \
+    renderwidget.cpp \
+    note.cpp \
+    segment.cpp
 
 HEADERS += \
         mainwindow.h \
     xmltext.h \
-    qttext.h
+    qttext.h \
+    myglwidget.h \
+    rendersegment.h \
+    renderwidget.h \
+    note.h \
+    segment.h
 
 FORMS += \
         mainwindow.ui
@@ -40,3 +50,8 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
+
+RESOURCES += \
+    shaders.qrc

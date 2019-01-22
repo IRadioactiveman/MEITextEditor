@@ -49,6 +49,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setup();
 
+    /*
+    RenderWidget *widget = ui->widget;
+    Segment *seg = new Segment();
+    widget->addSegment(seg);
+    widget->update();
+    */
+
     connect(ui->metaButton, &QPushButton::clicked, this, &MainWindow::onMeta);
     connect(ui->adjustByHand, &QCheckBox::stateChanged, this, &MainWindow::onCheck);
     connect(sourceCreateButton, &QPushButton::clicked, this, &MainWindow::onCreateSource);
@@ -76,6 +83,9 @@ void MainWindow::setup(){
     mainTextEdit = ui->textEdit;
     mainTextEdit->setReadOnly(readOnly);
     mainTextEdit->setTabStopDistance(10);
+
+    //openGLWidget = new MyGLWidget(this);
+    //ui->openGLWidget->parentWidget()->layout()->replaceWidget(ui->openGLWidget, openGLWidget);
 
     tabWidget = ui->tabWidget;
 
