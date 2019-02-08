@@ -8,6 +8,7 @@ class Note
 {
 public:
     Note(int o, string p);
+    string getPitch();
 private:
     int octave;
     string pitch;

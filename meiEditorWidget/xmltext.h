@@ -30,7 +30,64 @@ static const char *meiAttOct = " oct=";
 static const char *meiAttPname = " pname=";
 static const char *meiAttStaff = " staff=";
 static const char *meiAttIdref = " idref=";
+static const char *meiAttKeymode = " key.mode=";
+static const char *meiAttLinecolor = " lines.color=";
 static const char *meiMetaText = "";
+
+static const char *meiMajor = "major";
+static const char *meiMinor = "minor";
+static const char *meiDorian = "dorian";
+static const char *meiPhrygian = "phrygian";
+static const char *meiLydian = "lydian";
+static const char *meiMixolydian = "mixolydian";
+static const char *meiAeolian = "aeolian";
+static const char *meiLocrian = "locrian";
+
+static const char *meiRed = "red";
+static const char *meiGreen = "green";
+static const char *meiBlue = "blue";
+static const char *meiYellow = "yellow";
+static const char *meiBrown = "brown";
+static const char *meiBlack = "black";
+static const char *meiGrey = "grey";
+static const char *meiOrange = "orange";
+
+static const char *meiC = "c";
+static const char *meiD = "d";
+static const char *meiE = "e";
+static const char *meiF = "f";
+static const char *meiG = "g";
+static const char *meiA = "a";
+static const char *meiH = "h";
+
+static const char *mei1 = "1";
+static const char *mei2 = "2";
+static const char *mei3 = "3";
+static const char *mei4 = "4";
+static const char *mei5 = "5";
+static const char *mei6 = "6";
+static const char *mei7 = "7";
+
+static const char *meiApostropha = "apostropha";
+static const char *meiBistropha = "bistropha";
+static const char *meiClimacus = "climacus";
+static const char *meiClivis = "clivis";
+static const char *meiOriscus = "oriscus";
+static const char *meiPes = "pes";
+static const char *meiPessubpunctis = "pessubpunctis";
+static const char *meiPorrectus = "porrectus";
+static const char *meiPorrectusflexus = "porrectusflexus";
+static const char *meiPressusmaior = "pressusmaior";
+static const char *meiPressusminor = "pressusminor";
+static const char *meiPunctum = "punctum";
+static const char *meiQuilisma = "quilisma";
+static const char *meiScandicus = "scandicus";
+static const char *meiStrophicus = "strophicus";
+static const char *meiTorculus = "torculus";
+static const char *meiTorculusresupinos = "torculusresupinus";
+static const char *meiTristopha = "tristropha";
+static const char *meiVirga = "virga";
+static const char *meiVirgastrata = "virgastrata";
 
 static const char *meiTextBeg = "<mei>";
 static const char *meiTextEnd = "</mei>";
@@ -160,6 +217,7 @@ static const char *meiSbEnd = "</sb>";
 static const char *meiSbAttBeg = "<sb";
 
 static const char *meiSyllableBeg = "<syllable>";
+static const char *meiSyllableAttBeg = "<syllable";
 static const char *meiSyllableEnd = "</syllable>";
 
 static const char *meiSylBeg = "<syl>";
@@ -182,9 +240,9 @@ static const char *meiAnnotBeg = "<annot>";
 static const char *meiAnnotEnd = "</annot>";
 static const char *meiAnnotAttBeg = "<annot";
 
-static const char *meiAppstBeg = "<appst>";
-static const char *meiAppstEnd = "</appst>";
-static const char *meiAppstAttBeg = "<appst";
+static const char *meiAppBeg = "<app>";
+static const char *meiAppEnd = "</app>";
+static const char *meiAppAttBeg = "<app";
 
 static const char *meiRdgBeg = "<rdg>";
 static const char *meiRdgEnd = "</rdg>";
@@ -200,5 +258,11 @@ static const char *meiStaffdefEnd = "</staffdef>";
 static const char *meiStaffBeg = "<staff>";
 static const char *meiStaffAttBeg = "<staff";
 static const char *meiStaffEnd = "</staff>";
+
+static const char *meiPhysicallocationBeg = "<physloc>";
+static const char *meiPhysicallocationEnd = "</physloc>";
+
+static const char *meiDateBeg = "<date>";
+static const char *meiDateEnd = "</date>";
 
 #endif // XMLTEXT_H

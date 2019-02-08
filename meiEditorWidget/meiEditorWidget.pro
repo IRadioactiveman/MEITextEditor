@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui xmlpatterns
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,7 +27,6 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    myglwidget.cpp \
     rendersegment.cpp \
     renderwidget.cpp \
     note.cpp \
@@ -37,7 +36,6 @@ HEADERS += \
         mainwindow.h \
     xmltext.h \
     qttext.h \
-    myglwidget.h \
     rendersegment.h \
     renderwidget.h \
     note.h \

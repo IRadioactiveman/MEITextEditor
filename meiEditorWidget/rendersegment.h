@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
@@ -12,17 +13,21 @@ using namespace std;
 class RenderSegment :protected QOpenGLFunctions
 {
 public:
-    RenderSegment();
+    RenderSegment(Segment *s);
     ~RenderSegment();
     void addSeg(Segment *s);
-    void draw(QOpenGLShaderProgram *program);
+    void draw(QOpenGLShaderProgram *program, float x, float y);
+    float getStride();
 
 private:
-    float start;
-    float length;
-    QOpenGLBuffer vbo;
+    QOpenGLBuffer lineVBO;
+    QOpenGLBuffer pointVBO;
     Segment *seg;
-    void initializeGeometry();
+    float stride = 0.2f;
+    void initializePoint();
+    void initializeLines(float length);
+
+    GLuint glvbo;
 };
 
 #else

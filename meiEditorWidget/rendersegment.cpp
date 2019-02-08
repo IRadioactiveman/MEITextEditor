@@ -1,17 +1,23 @@
 #include "rendersegment.h"
 
 
-RenderSegment::RenderSegment()
+RenderSegment::RenderSegment(Segment *s)
 {
     initializeOpenGLFunctions();
 
-    vbo.create();
-    initializeGeometry();
+    lineVBO.create();
+    pointVBO.create();
+
+    initializePoint();
+    seg = s;
+
+    initializeLines(stride * s->getLength());
 }
 
 RenderSegment::~RenderSegment()
 {
-    vbo.destroy();
+    lineVBO.destroy();
+    pointVBO.destroy();
 }
 
 void RenderSegment::addSeg(Segment *s)
@@ -19,29 +25,69 @@ void RenderSegment::addSeg(Segment *s)
     seg = s;
 }
 
-void RenderSegment::draw(QOpenGLShaderProgram *program)
+void RenderSegment::draw(QOpenGLShaderProgram *program, float x, float y)
 {
-    vbo.bind();
-
     int position = program->attributeLocation("vertexPosition");
     program->enableAttributeArray(position);
     program->setAttributeBuffer(position, GL_FLOAT, 0, 3, 0);
 
-    glDrawArrays(GL_TRIANGLES, 0, sizeof(float) * 18);
+    QMatrix4x4 model;
+
+    vector<float> n = seg->getNoteValues();
+
+    pointVBO.bind();
+
+    for(int i = 0; i < n.size(); i++)
+    {
+        model.translate(x + stride * i, y + n[i], -5.0);
+        program->setUniformValue("model", model);
+        glDrawArrays(GL_POINTS, 0, 1);
+        model.setToIdentity();
+    }
+
+    lineVBO.bind();
+
+    model.translate(x, y, -5.0f);
+
+    program->setUniformValue("model", model);
+
+    glDrawArrays(GL_LINES, 0, 10);
+
+    model.setToIdentity();
 }
 
-void RenderSegment::initializeGeometry()
+float RenderSegment::getStride()
 {
-    float vertices[] =
+    return stride;
+}
+
+void RenderSegment::initializePoint()
+{
+    GLfloat pointVertex[] =
     {
-        -1.0, -1.0, 0.0,
-        -1.0, 1.0, 0.0,
-        1.0, 1.0, 0.0,
-        1.0, 1.0, 0.0,
-        -1.0, -1.0, 0.0,
-        1.0, -1.0, 0.0
+        0.0f, 0.0f, 0.0f
     };
 
-    vbo.bind();
-    vbo.allocate(vertices, 18 * sizeof (float));
+    pointVBO.bind();
+    pointVBO.allocate(pointVertex, sizeof (pointVertex));
+}
+
+void RenderSegment::initializeLines(float length)
+{
+    GLfloat lineVertices[] =
+    {
+        0.0f, 0.0f, 0.0f,
+        length, 0.0f, 0.0f,
+        0.0f, 0.2f, 0.0f,
+        length, 0.2f, 0.0f,
+        0.0f, 0.4f, 0.0f,
+        length, 0.4f, 0.0f,
+        0.0f, 0.6f, 0.0f,
+        length, 0.6f, 0.0f,
+        0.0f, 0.8f, 0.0f,
+        length, 0.8f, 0.0f
+    };
+
+    lineVBO.bind();
+    lineVBO.allocate(lineVertices, sizeof (lineVertices));
 }

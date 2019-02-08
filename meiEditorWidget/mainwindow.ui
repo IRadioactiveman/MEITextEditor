@@ -15,6 +15,16 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="2">
+     <widget class="RenderWidget" name="renderWidget" native="true"/>
+    </item>
+    <item row="0" column="2" rowspan="2">
+     <widget class="QTextEdit" name="textEdit">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="0">
      <widget class="QCheckBox" name="adjustByHand">
       <property name="text">
@@ -25,7 +35,7 @@
     <item row="1" column="0" rowspan="2">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="meta">
        <attribute name="title">
@@ -35,7 +45,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>450</y>
+          <y>280</y>
           <width>91</width>
           <height>23</height>
          </rect>
@@ -48,7 +58,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>90</y>
+          <y>10</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -64,7 +74,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>90</y>
+          <y>10</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -77,7 +87,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>120</y>
+          <y>40</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -90,7 +100,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>120</y>
+          <y>40</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -106,33 +116,20 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>150</y>
+          <y>70</y>
           <width>47</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Author</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="authorLabel2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>180</y>
-          <width>47</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Author</string>
+         <string>Author/s</string>
         </property>
        </widget>
        <widget class="QLabel" name="abailabilityLabel">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>240</y>
+          <y>130</y>
           <width>61</width>
           <height>21</height>
          </rect>
@@ -145,23 +142,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>150</y>
-          <width>361</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="inputMask">
-         <string/>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="authorLine2">
-        <property name="geometry">
-         <rect>
-          <x>70</x>
-          <y>180</y>
+          <y>70</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -177,7 +158,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>300</y>
+          <y>190</y>
           <width>61</width>
           <height>21</height>
          </rect>
@@ -190,7 +171,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>240</y>
+          <y>130</y>
           <width>361</width>
           <height>51</height>
          </rect>
@@ -200,7 +181,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>300</y>
+          <y>190</y>
           <width>361</width>
           <height>51</height>
          </rect>
@@ -210,7 +191,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>210</y>
+          <y>100</y>
           <width>361</width>
           <height>20</height>
          </rect>
@@ -220,7 +201,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>210</y>
+          <y>100</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -233,7 +214,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>360</y>
+          <y>250</y>
           <width>361</width>
           <height>20</height>
          </rect>
@@ -243,7 +224,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>360</y>
+          <y>250</y>
           <width>61</width>
           <height>21</height>
          </rect>
@@ -261,7 +242,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>90</y>
+          <y>10</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -271,7 +252,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>120</y>
+          <y>40</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -281,7 +262,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>150</y>
+          <y>70</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -291,7 +272,7 @@
         <property name="geometry">
          <rect>
           <x>100</x>
-          <y>180</y>
+          <y>190</y>
           <width>331</width>
           <height>21</height>
          </rect>
@@ -301,7 +282,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>90</y>
+          <y>10</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -314,7 +295,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>120</y>
+          <y>40</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -327,7 +308,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>150</y>
+          <y>70</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -340,7 +321,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>180</y>
+          <y>190</y>
           <width>91</width>
           <height>21</height>
          </rect>
@@ -353,7 +334,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>210</y>
+          <y>220</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -363,7 +344,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>240</y>
+          <y>250</y>
           <width>31</width>
           <height>21</height>
          </rect>
@@ -373,7 +354,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>210</y>
+          <y>220</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -386,7 +367,7 @@
         <property name="geometry">
          <rect>
           <x>120</x>
-          <y>240</y>
+          <y>250</y>
           <width>31</width>
           <height>21</height>
          </rect>
@@ -396,7 +377,7 @@
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>240</y>
+          <y>250</y>
           <width>31</width>
           <height>21</height>
          </rect>
@@ -406,7 +387,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>240</y>
+          <y>250</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -419,7 +400,7 @@
         <property name="geometry">
          <rect>
           <x>110</x>
-          <y>240</y>
+          <y>250</y>
           <width>16</width>
           <height>21</height>
          </rect>
@@ -432,20 +413,20 @@
         <property name="geometry">
          <rect>
           <x>160</x>
-          <y>240</y>
+          <y>250</y>
           <width>47</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Unit:</string>
+         <string>Unit</string>
         </property>
        </widget>
        <widget class="QLineEdit" name="sourceConditionLine">
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>270</y>
+          <y>280</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -455,7 +436,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>270</y>
+          <y>280</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -468,7 +449,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>300</y>
+          <y>310</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -478,7 +459,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>300</y>
+          <y>310</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -491,7 +472,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>330</y>
+          <y>340</y>
           <width>91</width>
           <height>21</height>
          </rect>
@@ -504,7 +485,7 @@
         <property name="geometry">
          <rect>
           <x>110</x>
-          <y>330</y>
+          <y>340</y>
           <width>321</width>
           <height>51</height>
          </rect>
@@ -549,6 +530,75 @@
          <string>finish</string>
         </property>
        </widget>
+       <widget class="QLineEdit" name="sourcePhysicallocationLine">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>100</y>
+          <width>331</width>
+          <height>21</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="sourceOwnershipLine">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>130</y>
+          <width>361</width>
+          <height>21</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="sourceDateLine">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>160</y>
+          <width>331</width>
+          <height>21</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="sourceTitleLabel_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>100</y>
+          <width>81</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Physical Location</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="sourceTitleLabel_4">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>130</y>
+          <width>61</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Ownership</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="sourceTitleLabel_5">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>160</y>
+          <width>81</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Publication Date</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="staffTab">
        <attribute name="title">
@@ -558,7 +608,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>20</y>
+          <y>10</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -571,7 +621,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>50</y>
+          <y>40</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -584,7 +634,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>110</y>
+          <y>170</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -597,7 +647,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>140</y>
+          <y>200</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -610,7 +660,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>20</y>
+          <y>10</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -620,7 +670,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>50</y>
+          <y>40</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -630,7 +680,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>110</y>
+          <y>170</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -640,7 +690,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>140</y>
+          <y>200</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -650,20 +700,20 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>80</y>
-          <width>91</width>
+          <y>130</y>
+          <width>121</width>
           <height>23</height>
          </rect>
         </property>
         <property name="text">
-         <string>Create Staffdef</string>
+         <string>Create Staffdefinition</string>
         </property>
        </widget>
        <widget class="QPushButton" name="staffAddclefButton">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>170</y>
+          <y>230</y>
           <width>75</width>
           <height>23</height>
          </rect>
@@ -675,14 +725,97 @@
        <widget class="QPushButton" name="staffFinishButton">
         <property name="geometry">
          <rect>
-          <x>90</x>
-          <y>170</y>
+          <x>170</x>
+          <y>230</y>
           <width>75</width>
           <height>23</height>
          </rect>
         </property>
         <property name="text">
          <string>Finish</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="staffNewstaffButton">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>230</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>New Staff</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="staffLinecolorLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Linecolor</string>
+        </property>
+       </widget>
+       <widget class="QToolButton" name="staffLinecolorToolbutton">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>70</y>
+          <width>361</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::MenuButtonPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextOnly</enum>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::DownArrow</enum>
+        </property>
+       </widget>
+       <widget class="QToolButton" name="staffModeToolbutton">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>100</y>
+          <width>361</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::MenuButtonPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextOnly</enum>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::DownArrow</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="staffModeLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>100</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Mode</string>
         </property>
        </widget>
       </widget>
@@ -694,7 +827,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>70</y>
+          <y>100</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -707,7 +840,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>100</y>
+          <y>130</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -720,7 +853,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>130</y>
+          <y>160</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -733,7 +866,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>70</y>
+          <y>100</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -743,7 +876,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>100</y>
+          <y>130</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -753,7 +886,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>130</y>
+          <y>160</y>
           <width>361</width>
           <height>21</height>
          </rect>
@@ -763,7 +896,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>160</y>
+          <y>190</y>
           <width>361</width>
           <height>71</height>
          </rect>
@@ -773,7 +906,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>160</y>
+          <y>190</y>
           <width>47</width>
           <height>21</height>
          </rect>
@@ -786,7 +919,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>240</y>
+          <y>270</y>
           <width>91</width>
           <height>23</height>
          </rect>
@@ -799,7 +932,7 @@
         <property name="geometry">
          <rect>
           <x>110</x>
-          <y>240</y>
+          <y>270</y>
           <width>75</width>
           <height>23</height>
          </rect>
@@ -812,7 +945,7 @@
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>240</y>
+          <y>270</y>
           <width>75</width>
           <height>23</height>
          </rect>
@@ -852,8 +985,8 @@
          <rect>
           <x>70</x>
           <y>10</y>
-          <width>81</width>
-          <height>19</height>
+          <width>361</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -868,8 +1001,8 @@
          <rect>
           <x>70</x>
           <y>40</y>
-          <width>81</width>
-          <height>19</height>
+          <width>361</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -877,6 +1010,48 @@
         </property>
         <property name="popupMode">
          <enum>QToolButton::MenuButtonPopup</enum>
+        </property>
+       </widget>
+       <widget class="QToolButton" name="sylTypeToolbutton">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>70</y>
+          <width>361</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::MenuButtonPopup</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="sylTypeLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>47</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Type</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="sylValidatorLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>320</y>
+          <width>451</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>not yet validated</string>
         </property>
        </widget>
       </widget>
@@ -895,26 +1070,6 @@
         </property>
         <property name="text">
          <string>Pitch</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="pitchPitchLine">
-        <property name="geometry">
-         <rect>
-          <x>70</x>
-          <y>10</y>
-          <width>361</width>
-          <height>21</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="pitchOctaveLine">
-        <property name="geometry">
-         <rect>
-          <x>70</x>
-          <y>40</y>
-          <width>361</width>
-          <height>21</height>
-         </rect>
         </property>
        </widget>
        <widget class="QTextEdit" name="pitchCommentText">
@@ -979,18 +1134,40 @@
          <string>Finish</string>
         </property>
        </widget>
+       <widget class="QToolButton" name="pitchPitchToolbutton">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>10</y>
+          <width>361</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::MenuButtonPopup</enum>
+        </property>
+       </widget>
+       <widget class="QToolButton" name="pitchOctaveToolbutton">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>40</y>
+          <width>361</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::MenuButtonPopup</enum>
+        </property>
+       </widget>
       </widget>
      </widget>
-    </item>
-    <item row="0" column="2" rowspan="2">
-     <widget class="QTextEdit" name="textEdit">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="2">
-     <widget class="RenderWidget" name="widget" native="true"/>
     </item>
    </layout>
   </widget>

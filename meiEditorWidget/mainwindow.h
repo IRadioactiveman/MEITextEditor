@@ -6,13 +6,15 @@
 #include <QTextCursor>
 #include <QTextEdit>
 #include <QCheckBox>
+#include <QXmlSchema>
+#include <QXmlSchemaValidator>
+#include <QFile>
 #include "qttext.h"
 #include "xmltext.h"
 #include "ui_mainwindow.h"
 #include <QTextCursor>
 #include <QLineEdit>
 #include <memory>
-#include "myglwidget.h"
 #include "renderwidget.h"
 using namespace std;
 
@@ -40,9 +42,15 @@ private:
 
     bool readOnly;
 
+    /*
+    QUrl *url;
+    QXmlSchema schema;
+    QXmlSchemaValidator validator;
+    */
+
     QTextEdit *mainTextEdit;
 
-    //QOpenGLWidget * openGLWidget;
+    RenderWidget *renderWidget;
 
     QTabWidget *tabWidget;
 
@@ -50,7 +58,6 @@ private:
     QLineEdit *titleLine;
     QLineEdit *composerLine;
     QLineEdit *authorLine1;
-    QLineEdit *authorLine2;
     QLineEdit *languageLine;
     QTextEdit *availabilityText;
     QTextEdit *commentsText;
@@ -60,6 +67,9 @@ private:
     QLineEdit *sourceIDLine;
     QLineEdit *sourceAuthorLine;
     QLineEdit *sourceTitleLine;
+    QLineEdit *sourcePhysicallocationLine;
+    QLineEdit *sourceOwnershipLine;
+    QLineEdit *sourceDateLine;
     QLineEdit *sourcePubStatusLine;
     QLineEdit *sourceMediumLine;
     QLineEdit *sourceXLine;
@@ -85,9 +95,13 @@ private:
     QPushButton *staffCreateButton;
     QPushButton *staffAddclefButton;
     QPushButton *staffFinishButton;
+    QPushButton *staffNewstaffButton;
+    QToolButton *staffLinecolorToolbutton;
+    QToolButton *staffModeToolbutton;
     bool staffAdded;
     QString *genericStaff;
     int staffCounter;
+    int staffNCounter = 0;
     QList<QString> staffs;
     QMenu *staffMenu;
 
@@ -102,19 +116,42 @@ private:
     QPushButton *sylFinishButton;
     QToolButton *sylSourceToolbutton;
     QToolButton *sylStaffToolbutton;
+    QToolButton *sylTypeToolbutton;
     QString sylCurrentSource;
     QString sylCurrentStaff;
+    QLabel *sylValidatorLabel;
+
+    Segment *segment;
 
     QWidget *pitchTab;
     QLineEdit *pitchOctaveLine;
     QLineEdit *pitchPitchLine;
+    QToolButton *pitchPitchToolbutton;
+    QToolButton *pitchOctaveToolbutton;
     QTextEdit *pitchCommentText;
     QPushButton *pitchAddButton;
     QPushButton *pitchFinishButton;
 
+    QList<QString*> modes;
+    QList<QString*> pitches;
+    QList<QString*> colors;
+    QList<QString*> numbers;
+    QList<QString*> types;
+
+    QMenu *modeMenu;
+    QMenu *pitchMenu;
+    QMenu *colorMenu;
+    QMenu *numberMenu;
+    QMenu *typeMenu;
+
     QString indent(int a);
     void sourcesToActions();
     void staffsToActions();
+    void modesToActions();
+    void pitchesToActions();
+    void colorsToActions();
+    void numbersToActions();
+    void typesToActions();
 
 private slots:
     void onCheck();
@@ -123,7 +160,9 @@ private slots:
     void onAddSource();
     void onFinishSource();
     void onCreateStaff();
+    void onAddStaff();
     void onAddclefStaff();
+    void onAddNewStaff();
     void onFinishStaff();
     void onCreateSyllable();
     void onAddVariant();
@@ -133,14 +172,11 @@ private slots:
     void onAddSyllable();
     void onSelectSource();
     void onSelectStaff();
-
-    /*
-    void slotActionTriggered();
-    void onTextChanged();
-    void onButtonPush();
-    void onCreateFrame();
-    void onCreateHeader();
-    */
+    void onSelectMode();
+    void onSelectPitch();
+    void onSelectColor();
+    void onSelectNumber();
+    void onSelectType();
 };
 
 #endif // MAINWINDOW_H

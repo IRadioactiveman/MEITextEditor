@@ -11,11 +11,14 @@ class Segment
 public:
     Segment();
     void setSyllable(string syl);
-    void addNote(Note n);
+    void addNote(Note *n);
+    vector<Note*> getNotes();
+    vector<float> getNoteValues();
+    int  getLength();
 
 private:
     string syllable;
-    vector<Note> notes;
+    vector<Note*> notes;
 };
 
 #else

@@ -4,57 +4,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    /*QMenu *menu = new QMenu();
-    action = new QAction();
-    test = new QString("test");
-
-    qtFrameText = new QString(meiFrameText);
-    qtHeaderText = new QString(meiHeaderText);
-
-    action->setText(*test);
-    menu->addAction(action);
-
-    ui->toolButton->setMenu(menu);*/
-
-    /*
-    ui->setupUi(this);
-
-    readOnly = true;
-
-    mainTextEdit = ui->textEdit;
-    mainTextEdit->setReadOnly(readOnly);
-    mainTextEdit->setTabStopDistance(30); 
-
-    tabWidget = ui->tabWidget;
-
-    metaTab = ui->tabWidget->widget(0);
-    titleLine = metaTab->findChild<QLineEdit*>("titleLine");
-    composerLine = metaTab->findChild<QLineEdit*>("composerLine");
-    authorLine1 = metaTab->findChild<QLineEdit*>("authorLine1");
-    authorLine2 = metaTab->findChild<QLineEdit*>("authorLine2");
-    languageLine = metaTab->findChild<QLineEdit*>("languageLine");
-    availabilityText = metaTab->findChild<QTextEdit*>("availabilityText");
-    commentsText = metaTab->findChild<QTextEdit*>("commentsText");
-    keywordsLine = metaTab->findChild<QLineEdit*>("keywordsLine");
-
-    sourcesTab = ui->tabWidget->widget(1);
-    tabWidget->removeTab(1);
-*/
-
-    /*
-    connect(action, &QAction::triggered, this, &MainWindow::slotActionTriggered);
-    connect(ui->textEdit, &QTextEdit::cursorPositionChanged, this, &MainWindow::onTextChanged);
-    connect(ui->toolButton, &QToolButton::triggered, this, &MainWindow::onButtonPush);
-    */
-
     setup();
-
-    /*
-    RenderWidget *widget = ui->widget;
-    Segment *seg = new Segment();
-    widget->addSegment(seg);
-    widget->update();
-    */
 
     connect(ui->metaButton, &QPushButton::clicked, this, &MainWindow::onMeta);
     connect(ui->adjustByHand, &QCheckBox::stateChanged, this, &MainWindow::onCheck);
@@ -63,8 +13,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(sourceFinishButton, &QPushButton::clicked, this, &MainWindow::onFinishSource);
     connect(staffCreateButton, &QPushButton::clicked, this, &MainWindow::onCreateStaff);
     connect(staffAddclefButton, &QPushButton::clicked, this, &MainWindow::onAddclefStaff);
+    connect(staffNewstaffButton, &QPushButton::clicked, this, &MainWindow::onAddNewStaff);
     connect(staffFinishButton, &QPushButton::clicked, this, &MainWindow::onFinishStaff);
     connect(sylCreateButton, &QPushButton::clicked, this, &MainWindow::onCreateSyllable);
+    connect(sylFinishButton, &QPushButton::clicked, this, &MainWindow::onFinishSyllable);
     connect(pitchAddButton, &QPushButton::clicked, this, &MainWindow::onAddPitch);
     connect(pitchFinishButton, &QPushButton::clicked, this, &MainWindow::onFinishPitch);
 }
@@ -84,8 +36,7 @@ void MainWindow::setup(){
     mainTextEdit->setReadOnly(readOnly);
     mainTextEdit->setTabStopDistance(10);
 
-    //openGLWidget = new MyGLWidget(this);
-    //ui->openGLWidget->parentWidget()->layout()->replaceWidget(ui->openGLWidget, openGLWidget);
+    renderWidget = ui->renderWidget;
 
     tabWidget = ui->tabWidget;
 
@@ -93,7 +44,6 @@ void MainWindow::setup(){
     titleLine = metaTab->findChild<QLineEdit*>("titleLine");
     composerLine = metaTab->findChild<QLineEdit*>("composerLine");
     authorLine1 = metaTab->findChild<QLineEdit*>("authorLine1");
-    authorLine2 = metaTab->findChild<QLineEdit*>("authorLine2");
     languageLine = metaTab->findChild<QLineEdit*>("languageLine");
     availabilityText = metaTab->findChild<QTextEdit*>("availabilityText");
     commentsText = metaTab->findChild<QTextEdit*>("commentsText");
@@ -103,6 +53,9 @@ void MainWindow::setup(){
     sourceIDLine = sourcesTab->findChild<QLineEdit*>("sourceIDLine");
     sourceAuthorLine = sourcesTab->findChild<QLineEdit*>("sourceAuthorLine");
     sourceTitleLine = sourcesTab->findChild<QLineEdit*>("sourceTitleLine");
+    sourcePhysicallocationLine = sourcesTab->findChild<QLineEdit*>("sourcePhysicallocationLine");
+    sourceOwnershipLine = sourcesTab->findChild<QLineEdit*>("sourceOwnershipLine");
+    sourceDateLine = sourcesTab->findChild<QLineEdit*>("sourceDateLine");
     sourcePubStatusLine = sourcesTab->findChild<QLineEdit*>("sourcePubStatusLine");
     sourceMediumLine = sourcesTab->findChild<QLineEdit*>("sourceMediumLine");
     sourceXLine = sourcesTab->findChild<QLineEdit*>("sourceXLine");
@@ -131,6 +84,9 @@ void MainWindow::setup(){
     staffCreateButton = staffTab->findChild<QPushButton*>("staffCreateButton");
     staffAddclefButton = staffTab->findChild<QPushButton*>("staffAddclefButton");
     staffFinishButton = staffTab->findChild<QPushButton*>("staffFinishButton");
+    staffNewstaffButton = staffTab->findChild<QPushButton*>("staffNewstaffButton");
+    staffLinecolorToolbutton = staffTab->findChild<QToolButton*>("staffLinecolorToolbutton");
+    staffModeToolbutton = staffTab->findChild<QToolButton*>("staffModeToolbutton");
 
     genericStaff = new QString("staff");
     staffCounter = 0;
@@ -139,6 +95,7 @@ void MainWindow::setup(){
 
     staffAddclefButton->setDisabled(true);
     staffFinishButton->setDisabled(true);
+    staffNewstaffButton->setDisabled(true);
 
     sylTab = ui->tabWidget->widget(3);
     sylPageLine = sylTab->findChild<QLineEdit*>("sylPageLine");
@@ -151,16 +108,80 @@ void MainWindow::setup(){
     sylFinishButton = sylTab->findChild<QPushButton*>("sylFinishButton");
     sylSourceToolbutton = sylTab->findChild<QToolButton*>("sylSourceToolbutton");
     sylStaffToolbutton = sylTab->findChild<QToolButton*>("sylStaffToolbutton");
+    sylTypeToolbutton = sylTab->findChild<QToolButton*>("sylTypeToolbutton");
+    sylValidatorLabel = sylTab->findChild<QLabel*>("sylValidatorLabel");
 
     sylCreateButton->setDisabled(true);
     //sylAddButton->setDisabled(true);
 
     pitchTab = ui->tabWidget->widget(4);
-    pitchOctaveLine = pitchTab->findChild<QLineEdit*>("pitchOctaveLine");
-    pitchPitchLine = pitchTab->findChild<QLineEdit*>("pitchPitchLine");
+    //pitchOctaveLine = pitchTab->findChild<QLineEdit*>("pitchOctaveLine");
+    //pitchPitchLine = pitchTab->findChild<QLineEdit*>("pitchPitchLine");
+    pitchPitchToolbutton = pitchTab->findChild<QToolButton*>("pitchPitchToolbutton");
+    pitchOctaveToolbutton = pitchTab->findChild<QToolButton*>("pitchOctaveToolbutton");
     pitchCommentText = pitchTab->findChild<QTextEdit*>("pitchCommentText");
     pitchAddButton = pitchTab->findChild<QPushButton*>("pitchAddButton");
     pitchFinishButton = pitchTab->findChild<QPushButton*>("pitchFinishButton");
+
+    modes.push_back(qtMajor);
+    modes.push_back(qtMinor);
+    modes.push_back(qtDorian);
+    modes.push_back(qtPhrygian);
+    modes.push_back(qtLydian);
+    modes.push_back(qtMixolydian);
+    modes.push_back(qtAeolian);
+    modes.push_back(qtLocrian);
+    modesToActions();
+
+    pitches.push_back(qtC);
+    pitches.push_back(qtD);
+    pitches.push_back(qtE);
+    pitches.push_back(qtF);
+    pitches.push_back(qtG);
+    pitches.push_back(qtA);
+    pitches.push_back(qtH);
+    pitchesToActions();
+
+    colors.push_back(qtRed);
+    colors.push_back(qtBlue);
+    colors.push_back(qtGreen);
+    colors.push_back(qtYellow);
+    colors.push_back(qtBrown);
+    colors.push_back(qtBlack);
+    colors.push_back(qtGrey);
+    colors.push_back(qtOrange);
+    colorsToActions();
+
+    numbers.push_back(qt1);
+    numbers.push_back(qt2);
+    numbers.push_back(qt3);
+    numbers.push_back(qt4);
+    numbers.push_back(qt5);
+    numbers.push_back(qt6);
+    numbers.push_back(qt7);
+    numbersToActions();
+
+    types.push_back(qtApostropha);
+    types.push_back(qtBistropha);
+    types.push_back(qtClimacus);
+    types.push_back(qtClivis);
+    types.push_back(qtOriscus);
+    types.push_back(qtPes);
+    types.push_back(qtPessubpunctis);
+    types.push_back(qtPorrectus);
+    types.push_back(qtPorrectusflexus);
+    types.push_back(qtPressusmaior);
+    types.push_back(qtPressusminor);
+    types.push_back(qtPunctum);
+    types.push_back(qtQuilisma);
+    types.push_back(qtScandicus);
+    types.push_back(qtStrophicus);
+    types.push_back(qtTorculus);
+    types.push_back(qtTorculusresupinos);
+    types.push_back(qtTristopha);
+    types.push_back(qtVirga);
+    types.push_back(qtVirgastrata);
+    typesToActions();
 
     tabWidget->removeTab(1);
     tabWidget->removeTab(1);
@@ -173,41 +194,12 @@ void MainWindow::onCheck(){
     mainTextEdit->setReadOnly(readOnly);
 }
 
-/*
-void MainWindow::slotActionTriggered(){
-    ui->toolButton->setText(action->text());
-}
-
-void MainWindow::onTextChanged(){
-    QString s = QVariant(ui->textEdit->textCursor().position()).toString();
-    ui->toolButton->setText(s);
-}
-
-void MainWindow::onButtonPush(){
-    ui->textEdit->textCursor().insertText(action->text());
-}
-
-void MainWindow::onCreateFrame(){
-    QTextCursor cursor = ui->textEdit->textCursor();
-    ui->textEdit->textCursor().insertText(*qtFrameText);
-    cursor.setPosition(cursor.position()-7);
-    ui->textEdit->setTextCursor(cursor);
-}
-
-void MainWindow::onCreateHeader(){
-    QTextCursor cursor = ui->textEdit->textCursor();
-    ui->textEdit->textCursor().insertText(*qtHeaderText);
-    cursor.setPosition(cursor.position()-11);
-    ui->textEdit->setTextCursor(cursor);
-}
-*/
-
 void MainWindow::onMeta(){
 
     QString title = titleLine->text();
     QString composer = composerLine->text();
-    QString author1 = authorLine1->text();
-    QString author2 = authorLine2->text();
+    QString author = authorLine1->text();
+    QStringList authors = author.split(",");
     QString language = languageLine->text();
     QString availability = availabilityText->toPlainText();
     QString comments = commentsText->toPlainText();
@@ -215,6 +207,8 @@ void MainWindow::onMeta(){
     QStringList keywords = keyword.split(",");
 
     QString s;
+
+    s +="<?xml version =\"1.0\" encoding =\"UTF-8\"?>\n";
 
     s += qtTextBeg; s += qtN;
     s += indent(1); s += qtHeaderBeg; s += qtN;
@@ -234,12 +228,14 @@ void MainWindow::onMeta(){
     s += indent(3); s += qtTitlestmtEnd; s += qtN;
     s += indent(3); s += qtPublicationBeg; s += qtN;
     s += indent(4); s += qtResponsibilityBeg; s += qtN;
-    s += indent(5); s += qtAgentBeg; s += qtN;
-    s += indent(6); s += author1; s += qtN;
-    s += indent(5); s += qtAgentEnd; s += qtN;
-    s += indent(5); s += qtAgentBeg; s += qtN;
-    s += indent(6); s += author2; s += qtN;
-    s += indent(5); s += qtAgentEnd; s += qtN;
+
+    for(int i = 0; i < authors.size(); i++)
+    {
+        s += indent(5); s += qtAgentBeg; s += qtN;
+        s += indent(6); s += authors[i]; s += qtN;
+        s += indent(5); s += qtAgentEnd; s += qtN;
+    }
+
     s += indent(4); s += qtResponsibilityEnd; s += qtN;
     s += indent(4); s += qtAvailabilityBeg; s += qtN;
     s += indent(5); s += qtUserestrictBeg; s += qtN;
@@ -292,6 +288,9 @@ void MainWindow::onCreateSource(){
     QString ID = sourceIDLine->text();
     QString author = sourceAuthorLine->text();
     QString title = sourceTitleLine->text();
+    QString location = sourcePhysicallocationLine->text();
+    QString ownership = sourceOwnershipLine->text();
+    QString date = sourceDateLine->text();
     QString pubstatus = sourcePubStatusLine->text();
     QString medium  = sourceMediumLine->text();
     QString x = sourceXLine->text();
@@ -331,8 +330,11 @@ void MainWindow::onCreateSource(){
     s += indent(5); s += qtPubstatusBeg; s += qtN;
     s += indent(6); s += pubstatus; s += qtN;
     s += indent(5); s += qtPubstatusEnd; s += qtN;
+    s += indent(5); s += qtDateBeg; s += qtN;
+    s += indent(6); s += date; s += qtN;
+    s += indent(5); s += qtDateEnd; s += qtN;
     s += indent(4); s += qtPublicationEnd; s += qtN;
-    s += indent(4); s += qtPhysdescriptionEnd; s += qtN;
+    s += indent(4); s += qtPhysdescriptionBeg; s += qtN;
     s += indent(5); s += qtExtentBeg; s += qtN;
     s += indent(6); s += extent; s += qtN;
     s += indent(5); s += qtExtentEnd; s += qtN;
@@ -347,10 +349,13 @@ void MainWindow::onCreateSource(){
     s += indent(5); s += qtConditionEnd; s += qtN;
     s += indent(5); s += qtProvenanceBeg; s += qtN;
     s += indent(6); s += qtCorpnameBeg; s += qtN;
-    s += indent(7); s += "test"; s += qtN; // add additional field in ui!!
+    s += indent(7); s += ownership; s += qtN;
     s += indent(6); s += qtCorpnameEnd; s += qtN;
     s += indent(5); s += qtProvenanceEnd; s += qtN;
     s += indent(4); s += qtPhysdescriptionEnd; s += qtN;
+    s += indent(4); s += qtPhysicallocationBeg; s += qtN;
+    s += indent(5); s += location; s += qtN;
+    s += indent(4); s += qtPhysicallocationEnd; s += qtN;
     s += indent(4); s += qtHandlistBeg; s += qtN;
     s += indent(5); s += qtHandAttBeg; s += qtAttCharacter; s += "\""; s += handwriting; s += "\""; s += "/"; s += qtClosingBracket; s += qtN; // add additional attributes!!
     s += indent(4); s += qtHandlistEnd; s += qtN;
@@ -375,6 +380,9 @@ void MainWindow::onAddSource(){
     QString ID = sourceIDLine->text();
     QString author = sourceAuthorLine->text();
     QString title = sourceTitleLine->text();
+    QString location = sourcePhysicallocationLine->text();
+    QString ownership = sourceOwnershipLine->text();
+    QString date = sourceDateLine->text();
     QString pubstatus = sourcePubStatusLine->text();
     QString medium  = sourceMediumLine->text();
     QString x = sourceXLine->text();
@@ -410,8 +418,11 @@ void MainWindow::onAddSource(){
     s += indent(5); s += qtPubstatusBeg; s += qtN;
     s += indent(6); s += pubstatus; s += qtN;
     s += indent(5); s += qtPubstatusEnd; s += qtN;
+    s += indent(5); s += qtDateBeg; s += qtN;
+    s += indent(6); s += date; s += qtN;
+    s += indent(5); s += qtDateEnd; s += qtN;
     s += indent(4); s += qtPublicationEnd; s += qtN;
-    s += indent(4); s += qtPhysdescriptionEnd; s += qtN;
+    s += indent(4); s += qtPhysdescriptionBeg; s += qtN;
     s += indent(5); s += qtExtentBeg; s += qtN;
     s += indent(6); s += extent; s += qtN;
     s += indent(5); s += qtExtentEnd; s += qtN;
@@ -426,10 +437,13 @@ void MainWindow::onAddSource(){
     s += indent(5); s += qtConditionEnd; s += qtN;
     s += indent(5); s += qtProvenanceBeg; s += qtN;
     s += indent(6); s += qtCorpnameBeg; s += qtN;
-    s += indent(7); s += "test"; s += qtN; // add additional field in ui!!
+    s += indent(7); s += ownership; s += qtN; // add additional field in ui!!
     s += indent(6); s += qtCorpnameEnd; s += qtN;
     s += indent(5); s += qtProvenanceEnd; s += qtN;
     s += indent(4); s += qtPhysdescriptionEnd; s += qtN;
+    s += indent(4); s += qtPhysicallocationBeg; s += qtN;
+    s += indent(5); s += location; s += qtN;
+    s += indent(4); s += qtPhysicallocationEnd; s += qtN;
     s += indent(4); s += qtHandlistBeg; s += qtN;
     s += indent(5); s += qtHandAttBeg; s += qtAttCharacter; s += "\""; s += handwriting; s += "\""; s += "/"; s += qtClosingBracket; s += qtN; // add additional attributes!!
     s += indent(4); s += qtHandlistEnd; s += qtN;
@@ -467,8 +481,12 @@ void MainWindow::onCreateStaff(){
 
     staffAdded = true;
 
+    staffNCounter++;
+
     QString ID = staffIDLine->text();
     QString linecount = staffLinecountLine->text();
+    QString mode = staffModeToolbutton->text();
+    QString linecolor = staffLinecolorToolbutton->text();
 
     QString s;
 
@@ -478,15 +496,30 @@ void MainWindow::onCreateStaff(){
     s += indent(4); s += qtScoreBeg; s += qtN;
     s += indent(5); s += qtScoredefBeg; s += qtN;
     s += indent(6); s += qtStaffgrpAttBeg; s += qtAttID; s += "\"all\""; s += qtClosingBracket; s += qtN;
+
     if(ID.isEmpty()){
-        ID += genericStaff; ID +=  QString::number(staffCounter);
-        s += indent(7); s += qtStaffdefAttBeg; s += qtAttDef; s += "\""; s += ID; s += "\"";
+        ID += genericStaff; ID += QString::number(staffCounter);
+        s += indent(7); s += qtStaffdefAttBeg; s += qtAttID; s += "\""; s += ID; s += "\"";
         staffCounter++;
     }
     else{
         s += indent(7); s += qtStaffdefAttBeg; s += qtAttDef; s += "\""; s += ID; s += "\"";
     }
-    s += qtAttLines; s += "\""; s += linecount; s += "\"";  s += qtClosingBracket; s += qtN;
+
+    s += qtAttN; s += "\""; s += QString::number(staffNCounter); s += "\"";
+    s += qtAttLines; s += "\""; s += linecount; s += "\"";
+
+    if(!linecolor.isEmpty())
+    {
+        s += qtAttLinecolor; s += "\""; s += linecolor; s += "\"";
+    }
+
+    if(!mode.isEmpty())
+    {
+        s += qtAttKeymode; s += "\""; s += mode; s += "\"";
+    }
+
+    s += qtClosingBracket; s += qtN;
     s += indent(7); s += qtStaffdefEnd; s += qtN;
     s += indent(6); s += qtStaffgrpEnd; s += qtN;
     s += indent(5); s += qtScoredefEnd; s += qtN;
@@ -498,11 +531,63 @@ void MainWindow::onCreateStaff(){
     staffAddclefButton->setDisabled(false);
     staffCreateButton->setDisabled(true);
     staffFinishButton->setDisabled(false);
+    staffNewstaffButton->setDisabled(false);
 
     mainTextEdit->textCursor().insertText(s);
 
     QTextCursor cursor = mainTextEdit->textCursor();
     cursor.setPosition(cursor.position()-98);
+    mainTextEdit->setTextCursor(cursor);
+
+    staffs.push_back(ID);
+
+    connect(staffCreateButton, &QPushButton::clicked, this, &MainWindow::onAddStaff);
+    disconnect(staffCreateButton, &QPushButton::clicked, this, &MainWindow::onCreateStaff);
+}
+
+void MainWindow::onAddStaff()
+{
+    staffNCounter++;
+
+    QString ID = staffIDLine->text();
+    QString linecount = staffLinecountLine->text();
+    QString mode = staffModeToolbutton->text();
+    QString linecolor = staffLinecolorToolbutton->text();
+
+    QString s;
+
+    if(ID.isEmpty()){
+        ID += genericStaff; ID +=  QString::number(staffCounter);
+        s += indent(7); s += qtStaffdefAttBeg; s += qtAttID; s += "\""; s += ID; s += "\"";
+        staffCounter++;
+    }
+    else{
+        s += indent(7); s += qtStaffdefAttBeg; s += qtAttDef; s += "\""; s += ID; s += "\"";
+    }
+    s += qtAttN; s += "\""; s += QString::number(staffNCounter); s += "\"";
+    s += qtAttLines; s += "\""; s += linecount; s += "\"";
+
+    if(!linecolor.isEmpty())
+    {
+        s += qtAttLinecolor; s += "\""; s += linecolor; s += "\"";
+    }
+
+    if(!mode.isEmpty())
+    {
+        s += qtAttKeymode; s += "\""; s += mode; s += "\"";
+    }
+    s += qtClosingBracket; s += qtN;
+    s += indent(7); s += qtStaffdefEnd; s += qtN;
+
+    staffAddclefButton->setDisabled(false);
+    staffCreateButton->setDisabled(true);
+    staffFinishButton->setDisabled(false);
+    staffNewstaffButton->setDisabled(false);
+
+    mainTextEdit->textCursor().insertText(s);
+
+    QTextCursor cursor = mainTextEdit->textCursor();
+    cursor.setPosition(cursor.position()-19);
     mainTextEdit->setTextCursor(cursor);
 
     staffs.push_back(ID);
@@ -521,6 +606,18 @@ void MainWindow::onAddclefStaff(){
     s += qtClosingBracket; s += qtN;
 
     mainTextEdit->textCursor().insertText(s);
+}
+
+void MainWindow::onAddNewStaff()
+{
+    QTextCursor cursor = mainTextEdit->textCursor();
+    cursor.setPosition(cursor.position()+19);
+    mainTextEdit->setTextCursor(cursor);
+
+    staffAddclefButton->setDisabled(true);
+    staffCreateButton->setDisabled(false);
+    staffNewstaffButton->setDisabled(true);
+    staffFinishButton->setDisabled(true);
 }
 
 void MainWindow::onFinishStaff(){
@@ -551,7 +648,7 @@ void MainWindow::onCreateSyllable(){
     QString line = sylLineLine->text();
     QString syl = sylSyllableLine->text();
     QString comment = sylCommentText->toPlainText();
-
+    QString type = sylTypeToolbutton->text();
 
     QString s;
 
@@ -573,10 +670,19 @@ void MainWindow::onCreateSyllable(){
         s += indent(8); s += qtParagraphEnd; s+= qtN;
         s += indent(7); s += qtAnnotEnd; s+= qtN;
     }
-    s += indent(7); s += qtSyllableBeg; s+= qtN;
+    if(!type.isEmpty()){
+        s += indent(7); s += qtSyllableAttBeg;
+        s += qtAttType;  s += "\""; s += type; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+    }
+    else {
+        s += indent(7); s += qtSyllableBeg; s+= qtN;
+    }
+
     s += indent(8); s += qtSylBeg; s+= qtN;
     s += indent(9); s += syl; s += qtN;
     s += indent(8); s += qtSylEnd; s += qtN;
+    s += indent(8); s += qtNeumeBeg; s += qtN;
+    s += indent(8); s += qtNeumeEnd; s += qtN;
     s += indent(7); s += qtSyllableEnd;  s+= qtN;
     s += indent(6); s += qtStaffEnd; s += qtN;
     s += indent(5); s += qtSectionEnd; s += qtN;
@@ -584,7 +690,7 @@ void MainWindow::onCreateSyllable(){
     mainTextEdit->textCursor().insertText(s);
 
     QTextCursor cursor = mainTextEdit->textCursor();
-    cursor.setPosition(cursor.position()-50);
+    cursor.setPosition(cursor.position()-67);
     mainTextEdit->setTextCursor(cursor);
 
     disconnect(sylCreateButton, &QPushButton::clicked, this, &MainWindow::onCreateSyllable);
@@ -593,6 +699,10 @@ void MainWindow::onCreateSyllable(){
     QString *pitch = new QString("Pitch");
     tabWidget->addTab(pitchTab, *pitch);
     tabWidget->removeTab(tabWidget->currentIndex());
+
+    segment = new Segment();
+    segment->setSyllable(syl.toStdString());
+    renderWidget->addSegment(segment);
 }
 
 void MainWindow::onAddSyllable(){
@@ -600,7 +710,7 @@ void MainWindow::onAddSyllable(){
     QString line = sylLineLine->text();
     QString syl = sylSyllableLine->text();
     QString comment = sylCommentText->toPlainText();
-
+    QString type = sylTypeToolbutton->text();
 
     QString s;
 
@@ -617,52 +727,94 @@ void MainWindow::onAddSyllable(){
         s += indent(8); s += qtParagraphEnd; s+= qtN;
         s += indent(7); s += qtAnnotEnd; s+= qtN;
     }
-    s += indent(7); s += qtSyllableBeg; s+= qtN;
+    if(!type.isEmpty()){
+        s += indent(7); s += qtSyllableAttBeg;
+        s += qtAttType;  s += "\""; s += type; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+    }
+    else {
+        s += indent(7); s += qtSyllableBeg; s+= qtN;
+    }
     s += indent(8); s += qtSylBeg; s+= qtN;
     s += indent(9); s += syl; s += qtN;
     s += indent(8); s += qtSylEnd; s += qtN;
+    s += indent(8); s += qtNeumeBeg; s += qtN;
+    s += indent(8); s += qtNeumeEnd; s += qtN;
     s += indent(7); s += qtSyllableEnd;  s+= qtN;
 
     mainTextEdit->textCursor().insertText(s);
 
     QTextCursor cursor = mainTextEdit->textCursor();
-    cursor.setPosition(cursor.position()-19);
+    cursor.setPosition(cursor.position()-36);
     mainTextEdit->setTextCursor(cursor);
 
     QString *pitch = new QString("Pitch");
     tabWidget->addTab(pitchTab, *pitch);
     tabWidget->removeTab(tabWidget->currentIndex());
+
+    segment = new Segment();
+    segment->setSyllable(syl.toStdString());
+    renderWidget->addSegment(segment);
 }
 
 void MainWindow::onAddVariant(){
 
 }
 
-void MainWindow::onFinishSyllable(){
+void MainWindow::onFinishSyllable()
+{
 
+    QUrl url("file:C:\\Users\\Gott\\Desktop\\MEI\\mei.xsd");
+    QXmlSchema schema;
+    schema.load(url);
+
+    QString s;
+    if(schema.isValid())
+    {
+        sylValidatorLabel->setText("valid!");
+    }
+    else {
+
+        sylValidatorLabel->setText("not!");
+
+    }
+
+
+    QFile file("test.mei");
+    file.open(QIODevice::WriteOnly);
+    QTextStream stream(&file);
+    stream << mainTextEdit->toPlainText();
+    file.close();
 }
 
 void MainWindow::onAddPitch(){
 
-    QString pitch = pitchPitchLine->text();
-    QString octave = pitchOctaveLine->text();
+    QString pitch = pitchPitchToolbutton->text();
+    QString octave = pitchOctaveToolbutton->text();
     QString comment = pitchCommentText->toPlainText();
 
     QString s;
 
     if(!comment.isEmpty()){
-        s += indent(8); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
-        s += indent(9); s += qtParagraphBeg; s+= qtN;
-        s += indent(10); s += comment; s+= qtN;
-        s += indent(9); s += qtParagraphEnd; s+= qtN;
-        s += indent(8); s += qtAnnotEnd; s+= qtN;
+        s += indent(9); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+        s += indent(10); s += qtParagraphBeg; s+= qtN;
+        s += indent(11); s += comment; s+= qtN;
+        s += indent(10); s += qtParagraphEnd; s+= qtN;
+        s += indent(9); s += qtAnnotEnd; s+= qtN;
     }
-    s += indent(8); s += qtNcAttBeg;
+    s += indent(9); s += qtNcAttBeg;
     s += qtAttOct; s += "\""; s += octave; s += "\"";
     s += qtAttPname; s += "\""; s += pitch; s += "\"";
     s += qtClosingBracket; s += qtN;
 
     mainTextEdit->textCursor().insertText(s);
+
+    if(!pitch.isEmpty())
+    {
+        Note *n = new Note(octave.toInt(), pitch.toStdString());
+
+        renderWidget->currentSegment->addNote(n);
+        renderWidget->update();
+    }
 }
 
 void MainWindow::onFinishPitch(){
@@ -672,8 +824,11 @@ void MainWindow::onFinishPitch(){
     tabWidget->removeTab(tabWidget->currentIndex());
 
     QTextCursor cursor = mainTextEdit->textCursor();
-    cursor.setPosition(cursor.position()+19);
+    cursor.setPosition(cursor.position()+36);
     mainTextEdit->setTextCursor(cursor);
+
+    //renderWidget->addSegment(segment);
+    renderWidget->update();
 }
 
 void MainWindow::onSelectSource(){
@@ -698,6 +853,42 @@ void MainWindow::onSelectStaff(){
         sylCreateButton->setDisabled(false);
         //sylAddButton->setDisabled(false);
     }
+}
+
+void MainWindow::onSelectMode()
+{
+    QObject *sender = QObject::sender();
+    QAction *action = qobject_cast<QAction*>(sender);
+    QString mode = action->text();
+    staffModeToolbutton->setText(action->text());
+}
+
+void MainWindow::onSelectPitch()
+{
+    QObject *sender = QObject::sender();
+    QAction *action = qobject_cast<QAction*>(sender);
+    pitchPitchToolbutton->setText(action->text());
+}
+
+void MainWindow::onSelectColor()
+{
+    QObject *sender = QObject::sender();
+    QAction *action = qobject_cast<QAction*>(sender);
+    staffLinecolorToolbutton->setText(action->text());
+}
+
+void MainWindow::onSelectNumber()
+{
+    QObject *sender = QObject::sender();
+    QAction *action = qobject_cast<QAction*>(sender);
+    pitchOctaveToolbutton->setText(action->text());
+}
+
+void MainWindow::onSelectType()
+{
+    QObject *sender = QObject::sender();
+    QAction *action = qobject_cast<QAction*>(sender);
+    sylTypeToolbutton->setText(action->text());
 }
 
 QString MainWindow::indent(int a){
@@ -734,3 +925,77 @@ void MainWindow::staffsToActions(){
     sylStaffToolbutton->setMenu(staffMenu);
 }
 
+void MainWindow::modesToActions()
+{
+    modeMenu = new QMenu();
+
+    for(int i = 0; i < modes.size(); i++)
+    {
+        QAction *action = new QAction();
+        action->setText(*(modes[i]));
+        connect(action, &QAction::triggered, this, &MainWindow::onSelectMode);
+        modeMenu->addAction(action);
+    }
+
+    staffModeToolbutton->setMenu(modeMenu);
+}
+
+void MainWindow::pitchesToActions()
+{
+    pitchMenu = new QMenu();
+
+    for(int i = 0; i < pitches.size(); i++)
+    {
+        QAction *action = new QAction();
+        action->setText(*(pitches[i]));
+        connect(action, &QAction::triggered, this, &MainWindow::onSelectPitch);
+        pitchMenu->addAction(action);
+    }
+
+    pitchPitchToolbutton->setMenu(pitchMenu);
+}
+
+void MainWindow::colorsToActions()
+{
+    colorMenu = new QMenu();
+
+    for(int i = 0; i < colors.size(); i++)
+    {
+        QAction *action = new QAction();
+        action->setText(*(colors[i]));
+        connect(action, &QAction::triggered, this, &MainWindow::onSelectColor);
+        colorMenu->addAction(action);
+    }
+
+    staffLinecolorToolbutton->setMenu(colorMenu);
+}
+
+void MainWindow::numbersToActions()
+{
+    numberMenu = new QMenu();
+
+    for(int i = 0; i < numbers.size(); i++)
+    {
+        QAction *action = new QAction();
+        action->setText(*(numbers[i]));
+        connect(action, &QAction::triggered, this, &MainWindow::onSelectNumber);
+        numberMenu->addAction(action);
+    }
+
+    pitchOctaveToolbutton->setMenu(numberMenu);
+}
+
+void MainWindow::typesToActions()
+{
+    typeMenu = new QMenu();
+
+    for(int i = 0; i < types.size(); i++)
+    {
+        QAction *action = new QAction();
+        action->setText(*(types[i]));
+        connect(action, &QAction::triggered, this, &MainWindow::onSelectType);
+        typeMenu->addAction(action);
+    }
+
+    sylTypeToolbutton->setMenu(typeMenu);
+}
