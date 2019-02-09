@@ -32,6 +32,7 @@ void RenderWidget::resizeGL(int width, int height)
 void RenderWidget::paintGL()
 {
     startX = -4.0f;
+    startY = 1.0f;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     shader.setUniformValue("projection", projection);
@@ -41,9 +42,7 @@ void RenderWidget::paintGL()
     {
         RenderSegment *seg = new RenderSegment(segments[i]);
 
-        seg->draw(&shader, startX, startY);
-
-        startX += segments[i]->getLength() * seg->getStride();
+        seg->draw(&shader, startX, startY, &startX, &startY);
 
         delete seg;
     }

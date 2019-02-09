@@ -6,8 +6,6 @@
 #include <QTextCursor>
 #include <QTextEdit>
 #include <QCheckBox>
-#include <QXmlSchema>
-#include <QXmlSchemaValidator>
 #include <QFile>
 #include "qttext.h"
 #include "xmltext.h"
@@ -31,22 +29,12 @@ public:
     ~MainWindow();
 
 private:
-    //QAction *action;
-    //QString *test;
 
-    //QString *qtFrameText;
-    //QString *qtHeaderText;
     void setup();
 
     Ui::MainWindow *ui;
 
     bool readOnly;
-
-    /*
-    QUrl *url;
-    QXmlSchema schema;
-    QXmlSchemaValidator validator;
-    */
 
     QTextEdit *mainTextEdit;
 
@@ -109,11 +97,13 @@ private:
     QLineEdit *sylPageLine;
     QLineEdit *sylLineLine;
     QLineEdit *sylSyllableLine;
+    QLineEdit *sylFilenameLine;
     QTextEdit *sylCommentText;
     QPushButton *sylCreateButton;
     QPushButton *sylAddButton;
     QPushButton *sylVariantButton;
     QPushButton *sylFinishButton;
+    QPushButton *sylSaveButton;
     QToolButton *sylSourceToolbutton;
     QToolButton *sylStaffToolbutton;
     QToolButton *sylTypeToolbutton;
@@ -123,11 +113,27 @@ private:
 
     Segment *segment;
 
+    QWidget *varTab;
+    QLabel *varSourceLabel;
+    QToolButton *varConnectionToolbutton;
+    QToolButton *varPitchToolbutton;
+    QToolButton *varOctaveToolbutton;
+    QToolButton *varPreviousToolbutton;
+    QToolButton *varTiltToolbutton;
+    QPushButton *varAddpitchButton;
+    QPushButton *varNextButton;
+    QTextEdit *varCommentText;
+    int varCounter;
+    bool varAdded = false;
+
     QWidget *pitchTab;
     QLineEdit *pitchOctaveLine;
     QLineEdit *pitchPitchLine;
     QToolButton *pitchPitchToolbutton;
     QToolButton *pitchOctaveToolbutton;
+    QToolButton *pitchTiltToolbutton;
+    QToolButton *pitchConnectionToolbutton;
+    QToolButton *pitchPreviousToolbutton;
     QTextEdit *pitchCommentText;
     QPushButton *pitchAddButton;
     QPushButton *pitchFinishButton;
@@ -137,12 +143,18 @@ private:
     QList<QString*> colors;
     QList<QString*> numbers;
     QList<QString*> types;
+    QList<QString*> directions;
+    QList<QString*> relations;
+    QList<QString*> connections;
 
     QMenu *modeMenu;
     QMenu *pitchMenu;
     QMenu *colorMenu;
     QMenu *numberMenu;
     QMenu *typeMenu;
+    QMenu *directionMenu;
+    QMenu *relationMenu;
+    QMenu *connectionMenu;
 
     QString indent(int a);
     void sourcesToActions();
@@ -152,6 +164,10 @@ private:
     void colorsToActions();
     void numbersToActions();
     void typesToActions();
+    void directionsToActions();
+    void relationsToActions();
+    void connectionsToActions();
+    void blankToActions(QMenu *menu, QList<QString*> list, void(MainWindow::*func)(), QList<QToolButton*> buttons);
 
 private slots:
     void onCheck();
@@ -167,9 +183,14 @@ private slots:
     void onCreateSyllable();
     void onAddVariant();
     void onFinishSyllable();
+    void onSylSave();
     void onAddPitch();
     void onFinishPitch();
     void onAddSyllable();
+    void onVarAddpitch();
+    void onVarAddpitch2();
+    void onVarNext();
+    void onVarNext2();
     void onSelectSource();
     void onSelectStaff();
     void onSelectMode();
@@ -177,6 +198,9 @@ private slots:
     void onSelectColor();
     void onSelectNumber();
     void onSelectType();
+    void onSelectDirection();
+    void onSelectRelation();
+    void onSelectConnection();
 };
 
 #endif // MAINWINDOW_H

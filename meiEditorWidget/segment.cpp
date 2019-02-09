@@ -10,8 +10,6 @@ void Segment::setSyllable(string syl)
 
 void Segment::addNote(Note *n)
 {
-    cout << "yoyoyoyoyoyoyoyo\n";
-    cout.flush();
     notes.push_back(n);
 }
 
@@ -53,6 +51,10 @@ vector<float> Segment::getNoteValues()
         if(notes[i]->getPitch().compare("h") == 0)
         {
             values.push_back(0.4);
+        }
+        if(notes[i]->getPitch().compare("undefined") == 0)
+        {
+            values.push_back(0.5);
         }
     }
 

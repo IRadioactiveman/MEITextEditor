@@ -32,6 +32,9 @@ static QString *qtAttStaff = new QString(meiAttStaff);
 static QString *qtAttIdref = new QString(meiAttIdref);
 static QString *qtAttKeymode = new QString(meiAttKeymode);
 static QString *qtAttLinecolor = new QString(meiAttLinecolor);
+static QString *qtAttIntm = new QString(meiAttIntm);
+static QString *qtAttTilt = new QString(meiAttTilt);
+static QString *qtAttConnection = new QString(meiAttConnection);
 
 static QString *qtTextBeg = new QString(meiTextBeg);
 static QString *qtTextEnd = new QString(meiTextEnd);
@@ -183,6 +186,19 @@ static QString *qtG = new QString(meiG);
 static QString *qtA = new QString(meiA);
 static QString *qtH = new QString(meiH);
 
+static QString *qtL = new QString(meiL);
+static QString *qtS = new QString(meiS);
+static QString *qtU = new QString(meiU);
+
+static QString *qtNorth = new QString(meiNorth);
+static QString *qtSouth = new QString(meiSouth);
+static QString *qtEast = new QString(meiEast);
+static QString *qtWest = new QString(meiWest);
+static QString *qtNortheast = new QString(meiNortheast);
+static QString *qtNorthwest = new QString(meiNorthwest);
+static QString *qtSoutheast = new QString(meiSoutheast);
+static QString *qtSouthwest = new QString(meiSouthwest);
+
 static QString *qt1 = new QString(mei1);
 static QString *qt2 = new QString(mei2);
 static QString *qt3 = new QString(mei3);
@@ -211,5 +227,12 @@ static QString *qtTorculusresupinos = new QString(meiTorculusresupinos);
 static QString *qtTristopha = new QString(meiTristopha);
 static QString *qtVirga = new QString(meiVirga);
 static QString *qtVirgastrata = new QString(meiVirgastrata);
+
+static QString *qtSame = new QString("same");
+static QString *qtWentUp = new QString("went up from previous");
+static QString *qtWentDown = new QString("went down from previous");
+static QString *qtGapped = new QString("gapped");
+static QString *qtLoop = new QString("loop");
+static QString *qtExtended = new QString("extended");
 
 #endif // QTTEXT_H

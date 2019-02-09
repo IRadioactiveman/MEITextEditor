@@ -32,6 +32,9 @@ static const char *meiAttStaff = " staff=";
 static const char *meiAttIdref = " idref=";
 static const char *meiAttKeymode = " key.mode=";
 static const char *meiAttLinecolor = " lines.color=";
+static const char *meiAttIntm = " intm=";
+static const char *meiAttTilt = " tilt=";
+static const char *meiAttConnection = " con=";
 static const char *meiMetaText = "";
 
 static const char *meiMajor = "major";
@@ -59,6 +62,19 @@ static const char *meiF = "f";
 static const char *meiG = "g";
 static const char *meiA = "a";
 static const char *meiH = "h";
+
+static const char *meiL = "l";
+static const char *meiS = "s";
+static const char *meiU = "u";
+
+static const char *meiNorth = "n";
+static const char *meiSouth = "s";
+static const char *meiEast = "e";
+static const char *meiWest = "w";
+static const char *meiNortheast = "ne";
+static const char *meiNorthwest = "nw";
+static const char *meiSoutheast = "se";
+static const char *meiSouthwest = "sw";
 
 static const char *mei1 = "1";
 static const char *mei2 = "2";

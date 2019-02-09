@@ -17,6 +17,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(staffFinishButton, &QPushButton::clicked, this, &MainWindow::onFinishStaff);
     connect(sylCreateButton, &QPushButton::clicked, this, &MainWindow::onCreateSyllable);
     connect(sylFinishButton, &QPushButton::clicked, this, &MainWindow::onFinishSyllable);
+    connect(sylVariantButton, &QPushButton::clicked, this, &MainWindow::onAddVariant);
+    connect(sylSaveButton, &QPushButton::clicked, this, &MainWindow::onSylSave);
+    connect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch);
+    connect(varNextButton, &QPushButton::clicked, this, &MainWindow::onVarNext);
     connect(pitchAddButton, &QPushButton::clicked, this, &MainWindow::onAddPitch);
     connect(pitchFinishButton, &QPushButton::clicked, this, &MainWindow::onFinishPitch);
 }
@@ -26,9 +30,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setup(){
+void MainWindow::setup()
+{
 
     ui->setupUi(this);
+
+    ui->adjustByHand->setDisabled(true);
 
     readOnly = true;
 
@@ -101,24 +108,43 @@ void MainWindow::setup(){
     sylPageLine = sylTab->findChild<QLineEdit*>("sylPageLine");
     sylLineLine = sylTab->findChild<QLineEdit*>("sylLineLine");
     sylSyllableLine = sylTab->findChild<QLineEdit*>("sylSyllableLine");
+    sylFilenameLine = sylTab->findChild<QLineEdit*>("sylFilenameLine");
     sylCommentText = sylTab->findChild<QTextEdit*>("sylCommentText");
     sylCreateButton = sylTab->findChild<QPushButton*>("sylCreateButton");
     //sylAddButton = sylTab->findChild<QPushButton*>("sylAddButton");
     sylVariantButton = sylTab->findChild<QPushButton*>("sylVariantButton");
     sylFinishButton = sylTab->findChild<QPushButton*>("sylFinishButton");
+    sylSaveButton = sylTab->findChild<QPushButton*>("sylSaveButton");
     sylSourceToolbutton = sylTab->findChild<QToolButton*>("sylSourceToolbutton");
     sylStaffToolbutton = sylTab->findChild<QToolButton*>("sylStaffToolbutton");
     sylTypeToolbutton = sylTab->findChild<QToolButton*>("sylTypeToolbutton");
     sylValidatorLabel = sylTab->findChild<QLabel*>("sylValidatorLabel");
 
     sylCreateButton->setDisabled(true);
+    sylVariantButton->setDisabled(true);
+    sylFilenameLine->setDisabled(true);
+    sylSaveButton->setDisabled(true);
     //sylAddButton->setDisabled(true);
 
-    pitchTab = ui->tabWidget->widget(4);
+    varTab = ui->tabWidget->widget(4);
+    varSourceLabel = varTab->findChild<QLabel*>("varSourceLabel");
+    varConnectionToolbutton = varTab->findChild<QToolButton*>("varConnectionToolbutton");
+    varPitchToolbutton = varTab->findChild<QToolButton*>("varPitchToolbutton");
+    varOctaveToolbutton = varTab->findChild<QToolButton*>("varOctaveToolbutton");
+    varPreviousToolbutton = varTab->findChild<QToolButton*>("varPreviousToolbutton");
+    varTiltToolbutton = varTab->findChild<QToolButton*>("varTiltToolbutton");
+    varAddpitchButton = varTab->findChild<QPushButton*>("varAddpitchButton");
+    varNextButton = varTab->findChild<QPushButton*>("varNextButton");
+    varCommentText = varTab->findChild<QTextEdit*>("varCommentText");
+
+    pitchTab = ui->tabWidget->widget(5);
     //pitchOctaveLine = pitchTab->findChild<QLineEdit*>("pitchOctaveLine");
     //pitchPitchLine = pitchTab->findChild<QLineEdit*>("pitchPitchLine");
     pitchPitchToolbutton = pitchTab->findChild<QToolButton*>("pitchPitchToolbutton");
     pitchOctaveToolbutton = pitchTab->findChild<QToolButton*>("pitchOctaveToolbutton");
+    pitchTiltToolbutton = pitchTab->findChild<QToolButton*>("pitchTiltToolbutton");
+    pitchConnectionToolbutton = pitchTab->findChild<QToolButton*>("pitchConnectionToolbutton");
+    pitchPreviousToolbutton = pitchTab->findChild<QToolButton*>("pitchPreviousToolbutton");
     pitchCommentText = pitchTab->findChild<QTextEdit*>("pitchCommentText");
     pitchAddButton = pitchTab->findChild<QPushButton*>("pitchAddButton");
     pitchFinishButton = pitchTab->findChild<QPushButton*>("pitchFinishButton");
@@ -133,6 +159,7 @@ void MainWindow::setup(){
     modes.push_back(qtLocrian);
     modesToActions();
 
+    pitches.push_back(new QString(""));
     pitches.push_back(qtC);
     pitches.push_back(qtD);
     pitches.push_back(qtE);
@@ -183,18 +210,41 @@ void MainWindow::setup(){
     types.push_back(qtVirgastrata);
     typesToActions();
 
+    directions.push_back(qtNorth);
+    directions.push_back(qtSouth);
+    directions.push_back(qtEast);
+    directions.push_back(qtWest);
+    directions.push_back(qtNortheast);
+    directions.push_back(qtNorthwest);
+    directions.push_back(qtSoutheast);
+    directions.push_back(qtSouthwest);
+    directionsToActions();
+
+    relations.push_back(qtWentUp);
+    relations.push_back(qtWentDown);
+    relations.push_back(qtSame);
+    relationsToActions();
+
+    connections.push_back(qtGapped);
+    connections.push_back(qtLoop);
+    connections.push_back(qtExtended);
+    connectionsToActions();
+
+    tabWidget->removeTab(1);
     tabWidget->removeTab(1);
     tabWidget->removeTab(1);
     tabWidget->removeTab(1);
     tabWidget->removeTab(1);
 }
 
-void MainWindow::onCheck(){
+void MainWindow::onCheck()
+{
     readOnly = !readOnly;
     mainTextEdit->setReadOnly(readOnly);
 }
 
-void MainWindow::onMeta(){
+void MainWindow::onMeta()
+{
 
     QString title = titleLine->text();
     QString composer = composerLine->text();
@@ -281,7 +331,8 @@ void MainWindow::onMeta(){
     tabWidget->removeTab(tabWidget->currentIndex());
 }
 
-void MainWindow::onCreateSource(){
+void MainWindow::onCreateSource()
+{
 
     sourcesAdded = true;
 
@@ -376,7 +427,8 @@ void MainWindow::onCreateSource(){
     sources.append(ID);
 }
 
-void MainWindow::onAddSource(){
+void MainWindow::onAddSource()
+{
     QString ID = sourceIDLine->text();
     QString author = sourceAuthorLine->text();
     QString title = sourceTitleLine->text();
@@ -454,7 +506,8 @@ void MainWindow::onAddSource(){
     sources.push_back(ID);
 }
 
-void MainWindow::onFinishSource(){
+void MainWindow::onFinishSource()
+{
 
 
     if(sourcesAdded){
@@ -477,7 +530,8 @@ void MainWindow::onFinishSource(){
     tabWidget->removeTab(tabWidget->currentIndex());
 }
 
-void MainWindow::onCreateStaff(){
+void MainWindow::onCreateStaff()
+{
 
     staffAdded = true;
 
@@ -593,7 +647,8 @@ void MainWindow::onAddStaff()
     staffs.push_back(ID);
 }
 
-void MainWindow::onAddclefStaff(){
+void MainWindow::onAddclefStaff()
+{
 
     QString line = staffCleflineLine->text();
     QString shape = staffClefshapeLine->text();
@@ -620,7 +675,8 @@ void MainWindow::onAddNewStaff()
     staffFinishButton->setDisabled(true);
 }
 
-void MainWindow::onFinishStaff(){
+void MainWindow::onFinishStaff()
+{
 
     if(staffAdded){
         QTextCursor cursor = mainTextEdit->textCursor();
@@ -642,7 +698,8 @@ void MainWindow::onFinishStaff(){
     tabWidget->removeTab(tabWidget->currentIndex());
 }
 
-void MainWindow::onCreateSyllable(){
+void MainWindow::onCreateSyllable()
+{
 
     QString page = sylPageLine->text();
     QString line = sylLineLine->text();
@@ -703,9 +760,15 @@ void MainWindow::onCreateSyllable(){
     segment = new Segment();
     segment->setSyllable(syl.toStdString());
     renderWidget->addSegment(segment);
+
+    if(sources.size() > 1)
+    {
+        sylVariantButton->setDisabled(false);
+    }
 }
 
-void MainWindow::onAddSyllable(){
+void MainWindow::onAddSyllable()
+{
     QString page = sylPageLine->text();
     QString line = sylLineLine->text();
     QString syl = sylSyllableLine->text();
@@ -754,43 +817,74 @@ void MainWindow::onAddSyllable(){
     segment = new Segment();
     segment->setSyllable(syl.toStdString());
     renderWidget->addSegment(segment);
+
+    if(sources.size() > 1)
+    {
+        sylVariantButton->setDisabled(false);
+    }
 }
 
-void MainWindow::onAddVariant(){
+void MainWindow::onAddVariant()
+{
+    varCounter = 0;
+    QString *variants = new QString("Variants");
+    tabWidget->addTab(varTab, *variants);
+    tabWidget->removeTab(tabWidget->currentIndex());
+    varSourceLabel->setText(sources[varCounter]);
 
+    sylVariantButton->setDisabled(true);
+
+    QTextCursor cursor = mainTextEdit->textCursor();
+    cursor.setPosition(cursor.position()-36);
+    mainTextEdit->setTextCursor(cursor);
 }
 
 void MainWindow::onFinishSyllable()
 {
+    ui->adjustByHand->setDisabled(false);
+    sylFilenameLine->setDisabled(false);
+    sylSaveButton->setDisabled(false);
 
-    QUrl url("file:C:\\Users\\Gott\\Desktop\\MEI\\mei.xsd");
-    QXmlSchema schema;
-    schema.load(url);
-
-    QString s;
-    if(schema.isValid())
-    {
-        sylValidatorLabel->setText("valid!");
-    }
-    else {
-
-        sylValidatorLabel->setText("not!");
-
-    }
-
-
-    QFile file("test.mei");
-    file.open(QIODevice::WriteOnly);
-    QTextStream stream(&file);
-    stream << mainTextEdit->toPlainText();
-    file.close();
+    sylCreateButton->setDisabled(true);
+    sylVariantButton->setDisabled(true);
+    sylFinishButton->setDisabled(true);
 }
 
-void MainWindow::onAddPitch(){
+void MainWindow::onSylSave()
+{
+    QString filename = sylFilenameLine->text();
+    if(!filename.isEmpty())
+    {
+        QFile file(filename + ".mei");
+        file.open(QIODevice::WriteOnly);
+        QTextStream stream(&file);
+        stream << mainTextEdit->toPlainText();
+        file.close();
+    }
+}
+
+void MainWindow::onAddPitch()
+{
 
     QString pitch = pitchPitchToolbutton->text();
     QString octave = pitchOctaveToolbutton->text();
     QString comment = pitchCommentText->toPlainText();
+    QString intm = pitchPreviousToolbutton->text();
+    QString connection = pitchConnectionToolbutton->text();
+    QString tilt = pitchTiltToolbutton->text();
+
+    if(intm.compare("same") == 0)
+    {
+        intm = *qtS;
+    }
+    if(intm.compare("went down from previous") == 0)
+    {
+        intm = *qtD;
+    }
+    if(intm.compare("went up from previous") == 0)
+    {
+        intm = *qtU;
+    }
 
     QString s;
 
@@ -804,20 +898,34 @@ void MainWindow::onAddPitch(){
     s += indent(9); s += qtNcAttBeg;
     s += qtAttOct; s += "\""; s += octave; s += "\"";
     s += qtAttPname; s += "\""; s += pitch; s += "\"";
+    s += qtAttIntm; s += "\""; s += intm; s += "\"";
+    s += qtAttConnection; s += "\""; s += connection; s += "\"";
+    s += qtAttTilt; s += "\""; s += tilt; s += "\"";
     s += qtClosingBracket; s += qtN;
 
     mainTextEdit->textCursor().insertText(s);
 
+    Note *n;
+
     if(!pitch.isEmpty())
     {
-        Note *n = new Note(octave.toInt(), pitch.toStdString());
-
-        renderWidget->currentSegment->addNote(n);
-        renderWidget->update();
+        n = new Note(octave.toInt(), pitch.toStdString());
     }
+    else if(!intm.isEmpty())
+    {
+        n = new Note(intm.toStdString());
+    }
+    else
+    {
+        n = new Note();
+    }
+
+    renderWidget->currentSegment->addNote(n);
+    renderWidget->update();
 }
 
-void MainWindow::onFinishPitch(){
+void MainWindow::onFinishPitch()
+{
 
     QString *syllable = new QString("Syllable");
     tabWidget->addTab(sylTab, *syllable);
@@ -831,7 +939,275 @@ void MainWindow::onFinishPitch(){
     renderWidget->update();
 }
 
-void MainWindow::onSelectSource(){
+void MainWindow::onVarAddpitch()
+{
+    varAdded = true;
+
+    QString s;
+    QString pitch = varPitchToolbutton->text();
+    QString octave = varOctaveToolbutton->text();
+    QString comment = varCommentText->toPlainText();
+    QString intm = varPreviousToolbutton->text();
+    QString connection = varConnectionToolbutton->text();
+    QString tilt = varTiltToolbutton->text();
+
+    if(varSourceLabel->text().compare(sources[0]) == 0)
+    {
+        s += indent(9); s += qtAppBeg; s += qtN;
+        s += indent(10); s += qtRdgAttBeg; s += qtAttSource; s += "\""; s += sources[0]; s += "\""; s += qtClosingBracket; s += qtN;
+
+        if(!comment.isEmpty())
+        {
+            s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+            s += indent(12); s += qtParagraphBeg; s+= qtN;
+            s += indent(13); s += comment; s+= qtN;
+            s += indent(12); s += qtParagraphEnd; s+= qtN;
+            s += indent(11); s += qtAnnotEnd; s+= qtN;
+        }
+
+        s += indent(11); s += qtNcAttBeg;
+        s += qtAttOct; s += "\""; s += octave; s += "\"";
+        s += qtAttPname; s += "\""; s += pitch; s += "\"";
+        s += qtAttIntm; s += "\""; s += intm; s += "\"";
+        s += qtAttConnection; s += "\""; s += connection; s += "\"";
+        s += qtAttTilt; s += "\""; s += tilt; s += "\"";
+        s += qtClosingBracket; s += qtN;
+        s += indent(10); s += qtRdgEnd; s += qtN;
+        s += indent(9); s += qtAppEnd; s += qtN;
+
+        connect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch2);
+        disconnect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch);
+
+        mainTextEdit->textCursor().insertText(s);
+
+        QTextCursor cursor = mainTextEdit->textCursor();
+        cursor.setPosition(cursor.position()-33);
+        mainTextEdit->setTextCursor(cursor);
+
+        Note *n;
+
+        if(!pitch.isEmpty())
+        {
+            n = new Note(octave.toInt(), pitch.toStdString());
+        }
+        else if(!intm.isEmpty())
+        {
+            n = new Note(intm.toStdString());
+        }
+        else
+        {
+            n = new Note();
+        }
+
+        renderWidget->currentSegment->addNote(n);
+        renderWidget->update();
+    }
+    else
+    {
+        s += indent(10); s += qtRdgAttBeg; s += qtAttSource; s += "\""; s += sources[varCounter]; s += "\""; s += qtClosingBracket; s += qtN;
+
+
+        if(!comment.isEmpty())
+        {
+            s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+            s += indent(12); s += qtParagraphBeg; s+= qtN;
+            s += indent(13); s += comment; s+= qtN;
+            s += indent(12); s += qtParagraphEnd; s+= qtN;
+            s += indent(11); s += qtAnnotEnd; s+= qtN;
+        }
+
+        s += indent(11); s += qtNcAttBeg;
+        s += qtAttOct; s += "\""; s += octave; s += "\"";
+        s += qtAttPname; s += "\""; s += pitch; s += "\"";
+        s += qtAttIntm; s += "\""; s += intm; s += "\"";
+        s += qtAttConnection; s += "\""; s += connection; s += "\"";
+        s += qtAttTilt; s += "\""; s += tilt; s += "\"";
+        s += qtClosingBracket; s += qtN;
+        s += indent(10); s += qtRdgEnd; s += qtN;
+
+        connect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch2);
+        disconnect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch);
+
+        mainTextEdit->textCursor().insertText(s);
+
+        QTextCursor cursor = mainTextEdit->textCursor();
+        cursor.setPosition(cursor.position()-17);
+        mainTextEdit->setTextCursor(cursor);
+
+        Note *n;
+
+        if(!pitch.isEmpty())
+        {
+            n = new Note(octave.toInt(), pitch.toStdString());
+        }
+        else
+        {
+            n = new Note();
+        }
+
+        renderWidget->currentSegment->addNote(n);
+        renderWidget->update();
+    }
+}
+
+void MainWindow::onVarAddpitch2()
+{
+    QString s;
+    QString pitch = varPitchToolbutton->text();
+    QString octave = varOctaveToolbutton->text();
+    QString comment = varCommentText->toPlainText();
+    QString intm = varPreviousToolbutton->text();
+    QString connection = varConnectionToolbutton->text();
+    QString tilt = varTiltToolbutton->text();
+
+    if(!comment.isEmpty())
+    {
+        s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+        s += indent(12); s += qtParagraphBeg; s+= qtN;
+        s += indent(13); s += comment; s+= qtN;
+        s += indent(12); s += qtParagraphEnd; s+= qtN;
+        s += indent(11); s += qtAnnotEnd; s+= qtN;
+    }
+
+    s += indent(11); s += qtNcAttBeg;
+    s += qtAttOct; s += "\""; s += octave; s += "\"";
+    s += qtAttPname; s += "\""; s += pitch; s += "\"";
+    s += qtAttIntm; s += "\""; s += intm; s += "\"";
+    s += qtAttConnection; s += "\""; s += connection; s += "\"";
+    s += qtAttTilt; s += "\""; s += tilt; s += "\"";
+    s += qtClosingBracket; s += qtN;
+
+    mainTextEdit->textCursor().insertText(s);
+
+    Note *n;
+
+    if(!pitch.isEmpty())
+    {
+        n = new Note(octave.toInt(), pitch.toStdString());
+    }
+    else if(!intm.isEmpty())
+    {
+        n = new Note(intm.toStdString());
+    }
+    else
+    {
+        n = new Note();
+    }
+
+    renderWidget->currentSegment->addNote(n);
+    renderWidget->update();
+}
+
+void MainWindow::onVarNext()
+{
+    //varCounter++;
+
+    varPitchToolbutton->setText("");
+    varOctaveToolbutton->setText("");
+    varConnectionToolbutton->setText("");
+    varPreviousToolbutton->setText("");
+    varTiltToolbutton->setText("");
+
+    if(varCounter == sources.size() - 2)
+    {
+        varNextButton->setText("Finish");
+        disconnect(varNextButton, &QPushButton::clicked, this, &MainWindow::onVarNext);
+        connect(varNextButton, &QPushButton::clicked, this, &MainWindow::onVarNext2);
+    }
+
+    connect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch);
+    disconnect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch2);
+
+    if(varAdded)
+    {
+        QTextCursor cursor = mainTextEdit->textCursor();
+        cursor.setPosition(cursor.position()+17);
+        mainTextEdit->setTextCursor(cursor);
+        varCounter++;
+    }
+    else
+    {
+        QString s;
+        if(varSourceLabel->text().compare(sources[0]) == 0)
+        {
+            s += indent(9); s += qtAppBeg; s += qtN;
+            s += indent(10); s += qtRdgAttBeg;
+            s += qtAttSource; s += "\""; s += sources[varCounter]; s += "\""; s += qtClosingBracket; s += qtN;
+            s += indent(10); s += qtRdgEnd; s += qtN;
+            s += indent(9); s += qtAppEnd; s += qtN;
+
+            varCounter++;
+
+
+
+            mainTextEdit->textCursor().insertText(s);
+
+            QTextCursor cursor = mainTextEdit->textCursor();
+            cursor.setPosition(cursor.position()-16);
+            mainTextEdit->setTextCursor(cursor);
+        }
+        else
+        {
+            s += indent(10); s += qtRdgAttBeg;
+            s += qtAttSource; s += "\""; s += sources[varCounter]; s += "\""; s += qtClosingBracket; s += qtN;
+            s += indent(10); s += qtRdgEnd; s += qtN;
+
+            varCounter++;
+
+            mainTextEdit->textCursor().insertText(s);
+
+        }
+    }
+    varSourceLabel->setText(sources[varCounter]);
+    varAdded = false;
+}
+
+void MainWindow::onVarNext2()
+{
+    varPitchToolbutton->setText("");
+    varOctaveToolbutton->setText("");
+    varConnectionToolbutton->setText("");
+    varPreviousToolbutton->setText("");
+    varTiltToolbutton->setText("");
+    varNextButton->setText("Next");
+
+    if(!varAdded)
+    {
+        QString s;
+        s += indent(10); s += qtRdgAttBeg;
+        s += qtAttSource; s += "\""; s += sources[varCounter]; s += "\""; s += qtClosingBracket; s += qtN;
+        s += indent(10); s += qtRdgEnd; s += qtN;
+        mainTextEdit->textCursor().insertText(s);
+
+        QTextCursor cursor = mainTextEdit->textCursor();
+        cursor.setPosition(cursor.position()+52);
+        mainTextEdit->setTextCursor(cursor);
+
+    }
+    else
+    {
+        QTextCursor cursor = mainTextEdit->textCursor();
+        cursor.setPosition(cursor.position()+69);
+        mainTextEdit->setTextCursor(cursor);
+
+    }
+
+
+    QString *syllable = new QString("Syllable");
+    tabWidget->addTab(sylTab, *syllable);
+    tabWidget->removeTab(tabWidget->currentIndex());
+
+    disconnect(varNextButton, &QPushButton::clicked, this, &MainWindow::onVarNext2);
+    connect(varNextButton, &QPushButton::clicked, this, &MainWindow::onVarNext);
+
+    varCounter = 0;
+    varAdded = false;
+
+    renderWidget->update();
+}
+
+void MainWindow::onSelectSource()
+{
     QObject *sender = QObject::sender();
     QAction *action = qobject_cast<QAction*>(sender);
     sylCurrentSource = action->text();
@@ -843,7 +1219,8 @@ void MainWindow::onSelectSource(){
     }
 }
 
-void MainWindow::onSelectStaff(){
+void MainWindow::onSelectStaff()
+{
     QObject *sender = QObject::sender();
     QAction *action = qobject_cast<QAction*>(sender);
     sylCurrentStaff = action->text();
@@ -868,6 +1245,7 @@ void MainWindow::onSelectPitch()
     QObject *sender = QObject::sender();
     QAction *action = qobject_cast<QAction*>(sender);
     pitchPitchToolbutton->setText(action->text());
+    varPitchToolbutton->setText(action->text());
 }
 
 void MainWindow::onSelectColor()
@@ -882,6 +1260,7 @@ void MainWindow::onSelectNumber()
     QObject *sender = QObject::sender();
     QAction *action = qobject_cast<QAction*>(sender);
     pitchOctaveToolbutton->setText(action->text());
+    varOctaveToolbutton->setText(action->text());
 }
 
 void MainWindow::onSelectType()
@@ -891,7 +1270,32 @@ void MainWindow::onSelectType()
     sylTypeToolbutton->setText(action->text());
 }
 
-QString MainWindow::indent(int a){
+void MainWindow::onSelectDirection()
+{
+    QObject *sender = QObject::sender();
+    QAction *action = qobject_cast<QAction*>(sender);
+    pitchTiltToolbutton->setText(action->text());
+    varTiltToolbutton->setText(action->text());
+}
+
+void MainWindow::onSelectRelation()
+{
+    QObject *sender = QObject::sender();
+    QAction *action = qobject_cast<QAction*>(sender);
+    pitchPreviousToolbutton->setText(action->text());
+    varPreviousToolbutton->setText(action->text());
+}
+
+void MainWindow::onSelectConnection()
+{
+    QObject *sender = QObject::sender();
+    QAction *action = qobject_cast<QAction*>(sender);
+    pitchConnectionToolbutton->setText(action->text());
+    varConnectionToolbutton->setText(action->text());
+}
+
+QString MainWindow::indent(int a)
+{
     QString s;
     for(int i = 0; i < a; i++){
         s += qtT;
@@ -899,7 +1303,8 @@ QString MainWindow::indent(int a){
     return s;
 }
 
-void MainWindow::sourcesToActions(){
+void MainWindow::sourcesToActions()
+{
 
     sourcesMenu = new QMenu();
     for(int i = 0; i < sources.size(); i++){
@@ -912,7 +1317,8 @@ void MainWindow::sourcesToActions(){
     sylSourceToolbutton->setMenu(sourcesMenu);
 }
 
-void MainWindow::staffsToActions(){
+void MainWindow::staffsToActions()
+{
 
     staffMenu = new QMenu();
     for(int i = 0; i < staffs.size(); i++){
@@ -927,75 +1333,89 @@ void MainWindow::staffsToActions(){
 
 void MainWindow::modesToActions()
 {
-    modeMenu = new QMenu();
-
-    for(int i = 0; i < modes.size(); i++)
-    {
-        QAction *action = new QAction();
-        action->setText(*(modes[i]));
-        connect(action, &QAction::triggered, this, &MainWindow::onSelectMode);
-        modeMenu->addAction(action);
-    }
-
-    staffModeToolbutton->setMenu(modeMenu);
+    QList<QToolButton*> buttons;
+    buttons.push_back(staffModeToolbutton);
+    blankToActions(modeMenu, modes, &MainWindow::onSelectMode, buttons);
 }
 
 void MainWindow::pitchesToActions()
 {
-    pitchMenu = new QMenu();
+    QList<QToolButton*> buttons;
+    buttons.push_back(varPitchToolbutton);
+    buttons.push_back(pitchPitchToolbutton);
 
-    for(int i = 0; i < pitches.size(); i++)
-    {
-        QAction *action = new QAction();
-        action->setText(*(pitches[i]));
-        connect(action, &QAction::triggered, this, &MainWindow::onSelectPitch);
-        pitchMenu->addAction(action);
-    }
-
-    pitchPitchToolbutton->setMenu(pitchMenu);
+    blankToActions(pitchMenu, pitches, &MainWindow::onSelectPitch, buttons);
 }
 
 void MainWindow::colorsToActions()
 {
-    colorMenu = new QMenu();
 
-    for(int i = 0; i < colors.size(); i++)
-    {
-        QAction *action = new QAction();
-        action->setText(*(colors[i]));
-        connect(action, &QAction::triggered, this, &MainWindow::onSelectColor);
-        colorMenu->addAction(action);
-    }
+    QList<QToolButton*> buttons;
+    buttons.push_back(staffLinecolorToolbutton);
 
-    staffLinecolorToolbutton->setMenu(colorMenu);
+    blankToActions(colorMenu, colors, &MainWindow::onSelectColor, buttons);
 }
 
 void MainWindow::numbersToActions()
 {
-    numberMenu = new QMenu();
+    QList<QToolButton*> buttons;
+    buttons.push_back(varOctaveToolbutton);
+    buttons.push_back(pitchOctaveToolbutton);
 
-    for(int i = 0; i < numbers.size(); i++)
-    {
-        QAction *action = new QAction();
-        action->setText(*(numbers[i]));
-        connect(action, &QAction::triggered, this, &MainWindow::onSelectNumber);
-        numberMenu->addAction(action);
-    }
-
-    pitchOctaveToolbutton->setMenu(numberMenu);
+    blankToActions(numberMenu, numbers, &MainWindow::onSelectNumber, buttons);
 }
 
 void MainWindow::typesToActions()
-{
-    typeMenu = new QMenu();
+{   
+    QList<QToolButton*> buttons;
+    buttons.push_back(sylTypeToolbutton);
 
-    for(int i = 0; i < types.size(); i++)
+    blankToActions(typeMenu, types, &MainWindow::onSelectType, buttons);
+}
+
+void MainWindow::directionsToActions()
+{
+    QList<QToolButton*> buttons;
+    buttons.push_back(varTiltToolbutton);
+    buttons.push_back(pitchTiltToolbutton);
+
+    blankToActions(directionMenu, directions, &MainWindow::onSelectDirection, buttons);
+}
+
+void MainWindow::relationsToActions()
+{
+    QList<QToolButton*> buttons;
+    buttons.push_back(varPreviousToolbutton);
+    buttons.push_back(pitchPreviousToolbutton);
+
+    blankToActions(relationMenu, relations, &MainWindow::onSelectRelation, buttons);
+}
+
+void MainWindow::connectionsToActions()
+{
+    QList<QToolButton*> buttons;
+    buttons.push_back(varConnectionToolbutton);
+    buttons.push_back(pitchConnectionToolbutton);
+
+    blankToActions(connectionMenu, connections, &MainWindow::onSelectConnection, buttons);
+}
+
+void MainWindow::blankToActions(QMenu *menu, QList<QString*> list, void(MainWindow::*func)(), QList<QToolButton*> buttons)
+{
+    menu = new QMenu();
+    int i;
+
+    for(i = 0; i < list.size(); i++)
     {
         QAction *action = new QAction();
-        action->setText(*(types[i]));
-        connect(action, &QAction::triggered, this, &MainWindow::onSelectType);
-        typeMenu->addAction(action);
+        action->setText(*(list[i]));
+        connect(action, &QAction::triggered, this, func);
+        menu->addAction(action);
     }
 
-    sylTypeToolbutton->setMenu(typeMenu);
+    for(i = 0; i < buttons.size(); i++)
+    {
+        menu->setMinimumWidth(buttons[i]->width());
+        buttons[i]->setMenu(menu);
+    }
 }
