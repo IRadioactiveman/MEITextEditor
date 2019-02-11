@@ -7,6 +7,7 @@
 #include <QTextEdit>
 #include <QCheckBox>
 #include <QFile>
+#include <QShortcut>
 #include "qttext.h"
 #include "xmltext.h"
 #include "ui_mainwindow.h"
@@ -35,6 +36,9 @@ private:
     Ui::MainWindow *ui;
 
     bool readOnly;
+
+    QShortcut *up;
+    QShortcut *down;
 
     QTextEdit *mainTextEdit;
 
@@ -100,8 +104,6 @@ private:
     QLineEdit *sylFilenameLine;
     QTextEdit *sylCommentText;
     QPushButton *sylCreateButton;
-    QPushButton *sylAddButton;
-    QPushButton *sylVariantButton;
     QPushButton *sylFinishButton;
     QPushButton *sylSaveButton;
     QToolButton *sylSourceToolbutton;
@@ -109,6 +111,7 @@ private:
     QToolButton *sylTypeToolbutton;
     QString sylCurrentSource;
     QString sylCurrentStaff;
+    QString sylFormerStaff = "";
     QLabel *sylValidatorLabel;
 
     Segment *segment;
@@ -137,6 +140,7 @@ private:
     QTextEdit *pitchCommentText;
     QPushButton *pitchAddButton;
     QPushButton *pitchFinishButton;
+    QPushButton *pitchAddVariantButton;
 
     QList<QString*> modes;
     QList<QString*> pitches;
@@ -201,6 +205,8 @@ private slots:
     void onSelectDirection();
     void onSelectRelation();
     void onSelectConnection();
+    void onUp();
+    void onDown();
 };
 
 #endif // MAINWINDOW_H

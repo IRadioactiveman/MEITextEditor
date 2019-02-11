@@ -111,23 +111,20 @@ static const char *meiTextEnd = "</mei>";
 static const char *meiHeaderBeg = "<meiHead>";
 static const char *meiHeaderEnd = "</meiHead>";
 
-static const char *meiIdBeg = "<meiid>";
-static const char *meiIdEnd = "</meiid>";
-
 static const char *meiTitleBeg = "<title>";
 static const char *meiTitleEnd = "</title>";
 
-static const char *meiTitlestmtBeg = "<titlestmt>";
-static const char *meiTitlestmtEnd = "</titlestmt>";
+static const char *meiTitlestmtBeg = "<titleStmt>";
+static const char *meiTitlestmtEnd = "</titleStmt>";
 
-static const char *meiResponsibilityBeg = "<respstmt>";
-static const char *meiResponsibilityEnd = "</respstmt>";
+static const char *meiResponsibilityBeg = "<respStmt>";
+static const char *meiResponsibilityEnd = "</respStmt>";
 
-static const char *meiAgentBeg = "<agent>";
-static const char *meiAgentEnd = "</agent>";
+static const char *meiAgentBeg = "<composer>";
+static const char *meiAgentEnd = "</composer>";
 
-static const char *meiPublicationBeg = "<pubstmt>";
-static const char *meiPublicationEnd = "</pubstmt>";
+static const char *meiPublicationBeg = "<pubStmt>";
+static const char *meiPublicationEnd = "</pubStmt>";
 
 static const char *meiAvailabilityBeg = "<availability>";
 static const char *meiAvailabilityEnd = "</availability>";
@@ -135,20 +132,20 @@ static const char *meiAvailabilityEnd = "</availability>";
 static const char *meiUserestrictBeg = "<userestrict>";
 static const char *meiUserestrictEnd = "</userestrict>";
 
-static const char *meiFiledescriptionBeg = "<filedesc>";
-static const char *meiFiledescriptionEnd = "</filedesc>";
+static const char *meiFiledescriptionBeg = "<fileDesc>";
+static const char *meiFiledescriptionEnd = "</fileDesc>";
 
-static const char *meiEditorialdeclarationBeg = "<editorialdecl>";
-static const char *meiEditorialdeclarationEnd = "</editorialdecl>";
+static const char *meiEditorialdeclarationBeg = "<editorialDecl>";
+static const char *meiEditorialdeclarationEnd = "</editorialDecl>";
 
 static const char *meiParagraphBeg = "<p>";
 static const char *meiParagraphEnd = "</p>";
 
-static const char *meiProfiledescriptionBeg = "<profiledesc>";
-static const char *meiProfiledescriptionEnd = "</profiledesc>";
+static const char *meiProfiledescriptionBeg = "<profileDesc>";
+static const char *meiProfiledescriptionEnd = "</profileDesc>";
 
-static const char *meiLangusageBeg = "<langusage>";
-static const char *meiLangusageEnd = "</langusage>";
+static const char *meiLangusageBeg = "<langUsage>";
+static const char *meiLangusageEnd = "</langUsage>";
 
 static const char *meiLanguageBeg = "<language>";
 static const char *meiLanguageEnd = "</language>";
@@ -162,21 +159,21 @@ static const char *meiKeywordsEnd = "</keywords>";
 static const char *meiTermBeg = "<term>";
 static const char *meiTermEnd = "</term>";
 
-static const char *meiSourcedescriptionBeg = "<sourcedesc>";
-static const char *meiSourcedescriptionEnd = "</sourcedesc>";
+static const char *meiSourcedescriptionBeg = "<sourceDesc>";
+static const char *meiSourcedescriptionEnd = "</sourceDesc>";
 
 static const char *meiSourceBeg = "<source>";
 static const char *meiSourceAttBeg = "<source";
 static const char *meiSourceEnd = "</source>";
 
-static const char *meiPhysdescriptionBeg = "<physdesc>";
-static const char *meiPhysdescriptionEnd = "</physdesc>";
+static const char *meiPhysdescriptionBeg = "<physDesc>";
+static const char *meiPhysdescriptionEnd = "</physDesc>";
 
 static const char *meiExtentBeg = "<extent>";
 static const char *meiExtentEnd = "</extent>";
 
-static const char *meiPhysmediumBeg = "<physmedium>";
-static const char *meiPhysmediumEnd = "</physmedium>";
+static const char *meiPhysmediumBeg = "<physMedium>";
+static const char *meiPhysmediumEnd = "</physMedium>";
 
 static const char *meiConditionBeg = "<condition>";
 static const char *meiConditionEnd = "</condition>";
@@ -184,18 +181,15 @@ static const char *meiConditionEnd = "</condition>";
 static const char *meiProvenanceBeg = "<provenance>";
 static const char *meiProvenanceEnd = "</provenance>";
 
-static const char *meiCorpnameBeg = "<corpname>";
-static const char *meiCorpnameEnd = "</corpname>";
+static const char *meiCorpnameBeg = "<corpName>";
+static const char *meiCorpnameEnd = "</corpName>";
 
-static const char *meiHandlistBeg = "<handlist>";
-static const char *meiHandlistEnd = "</handlist>";
+static const char *meiHandlistBeg = "<handList>";
+static const char *meiHandlistEnd = "</handList>";
 
 static const char *meiHandBeg = "<hand>";
 static const char *meiHandAttBeg = "<hand ";
 static const char *meiHandEnd = "</hand>";
-
-static const char *meiPubstatusBeg = "<pubstatus>";
-static const char *meiPubstatusEnd = "</pubstatus>";
 
 static const char *meiDimensionsBeg = "<dimensions>";
 static const char *meiDimensionsAttBeg = "<dimensions";
@@ -210,12 +204,12 @@ static const char *meiMusicEnd = "</music>";
 static const char *meiScoreBeg = "<score>";
 static const char *meiScoreEnd = "</score>";
 
-static const char *meiScoredefBeg = "<scoredef>";
-static const char *meiScoredefEnd = "</scoredef>";
+static const char *meiScoredefBeg = "<scoreDef>";
+static const char *meiScoredefEnd = "</scoreDef>";
 
-static const char *meiStaffgrpBeg = "<staffgrp>";
-static const char *meiStaffgrpEnd = "</staffgrp>";
-static const char *meiStaffgrpAttBeg = "<staffgrp";
+static const char *meiStaffgrpBeg = "<staffGrp>";
+static const char *meiStaffgrpEnd = "</staffGrp>";
+static const char *meiStaffgrpAttBeg = "<staffGrp";
 
 static const char *meiClefBeg = "<clef>";
 static const char *meiClefEnd = "</clef>";
@@ -267,18 +261,24 @@ static const char *meiRdgAttBeg = "<rdg";
 static const char *meiMdivBeg = "<mdiv>";
 static const char *meiMdivEnd = "</mdiv>";
 
-static const char *meiStaffdefBeg = "<staffdef>";
-static const char *meiStaffdefAttBeg = "<staffdef";
-static const char *meiStaffdefEnd = "</staffdef>";
+static const char *meiStaffdefBeg = "<staffDef>";
+static const char *meiStaffdefAttBeg = "<staffDef";
+static const char *meiStaffdefEnd = "</staffDef>";
 
 static const char *meiStaffBeg = "<staff>";
 static const char *meiStaffAttBeg = "<staff";
 static const char *meiStaffEnd = "</staff>";
 
-static const char *meiPhysicallocationBeg = "<physloc>";
-static const char *meiPhysicallocationEnd = "</physloc>";
+static const char *meiPhysicallocationBeg = "<physLoc>";
+static const char *meiPhysicallocationEnd = "</physLoc>";
 
 static const char *meiDateBeg = "<date>";
 static const char *meiDateEnd = "</date>";
+
+static const char *meiPersnameBeg = "<persName>";
+static const char *meiPersnameEnd = "</persName>";
+
+static const char *meiWorkdescBeg = "<workDesc>";
+static const char *meiWorkdescEnd = "</workDesc>";
 
 #endif // XMLTEXT_H

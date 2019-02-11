@@ -51,8 +51,6 @@ public:
     QTextEdit *commentsText;
     QLineEdit *languageLine;
     QLabel *languageLabel;
-    QLineEdit *keywordsLine;
-    QLabel *keywordLabel;
     QWidget *sources;
     QLineEdit *sourceIDLine;
     QLineEdit *sourceAuthorLine;
@@ -112,7 +110,6 @@ public:
     QTextEdit *sylCommentText;
     QLabel *sylCommentLabel;
     QPushButton *sylCreateButton;
-    QPushButton *sylVariantButton;
     QPushButton *sylFinishButton;
     QLabel *sylStaffLabel;
     QLabel *sylSourceLabel;
@@ -155,6 +152,7 @@ public:
     QToolButton *pitchTiltToolbutton;
     QLabel *pitchConnectionLabel;
     QLabel *pitchTiltLabel;
+    QPushButton *pitchAddVariantButton;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
     QMenuBar *menuBar;
@@ -163,7 +161,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1302, 675);
+        MainWindow->resize(1302, 662);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -192,7 +190,7 @@ public:
         meta->setObjectName(QStringLiteral("meta"));
         metaButton = new QPushButton(meta);
         metaButton->setObjectName(QStringLiteral("metaButton"));
-        metaButton->setGeometry(QRect(10, 280, 91, 23));
+        metaButton->setGeometry(QRect(10, 250, 91, 23));
         titleLine = new QLineEdit(meta);
         titleLine->setObjectName(QStringLiteral("titleLine"));
         titleLine->setGeometry(QRect(70, 10, 361, 21));
@@ -229,12 +227,6 @@ public:
         languageLabel = new QLabel(meta);
         languageLabel->setObjectName(QStringLiteral("languageLabel"));
         languageLabel->setGeometry(QRect(10, 100, 47, 21));
-        keywordsLine = new QLineEdit(meta);
-        keywordsLine->setObjectName(QStringLiteral("keywordsLine"));
-        keywordsLine->setGeometry(QRect(70, 250, 361, 20));
-        keywordLabel = new QLabel(meta);
-        keywordLabel->setObjectName(QStringLiteral("keywordLabel"));
-        keywordLabel->setGeometry(QRect(10, 250, 61, 21));
         tabWidget->addTab(meta, QString());
         sources = new QWidget();
         sources->setObjectName(QStringLiteral("sources"));
@@ -418,12 +410,9 @@ public:
         sylCreateButton = new QPushButton(sylTab);
         sylCreateButton->setObjectName(QStringLiteral("sylCreateButton"));
         sylCreateButton->setGeometry(QRect(10, 270, 91, 23));
-        sylVariantButton = new QPushButton(sylTab);
-        sylVariantButton->setObjectName(QStringLiteral("sylVariantButton"));
-        sylVariantButton->setGeometry(QRect(110, 270, 75, 23));
         sylFinishButton = new QPushButton(sylTab);
         sylFinishButton->setObjectName(QStringLiteral("sylFinishButton"));
-        sylFinishButton->setGeometry(QRect(190, 270, 75, 23));
+        sylFinishButton->setGeometry(QRect(110, 270, 75, 23));
         sylStaffLabel = new QLabel(sylTab);
         sylStaffLabel->setObjectName(QStringLiteral("sylStaffLabel"));
         sylStaffLabel->setGeometry(QRect(10, 40, 47, 21));
@@ -447,13 +436,13 @@ public:
         sylTypeLabel->setGeometry(QRect(10, 70, 47, 21));
         sylFilenameLabel = new QLabel(sylTab);
         sylFilenameLabel->setObjectName(QStringLiteral("sylFilenameLabel"));
-        sylFilenameLabel->setGeometry(QRect(10, 530, 47, 21));
+        sylFilenameLabel->setGeometry(QRect(10, 320, 47, 21));
         sylFilenameLine = new QLineEdit(sylTab);
         sylFilenameLine->setObjectName(QStringLiteral("sylFilenameLine"));
-        sylFilenameLine->setGeometry(QRect(60, 530, 361, 21));
+        sylFilenameLine->setGeometry(QRect(70, 320, 361, 21));
         sylSaveButton = new QPushButton(sylTab);
         sylSaveButton->setObjectName(QStringLiteral("sylSaveButton"));
-        sylSaveButton->setGeometry(QRect(430, 530, 75, 23));
+        sylSaveButton->setGeometry(QRect(10, 350, 75, 23));
         tabWidget->addTab(sylTab, QString());
         varTab = new QWidget();
         varTab->setObjectName(QStringLiteral("varTab"));
@@ -560,6 +549,9 @@ public:
         pitchTiltLabel = new QLabel(pitchTab);
         pitchTiltLabel->setObjectName(QStringLiteral("pitchTiltLabel"));
         pitchTiltLabel->setGeometry(QRect(10, 130, 47, 21));
+        pitchAddVariantButton = new QPushButton(pitchTab);
+        pitchAddVariantButton->setObjectName(QStringLiteral("pitchAddVariantButton"));
+        pitchAddVariantButton->setGeometry(QRect(200, 240, 75, 23));
         tabWidget->addTab(pitchTab, QString());
 
         gridLayout->addWidget(tabWidget, 1, 0, 2, 1);
@@ -578,7 +570,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(3);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -601,7 +593,6 @@ public:
         authorLine1->setText(QString());
         commentLabel->setText(QApplication::translate("MainWindow", "Comments", nullptr));
         languageLabel->setText(QApplication::translate("MainWindow", "Language", nullptr));
-        keywordLabel->setText(QApplication::translate("MainWindow", "Keywords", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(meta), QApplication::translate("MainWindow", "Meta", nullptr));
         sourceIDLabel->setText(QApplication::translate("MainWindow", "ID", nullptr));
         sourceAuthorLabel->setText(QApplication::translate("MainWindow", "Author", nullptr));
@@ -639,7 +630,6 @@ public:
         sylSyllableLLabel->setText(QApplication::translate("MainWindow", "Syllable", nullptr));
         sylCommentLabel->setText(QApplication::translate("MainWindow", "Comment", nullptr));
         sylCreateButton->setText(QApplication::translate("MainWindow", "Create Syllablle", nullptr));
-        sylVariantButton->setText(QApplication::translate("MainWindow", "Add Variant", nullptr));
         sylFinishButton->setText(QApplication::translate("MainWindow", "Finish", nullptr));
         sylStaffLabel->setText(QApplication::translate("MainWindow", "Staff", nullptr));
         sylSourceLabel->setText(QApplication::translate("MainWindow", "Source", nullptr));
@@ -679,6 +669,7 @@ public:
         pitchTiltToolbutton->setText(QString());
         pitchConnectionLabel->setText(QApplication::translate("MainWindow", "Connection", nullptr));
         pitchTiltLabel->setText(QApplication::translate("MainWindow", "Tilt", nullptr));
+        pitchAddVariantButton->setText(QApplication::translate("MainWindow", "Add Variant", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(pitchTab), QApplication::translate("MainWindow", "Pitches", nullptr));
     } // retranslateUi
 

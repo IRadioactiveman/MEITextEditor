@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(staffFinishButton, &QPushButton::clicked, this, &MainWindow::onFinishStaff);
     connect(sylCreateButton, &QPushButton::clicked, this, &MainWindow::onCreateSyllable);
     connect(sylFinishButton, &QPushButton::clicked, this, &MainWindow::onFinishSyllable);
-    connect(sylVariantButton, &QPushButton::clicked, this, &MainWindow::onAddVariant);
+    connect(pitchAddVariantButton, &QPushButton::clicked, this, &MainWindow::onAddVariant);
     connect(sylSaveButton, &QPushButton::clicked, this, &MainWindow::onSylSave);
     connect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch);
     connect(varNextButton, &QPushButton::clicked, this, &MainWindow::onVarNext);
@@ -32,7 +32,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::setup()
 {
-
     ui->setupUi(this);
 
     ui->adjustByHand->setDisabled(true);
@@ -42,6 +41,9 @@ void MainWindow::setup()
     mainTextEdit = ui->textEdit;
     mainTextEdit->setReadOnly(readOnly);
     mainTextEdit->setTabStopDistance(10);
+
+    up = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this);
+    down = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this);
 
     renderWidget = ui->renderWidget;
 
@@ -54,7 +56,6 @@ void MainWindow::setup()
     languageLine = metaTab->findChild<QLineEdit*>("languageLine");
     availabilityText = metaTab->findChild<QTextEdit*>("availabilityText");
     commentsText = metaTab->findChild<QTextEdit*>("commentsText");
-    keywordsLine = metaTab->findChild<QLineEdit*>("keywordsLine");
 
     sourcesTab = ui->tabWidget->widget(1);
     sourceIDLine = sourcesTab->findChild<QLineEdit*>("sourceIDLine");
@@ -111,8 +112,6 @@ void MainWindow::setup()
     sylFilenameLine = sylTab->findChild<QLineEdit*>("sylFilenameLine");
     sylCommentText = sylTab->findChild<QTextEdit*>("sylCommentText");
     sylCreateButton = sylTab->findChild<QPushButton*>("sylCreateButton");
-    //sylAddButton = sylTab->findChild<QPushButton*>("sylAddButton");
-    sylVariantButton = sylTab->findChild<QPushButton*>("sylVariantButton");
     sylFinishButton = sylTab->findChild<QPushButton*>("sylFinishButton");
     sylSaveButton = sylTab->findChild<QPushButton*>("sylSaveButton");
     sylSourceToolbutton = sylTab->findChild<QToolButton*>("sylSourceToolbutton");
@@ -121,10 +120,8 @@ void MainWindow::setup()
     sylValidatorLabel = sylTab->findChild<QLabel*>("sylValidatorLabel");
 
     sylCreateButton->setDisabled(true);
-    sylVariantButton->setDisabled(true);
     sylFilenameLine->setDisabled(true);
     sylSaveButton->setDisabled(true);
-    //sylAddButton->setDisabled(true);
 
     varTab = ui->tabWidget->widget(4);
     varSourceLabel = varTab->findChild<QLabel*>("varSourceLabel");
@@ -138,8 +135,6 @@ void MainWindow::setup()
     varCommentText = varTab->findChild<QTextEdit*>("varCommentText");
 
     pitchTab = ui->tabWidget->widget(5);
-    //pitchOctaveLine = pitchTab->findChild<QLineEdit*>("pitchOctaveLine");
-    //pitchPitchLine = pitchTab->findChild<QLineEdit*>("pitchPitchLine");
     pitchPitchToolbutton = pitchTab->findChild<QToolButton*>("pitchPitchToolbutton");
     pitchOctaveToolbutton = pitchTab->findChild<QToolButton*>("pitchOctaveToolbutton");
     pitchTiltToolbutton = pitchTab->findChild<QToolButton*>("pitchTiltToolbutton");
@@ -148,7 +143,11 @@ void MainWindow::setup()
     pitchCommentText = pitchTab->findChild<QTextEdit*>("pitchCommentText");
     pitchAddButton = pitchTab->findChild<QPushButton*>("pitchAddButton");
     pitchFinishButton = pitchTab->findChild<QPushButton*>("pitchFinishButton");
+    pitchAddVariantButton = pitchTab->findChild<QPushButton*>("pitchAddVariantButton");
 
+    pitchAddVariantButton->setDisabled(true);
+
+    modes.push_back(new QString(""));
     modes.push_back(qtMajor);
     modes.push_back(qtMinor);
     modes.push_back(qtDorian);
@@ -169,6 +168,7 @@ void MainWindow::setup()
     pitches.push_back(qtH);
     pitchesToActions();
 
+    colors.push_back(new QString(""));
     colors.push_back(qtRed);
     colors.push_back(qtBlue);
     colors.push_back(qtGreen);
@@ -179,6 +179,7 @@ void MainWindow::setup()
     colors.push_back(qtOrange);
     colorsToActions();
 
+    numbers.push_back(new QString(""));
     numbers.push_back(qt1);
     numbers.push_back(qt2);
     numbers.push_back(qt3);
@@ -188,6 +189,7 @@ void MainWindow::setup()
     numbers.push_back(qt7);
     numbersToActions();
 
+    types.push_back(new QString(""));
     types.push_back(qtApostropha);
     types.push_back(qtBistropha);
     types.push_back(qtClimacus);
@@ -210,6 +212,7 @@ void MainWindow::setup()
     types.push_back(qtVirgastrata);
     typesToActions();
 
+    directions.push_back(new QString(""));
     directions.push_back(qtNorth);
     directions.push_back(qtSouth);
     directions.push_back(qtEast);
@@ -220,11 +223,13 @@ void MainWindow::setup()
     directions.push_back(qtSouthwest);
     directionsToActions();
 
+    relations.push_back(new QString(""));
     relations.push_back(qtWentUp);
     relations.push_back(qtWentDown);
     relations.push_back(qtSame);
     relationsToActions();
 
+    connections.push_back(new QString(""));
     connections.push_back(qtGapped);
     connections.push_back(qtLoop);
     connections.push_back(qtExtended);
@@ -253,70 +258,74 @@ void MainWindow::onMeta()
     QString language = languageLine->text();
     QString availability = availabilityText->toPlainText();
     QString comments = commentsText->toPlainText();
-    QString keyword = keywordsLine->text();
-    QStringList keywords = keyword.split(",");
-
     QString s;
 
     s +="<?xml version =\"1.0\" encoding =\"UTF-8\"?>\n";
 
     s += qtTextBeg; s += qtN;
     s += indent(1); s += qtHeaderBeg; s += qtN;
-    s += indent(2); s += qtIdBeg; s += qtN;
-    s += indent(3); s += title; s += qtN;
-    s += indent(2); s += qtIdEnd; s += qtN;
+
     s += indent(2); s += qtFiledescriptionBeg; s += qtN;
-    s += indent(3); s += qtTitlestmtBeg; s += qtN;
-    s += indent(4); s += qtTitleBeg; s += qtN;
-    s += indent(5); s += title; s += qtN;
-    s += indent(4); s += qtTitleEnd; s += qtN;
-    s += indent(4); s += qtResponsibilityBeg; s += qtN;
-    s += indent(5); s += qtAgentBeg; s += qtN;
-    s += indent(6);  s += composer; s += qtN;
-    s += indent(5); s += qtAgentEnd; s += qtN;
-    s += indent(4); s += qtResponsibilityEnd; s += qtN;
-    s += indent(3); s += qtTitlestmtEnd; s += qtN;
-    s += indent(3); s += qtPublicationBeg; s += qtN;
-    s += indent(4); s += qtResponsibilityBeg; s += qtN;
 
-    for(int i = 0; i < authors.size(); i++)
+    if(!title.isEmpty() && !composer.isEmpty())
     {
+        s += indent(3); s += qtTitlestmtBeg; s += qtN;
+        s += indent(4); s += qtTitleBeg; s += qtN;
+        s += indent(5); s += title; s += qtN;
+        s += indent(4); s += qtTitleEnd; s += qtN;
+        s += indent(4); s += qtResponsibilityBeg; s += qtN;
         s += indent(5); s += qtAgentBeg; s += qtN;
-        s += indent(6); s += authors[i]; s += qtN;
+        s += indent(6);  s += composer; s += qtN;
         s += indent(5); s += qtAgentEnd; s += qtN;
+        s += indent(4); s += qtResponsibilityEnd; s += qtN;
+        s += indent(3); s += qtTitlestmtEnd; s += qtN;
     }
 
-    s += indent(4); s += qtResponsibilityEnd; s += qtN;
-    s += indent(4); s += qtAvailabilityBeg; s += qtN;
-    s += indent(5); s += qtUserestrictBeg; s += qtN;
-    s += indent(6); s += availability; s += qtN;
-    s += indent(5); s += qtUserestrictEnd; s += qtN;
-    s += indent(4); s += qtAvailabilityEnd; s += qtN;
+    s += indent(3); s += qtPublicationBeg; s += qtN;
+    if(!(authors.size() <= 1))
+    {
+        s += indent(4); s += qtResponsibilityBeg; s += qtN;
+        for(int i = 0; i < authors.size(); i++)
+        {
+            s += indent(5); s += qtPersnameBeg; s += qtN;
+            s += indent(6); s += authors[i]; s += qtN;
+            s += indent(5); s += qtPersnameEnd; s += qtN;
+        }
+        s += indent(4); s += qtResponsibilityEnd; s += qtN;
+    }
+    if(!availability.isEmpty())
+    {
+        s += indent(4); s += qtAvailabilityBeg; s += qtN;
+        s += indent(5); s += qtUserestrictBeg; s += qtN;
+        s += indent(6); s += availability; s += qtN;
+        s += indent(5); s += qtUserestrictEnd; s += qtN;
+        s += indent(4); s += qtAvailabilityEnd; s += qtN;
+    }
     s += indent(3); s += qtPublicationEnd; s += qtN;
-    s += indent(2); s += qtFiledescriptionEnd; s += qtN;
-    s += indent(2); s += qtEditorialdeclarationBeg; s += qtN;
-    s += indent(3); s += qtParagraphBeg; s += qtN;
-    s += indent(4); s += comments; s += qtN;
-    s += indent(3); s += qtParagraphEnd; s += qtN;
-    s += indent(2); s += qtEditorialdeclarationEnd; s += qtN;
-    s += indent(2); s += qtProfiledescriptionBeg; s += qtN;
-    s += indent(3); s += qtLangusageBeg; s += qtN;
-    s += indent(4); s += qtLanguageBeg; s += qtN;
-    s += indent(4); s += qtT; s += language; s += qtN;
-    s += indent(4); s += qtLanguageEnd;  s += qtN;
-    s += indent(3); s += qtLangusageEnd; s += qtN;
-    s += indent(3); s += qtMusicclassBeg;  s += qtN;
-    s += indent(4); s += qtKeywordsBeg; s += qtN;
 
-    for(int i = 0; i < keywords.size(); i++){
-        s += indent(5); s += qtTermBeg; s += qtN;
-        s += indent(6); s += keywords[i]; s += qtN;
-        s += indent(5); s += qtTermEnd; s += qtN;
+    s += indent(2); s += qtFiledescriptionEnd; s += qtN;
+
+    if(!comments.isEmpty())
+    {
+        s += indent(2); s += qtEditorialdeclarationBeg; s += qtN;
+        s += indent(3); s += qtParagraphBeg; s += qtN;
+        s += indent(4); s += comments; s += qtN;
+        s += indent(3); s += qtParagraphEnd; s += qtN;
+        s += indent(2); s += qtEditorialdeclarationEnd; s += qtN;
+
     }
 
-    s += indent(4); s += qtKeywordsEnd; s += qtN;
-    s += indent(3); s += qtMusicclassEnd; s += qtN;
-    s += indent(2); s += qtProfiledescriptionEnd; s += qtN;
+    if(!language.isEmpty())
+    {
+        s += indent(2); s += qtWorkdescBeg; s += qtN;
+        s += indent(3); s += qtLangusageBeg; s += qtN;
+        s += indent(4); s += qtLanguageBeg; s += qtN;
+        s += indent(4); s += qtT; s += language; s += qtN;
+        s += indent(4); s += qtLanguageEnd;  s += qtN;
+        s += indent(3); s += qtLangusageEnd; s += qtN;
+        s += indent(2); s += qtWorkdescEnd; s += qtN;
+    }
+
     s += indent(1); s += qtHeaderEnd; s += qtN;
     s += qtTextEnd;
 
@@ -356,60 +365,101 @@ void MainWindow::onCreateSource()
     s += qtN;
     s += indent(2); s += qtSourcedescriptionBeg; s += qtN;
 
-    //example on checking for empty String, can be used for optional parameters
     if(ID.isEmpty()){
        ID += genericSource; ID += QString::number(sourceCounter);
-       s += indent(3); s += qtSourceAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
+       s += indent(3); s += qtSourceAttBeg;
+       s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
 
        sourceCounter++;
     }
     else{
-       s += indent(3); s += qtSourceAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
+       s += indent(3);
+       s += qtSourceAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
     }
 
-    s += indent(4); s += qtTitlestmtBeg; s += qtN;
-    s += indent(5); s += qtTitleBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += title; s += qtN;
-    s += indent(5); s += qtTitleEnd; s += qtN;
-    s += indent(5); s += qtResponsibilityBeg; s += qtN;
-    s += indent(6); s += qtAgentBeg; s += qtN;
-    s += indent(7); s += author; s += qtN;
-    s += indent(6); s += qtAgentEnd; s += qtN;
-    s += indent(5); s += qtResponsibilityEnd; s += qtN;
-    s += indent(4); s += qtTitlestmtEnd; s += qtN;
+
+
+    if(!title.isEmpty() && !author.isEmpty())
+    {
+        s += indent(4); s += qtTitlestmtBeg; s += qtN;
+        s += indent(5); s += qtTitleBeg; s += qtN;
+        s += indent(6); s += title; s += qtN;
+        s += indent(5); s += qtTitleEnd; s += qtN;
+        s += indent(5); s += qtResponsibilityBeg; s += qtN;
+        s += indent(6); s += qtAgentBeg; s += qtN;
+        s += indent(7); s += author; s += qtN;
+        s += indent(6); s += qtAgentEnd; s += qtN;
+        s += indent(5); s += qtResponsibilityEnd; s += qtN;
+        s += indent(4); s += qtTitlestmtEnd; s += qtN;
+    }
+
+
     s += indent(4); s += qtPublicationBeg; s += qtN;
-    s += indent(5); s += qtPubstatusBeg; s += qtN;
-    s += indent(6); s += pubstatus; s += qtN;
-    s += indent(5); s += qtPubstatusEnd; s += qtN;
-    s += indent(5); s += qtDateBeg; s += qtN;
-    s += indent(6); s += date; s += qtN;
-    s += indent(5); s += qtDateEnd; s += qtN;
+    if(!pubstatus.isEmpty()){
+        s += indent(5); s += qtAvailabilityBeg; s += qtN;
+        s += indent(6); s += pubstatus; s += qtN;
+        s += indent(5); s += qtAvailabilityEnd; s += qtN;
+    }
+    if(!date.isEmpty())
+    {
+        s += indent(5); s += qtDateBeg; s += qtN;
+        s += indent(6); s += date; s += qtN;
+        s += indent(5); s += qtDateEnd; s += qtN;
+    }
     s += indent(4); s += qtPublicationEnd; s += qtN;
+
+
     s += indent(4); s += qtPhysdescriptionBeg; s += qtN;
-    s += indent(5); s += qtExtentBeg; s += qtN;
-    s += indent(6); s += extent; s += qtN;
-    s += indent(5); s += qtExtentEnd; s += qtN;
-    s += indent(5); s += qtPhysmediumBeg; s += qtN;
-    s += indent(6); s += medium; s += qtN;
-    s += indent(5); s += qtPhysmediumEnd; s += qtN;
-    s += indent(5); s += qtDimensionsAttBeg; s += qtAttUnits; s += "\""; s += unit; s += "\""; s += qtClosingBracket; s += qtN;
-    s += indent(6); s += x; s += " x "; s += y; s += unit; s += qtN;
-    s += indent(5); s += qtDimensionsEnd; s += qtN;
-    s += indent(5); s += qtConditionBeg; s += qtN;
-    s += indent(6); s += condition; s += qtN;
-    s += indent(5); s += qtConditionEnd; s += qtN;
-    s += indent(5); s += qtProvenanceBeg; s += qtN;
-    s += indent(6); s += qtCorpnameBeg; s += qtN;
-    s += indent(7); s += ownership; s += qtN;
-    s += indent(6); s += qtCorpnameEnd; s += qtN;
-    s += indent(5); s += qtProvenanceEnd; s += qtN;
+    if(!extent.isEmpty())
+    {
+        s += indent(5); s += qtExtentBeg; s += qtN;
+        s += indent(6); s += extent; s += qtN;
+        s += indent(5); s += qtExtentEnd; s += qtN;
+    }
+    if(!medium.isEmpty())
+    {
+        s += indent(5); s += qtPhysmediumBeg; s += qtN;
+        s += indent(6); s += medium; s += qtN;
+        s += indent(5); s += qtPhysmediumEnd; s += qtN;
+
+    }
+    if(!x.isEmpty())
+    {
+        s += indent(5); s += qtDimensionsAttBeg; s += qtAttUnits; s += "\""; s += unit; s += "\""; s += qtClosingBracket; s += qtN;
+        s += indent(6); s += x; s += " x "; s += y; s += unit; s += qtN;
+        s += indent(5); s += qtDimensionsEnd; s += qtN;
+    }
+    if(!condition.isEmpty())
+    {
+        s += indent(5); s += qtConditionBeg; s += qtN;
+        s += indent(6); s += condition; s += qtN;
+        s += indent(5); s += qtConditionEnd; s += qtN;
+    }
+    if(!ownership.isEmpty())
+    {
+        s += indent(5); s += qtProvenanceBeg; s += qtN;
+        s += indent(6); s += qtCorpnameBeg; s += qtN;
+        s += indent(7); s += ownership; s += qtN;
+        s += indent(6); s += qtCorpnameEnd; s += qtN;
+        s += indent(5); s += qtProvenanceEnd; s += qtN;
+    }
     s += indent(4); s += qtPhysdescriptionEnd; s += qtN;
-    s += indent(4); s += qtPhysicallocationBeg; s += qtN;
-    s += indent(5); s += location; s += qtN;
-    s += indent(4); s += qtPhysicallocationEnd; s += qtN;
-    s += indent(4); s += qtHandlistBeg; s += qtN;
-    s += indent(5); s += qtHandAttBeg; s += qtAttCharacter; s += "\""; s += handwriting; s += "\""; s += "/"; s += qtClosingBracket; s += qtN; // add additional attributes!!
-    s += indent(4); s += qtHandlistEnd; s += qtN;
+
+    if(!location.isEmpty())
+    {
+        s += indent(4); s += qtPhysicallocationBeg; s += qtN;
+        s += indent(5); s += location; s += qtN;
+        s += indent(4); s += qtPhysicallocationEnd; s += qtN;
+    }
+
+    if(!handwriting.isEmpty())
+    {
+        s += indent(4); s += qtHandlistBeg; s += qtN;
+        s += indent(5); s += qtHandAttBeg; s += qtAttCharacter; s += "\""; s += handwriting; s += "\""; s += "/"; s += qtClosingBracket; s += qtN; // add additional attributes!!
+        s += indent(4); s += qtHandlistEnd; s += qtN;
+
+    }
+
     s += indent(3); s += qtSourceEnd; s += qtN;
     s += indent(2); s += qtSourcedescriptionEnd;// s += qtN;
 
@@ -425,6 +475,21 @@ void MainWindow::onCreateSource()
     sourceFinishButton->setDisabled(false);
 
     sources.append(ID);
+
+    sourceIDLine->clear();
+    sourceAuthorLine->clear();
+    sourceTitleLine->clear();
+    sourcePhysicallocationLine->clear();
+    sourceOwnershipLine->clear();
+    sourceDateLine->clear();
+    sourcePubStatusLine->clear();
+    sourceMediumLine->clear();
+    sourceXLine->clear();
+    sourceYLine->clear();
+    sourceUnitLine->clear();
+    sourceConditionLine->clear();
+    sourceExtentLine->clear();
+    sourceHandwritingText->clear();
 }
 
 void MainWindow::onAddSource()
@@ -456,54 +521,108 @@ void MainWindow::onAddSource()
        s += indent(3); s += qtSourceAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
     }
 
-    s += indent(4); s += qtTitlestmtBeg; s += qtN;
-    s += indent(5); s += qtTitleBeg; s += qtN;
-    s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += qtT; s += title; s += qtN;
-    s += indent(5); s += qtTitleEnd; s += qtN;
-    s += indent(5); s += qtResponsibilityBeg; s += qtN;
-    s += indent(6); s += qtAgentBeg; s += qtN;
-    s += indent(7); s += author; s += qtN;
-    s += indent(6); s += qtAgentEnd; s += qtN;
-    s += indent(5); s += qtResponsibilityEnd; s += qtN;
-    s += indent(4); s += qtTitlestmtEnd; s += qtN;
+
+    if(!title.isEmpty() && !author.isEmpty())
+    {
+        s += indent(4); s += qtTitlestmtBeg; s += qtN;
+        s += indent(5); s += qtTitleBeg; s += qtN;
+        s += indent(6); s += title; s += qtN;
+        s += indent(5); s += qtTitleEnd; s += qtN;
+        s += indent(5); s += qtResponsibilityBeg; s += qtN;
+        s += indent(6); s += qtAgentBeg; s += qtN;
+        s += indent(7); s += author; s += qtN;
+        s += indent(6); s += qtAgentEnd; s += qtN;
+        s += indent(5); s += qtResponsibilityEnd; s += qtN;
+        s += indent(4); s += qtTitlestmtEnd; s += qtN;
+    }
+
+
     s += indent(4); s += qtPublicationBeg; s += qtN;
-    s += indent(5); s += qtPubstatusBeg; s += qtN;
-    s += indent(6); s += pubstatus; s += qtN;
-    s += indent(5); s += qtPubstatusEnd; s += qtN;
-    s += indent(5); s += qtDateBeg; s += qtN;
-    s += indent(6); s += date; s += qtN;
-    s += indent(5); s += qtDateEnd; s += qtN;
+    if(!pubstatus.isEmpty()){
+        s += indent(5); s += qtAvailabilityBeg; s += qtN;
+        s += indent(6); s += pubstatus; s += qtN;
+        s += indent(5); s += qtAvailabilityEnd; s += qtN;
+    }
+    if(!date.isEmpty())
+    {
+        s += indent(5); s += qtDateBeg; s += qtN;
+        s += indent(6); s += date; s += qtN;
+        s += indent(5); s += qtDateEnd; s += qtN;
+    }
     s += indent(4); s += qtPublicationEnd; s += qtN;
+
+
     s += indent(4); s += qtPhysdescriptionBeg; s += qtN;
-    s += indent(5); s += qtExtentBeg; s += qtN;
-    s += indent(6); s += extent; s += qtN;
-    s += indent(5); s += qtExtentEnd; s += qtN;
-    s += indent(5); s += qtPhysmediumBeg; s += qtN;
-    s += indent(6); s += medium; s += qtN;
-    s += indent(5); s += qtPhysmediumEnd; s += qtN;
-    s += indent(5); s += qtDimensionsAttBeg; s += qtAttUnits; s += "\""; s += unit; s += "\""; s += qtClosingBracket; s += qtN;
-    s += indent(6); s += x; s += " x "; s += y; s += unit; s += qtN;
-    s += indent(5); s += qtDimensionsEnd; s += qtN;
-    s += indent(5); s += qtConditionBeg; s += qtN;
-    s += indent(6); s += condition; s += qtN;
-    s += indent(5); s += qtConditionEnd; s += qtN;
-    s += indent(5); s += qtProvenanceBeg; s += qtN;
-    s += indent(6); s += qtCorpnameBeg; s += qtN;
-    s += indent(7); s += ownership; s += qtN; // add additional field in ui!!
-    s += indent(6); s += qtCorpnameEnd; s += qtN;
-    s += indent(5); s += qtProvenanceEnd; s += qtN;
+    if(!extent.isEmpty())
+    {
+        s += indent(5); s += qtExtentBeg; s += qtN;
+        s += indent(6); s += extent; s += qtN;
+        s += indent(5); s += qtExtentEnd; s += qtN;
+    }
+    if(!medium.isEmpty())
+    {
+        s += indent(5); s += qtPhysmediumBeg; s += qtN;
+        s += indent(6); s += medium; s += qtN;
+        s += indent(5); s += qtPhysmediumEnd; s += qtN;
+
+    }
+    if(!x.isEmpty())
+    {
+        s += indent(5); s += qtDimensionsAttBeg; s += qtAttUnits; s += "\""; s += unit; s += "\""; s += qtClosingBracket; s += qtN;
+        s += indent(6); s += x; s += " x "; s += y; s += unit; s += qtN;
+        s += indent(5); s += qtDimensionsEnd; s += qtN;
+    }
+    if(!condition.isEmpty())
+    {
+        s += indent(5); s += qtConditionBeg; s += qtN;
+        s += indent(6); s += condition; s += qtN;
+        s += indent(5); s += qtConditionEnd; s += qtN;
+    }
+    if(!ownership.isEmpty())
+    {
+        s += indent(5); s += qtProvenanceBeg; s += qtN;
+        s += indent(6); s += qtCorpnameBeg; s += qtN;
+        s += indent(7); s += ownership; s += qtN;
+        s += indent(6); s += qtCorpnameEnd; s += qtN;
+        s += indent(5); s += qtProvenanceEnd; s += qtN;
+    }
     s += indent(4); s += qtPhysdescriptionEnd; s += qtN;
-    s += indent(4); s += qtPhysicallocationBeg; s += qtN;
-    s += indent(5); s += location; s += qtN;
-    s += indent(4); s += qtPhysicallocationEnd; s += qtN;
-    s += indent(4); s += qtHandlistBeg; s += qtN;
-    s += indent(5); s += qtHandAttBeg; s += qtAttCharacter; s += "\""; s += handwriting; s += "\""; s += "/"; s += qtClosingBracket; s += qtN; // add additional attributes!!
-    s += indent(4); s += qtHandlistEnd; s += qtN;
+
+    if(!location.isEmpty())
+    {
+        s += indent(4); s += qtPhysicallocationBeg; s += qtN;
+        s += indent(5); s += location; s += qtN;
+        s += indent(4); s += qtPhysicallocationEnd; s += qtN;
+    }
+
+    if(!handwriting.isEmpty())
+    {
+        s += indent(4); s += qtHandlistBeg; s += qtN;
+        s += indent(5); s += qtHandAttBeg; s += qtAttCharacter; s += "\""; s += handwriting; s += "\""; s += "/"; s += qtClosingBracket; s += qtN; // add additional attributes!!
+        s += indent(4); s += qtHandlistEnd; s += qtN;
+
+    }
+
     s += indent(3); s += qtSourceEnd; s += qtN;
 
     mainTextEdit->textCursor().insertText(s);
 
     sources.push_back(ID);
+
+    sourceIDLine->clear();
+    sourceAuthorLine->clear();
+    sourceTitleLine->clear();
+    sourcePhysicallocationLine->clear();
+    sourceOwnershipLine->clear();
+    sourceDateLine->clear();
+    sourcePubStatusLine->clear();
+    sourceMediumLine->clear();
+    sourceXLine->clear();
+    sourceYLine->clear();
+    sourceUnitLine->clear();
+    sourceConditionLine->clear();
+    sourceExtentLine->clear();
+    sourceHandwritingText->clear();
 }
 
 void MainWindow::onFinishSource()
@@ -541,6 +660,11 @@ void MainWindow::onCreateStaff()
     QString linecount = staffLinecountLine->text();
     QString mode = staffModeToolbutton->text();
     QString linecolor = staffLinecolorToolbutton->text();
+
+    if(linecount.isEmpty())
+    {
+        linecount = "0";
+    }
 
     QString s;
 
@@ -597,6 +721,11 @@ void MainWindow::onCreateStaff()
 
     connect(staffCreateButton, &QPushButton::clicked, this, &MainWindow::onAddStaff);
     disconnect(staffCreateButton, &QPushButton::clicked, this, &MainWindow::onCreateStaff);
+
+    staffIDLine->clear();
+    staffLinecountLine->clear();
+    staffModeToolbutton->setText("");
+    staffLinecolorToolbutton->setText("");
 }
 
 void MainWindow::onAddStaff()
@@ -607,6 +736,11 @@ void MainWindow::onAddStaff()
     QString linecount = staffLinecountLine->text();
     QString mode = staffModeToolbutton->text();
     QString linecolor = staffLinecolorToolbutton->text();
+
+    if(linecount.isEmpty())
+    {
+        linecount = "0";
+    }
 
     QString s;
 
@@ -645,6 +779,11 @@ void MainWindow::onAddStaff()
     mainTextEdit->setTextCursor(cursor);
 
     staffs.push_back(ID);
+
+    staffIDLine->clear();
+    staffLinecountLine->clear();
+    staffModeToolbutton->setText("");
+    staffLinecolorToolbutton->setText("");
 }
 
 void MainWindow::onAddclefStaff()
@@ -656,11 +795,21 @@ void MainWindow::onAddclefStaff()
     QString s;
 
     s += indent(8); s += qtClefAttBeg;
-    s += qtAttLine; s += "\""; s += line; s += "\"";
-    s += qtAttShape; s += "\""; s += shape; s += "\"";
-    s += qtClosingBracket; s += qtN;
+
+    if(!line.isEmpty())
+    {
+        s += qtAttLine; s += "\""; s += line; s += "\"";
+    }
+    if(!shape.isEmpty())
+    {
+        s += qtAttShape; s += "\""; s += shape; s += "\"";
+    }
+    s += "/"; s += qtClosingBracket; s += qtN;
 
     mainTextEdit->textCursor().insertText(s);
+
+    staffCleflineLine->clear();
+    staffClefshapeLine->clear();
 }
 
 void MainWindow::onAddNewStaff()
@@ -721,7 +870,7 @@ void MainWindow::onCreateSyllable()
         s += indent(7); s += qtSbAttBeg; s += qtAttN; s += "\""; s += line; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
     }
     if(!comment.isEmpty()){
-        s += indent(7); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+        s += indent(7); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
         s += indent(8); s += qtParagraphBeg; s+= qtN;
         s += indent(9); s += comment; s+= qtN;
         s += indent(8); s += qtParagraphEnd; s+= qtN;
@@ -729,7 +878,7 @@ void MainWindow::onCreateSyllable()
     }
     if(!type.isEmpty()){
         s += indent(7); s += qtSyllableAttBeg;
-        s += qtAttType;  s += "\""; s += type; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+        s += qtAttType;  s += "\""; s += type; s += "\""; s += qtClosingBracket; s+= qtN;
     }
     else {
         s += indent(7); s += qtSyllableBeg; s+= qtN;
@@ -763,8 +912,21 @@ void MainWindow::onCreateSyllable()
 
     if(sources.size() > 1)
     {
-        sylVariantButton->setDisabled(false);
+        pitchAddVariantButton->setDisabled(false);
     }
+
+    sylSourceToolbutton->setDisabled(true);
+
+    sylFormerStaff = sylCurrentStaff;
+
+    connect(up, &QShortcut::activated, this, &MainWindow::onUp);
+    connect(down, &QShortcut::activated, this, &MainWindow::onDown);
+
+    sylPageLine->clear();
+    sylLineLine->clear();
+    sylSyllableLine->clear();
+    sylCommentText->clear();
+    sylTypeToolbutton->setText("");
 }
 
 void MainWindow::onAddSyllable()
@@ -777,6 +939,30 @@ void MainWindow::onAddSyllable()
 
     QString s;
 
+    if(sylCurrentStaff.compare(sylFormerStaff))
+    {
+        QTextCursor cursor = mainTextEdit->textCursor();
+        cursor.setPosition(cursor.position()+15);
+        mainTextEdit->setTextCursor(cursor);
+
+        s += indent(6); s += qtStaffAttBeg;
+        s += qtAttSource; s += "\""; s += sylCurrentSource; s += "\"";
+        s += qtAttDef; s += "\""; s += sylCurrentStaff; s += "\"";
+        s += qtClosingBracket; s += qtN;
+
+        sylFormerStaff = sylCurrentStaff;
+
+        s += indent(6); s += qtStaffEnd; s += qtN;
+
+        mainTextEdit->textCursor().insertText(s);
+
+        cursor = mainTextEdit->textCursor();
+        cursor.setPosition(cursor.position()-15);
+        mainTextEdit->setTextCursor(cursor);
+
+        s.clear();
+    }
+
     if(!page.isEmpty()){
         s += indent(7); s += qtPbAttBeg; s += qtAttN; s += "\""; s += page; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
     }
@@ -784,7 +970,7 @@ void MainWindow::onAddSyllable()
         s += indent(7); s += qtSbAttBeg; s += qtAttN; s += "\""; s += line; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
     }
     if(!comment.isEmpty()){
-        s += indent(7); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+        s += indent(7); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
         s += indent(8); s += qtParagraphBeg; s+= qtN;
         s += indent(9); s += comment; s+= qtN;
         s += indent(8); s += qtParagraphEnd; s+= qtN;
@@ -792,7 +978,7 @@ void MainWindow::onAddSyllable()
     }
     if(!type.isEmpty()){
         s += indent(7); s += qtSyllableAttBeg;
-        s += qtAttType;  s += "\""; s += type; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+        s += qtAttType;  s += "\""; s += type; s += "\""; s += qtClosingBracket; s+= qtN;
     }
     else {
         s += indent(7); s += qtSyllableBeg; s+= qtN;
@@ -820,8 +1006,14 @@ void MainWindow::onAddSyllable()
 
     if(sources.size() > 1)
     {
-        sylVariantButton->setDisabled(false);
+        pitchAddVariantButton->setDisabled(false);
     }
+
+    sylPageLine->clear();
+    sylLineLine->clear();
+    sylSyllableLine->clear();
+    sylCommentText->clear();
+    sylTypeToolbutton->setText("");
 }
 
 void MainWindow::onAddVariant()
@@ -832,11 +1024,7 @@ void MainWindow::onAddVariant()
     tabWidget->removeTab(tabWidget->currentIndex());
     varSourceLabel->setText(sources[varCounter]);
 
-    sylVariantButton->setDisabled(true);
-
-    QTextCursor cursor = mainTextEdit->textCursor();
-    cursor.setPosition(cursor.position()-36);
-    mainTextEdit->setTextCursor(cursor);
+    pitchAddVariantButton->setDisabled(true);
 }
 
 void MainWindow::onFinishSyllable()
@@ -846,7 +1034,7 @@ void MainWindow::onFinishSyllable()
     sylSaveButton->setDisabled(false);
 
     sylCreateButton->setDisabled(true);
-    sylVariantButton->setDisabled(true);
+    pitchAddVariantButton->setDisabled(true);
     sylFinishButton->setDisabled(true);
 }
 
@@ -886,22 +1074,52 @@ void MainWindow::onAddPitch()
         intm = *qtU;
     }
 
+    if(connection.compare("loop") == 0)
+    {
+        connection = *qtL;
+    }
+    if(connection.compare("gapped") == 0)
+    {
+        connection = *qtG;
+    }
+    if(connection.compare("extended") == 0)
+    {
+        connection = *qtE;
+    }
+
     QString s;
 
     if(!comment.isEmpty()){
-        s += indent(9); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+        s += indent(9); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
         s += indent(10); s += qtParagraphBeg; s+= qtN;
         s += indent(11); s += comment; s+= qtN;
         s += indent(10); s += qtParagraphEnd; s+= qtN;
         s += indent(9); s += qtAnnotEnd; s+= qtN;
     }
     s += indent(9); s += qtNcAttBeg;
-    s += qtAttOct; s += "\""; s += octave; s += "\"";
-    s += qtAttPname; s += "\""; s += pitch; s += "\"";
-    s += qtAttIntm; s += "\""; s += intm; s += "\"";
-    s += qtAttConnection; s += "\""; s += connection; s += "\"";
-    s += qtAttTilt; s += "\""; s += tilt; s += "\"";
-    s += qtClosingBracket; s += qtN;
+
+    if(!octave.isEmpty())
+    {
+        s += qtAttOct; s += "\""; s += octave; s += "\"";
+    }
+
+    if(!pitch.isEmpty())
+    {
+        s += qtAttPname; s += "\""; s += pitch; s += "\"";
+    }
+    if(!intm.isEmpty())
+    {
+        s += qtAttIntm; s += "\""; s += intm; s += "\"";
+    }
+    if(!connection.isEmpty())
+    {
+        s += qtAttConnection; s += "\""; s += connection; s += "\"";
+    }
+    if(!tilt.isEmpty())
+    {
+        s += qtAttTilt; s += "\""; s += tilt; s += "\"";
+    }
+    s += "/"; s += qtClosingBracket; s += qtN;
 
     mainTextEdit->textCursor().insertText(s);
 
@@ -922,6 +1140,13 @@ void MainWindow::onAddPitch()
 
     renderWidget->currentSegment->addNote(n);
     renderWidget->update();
+
+    pitchPitchToolbutton->setText("");
+    pitchOctaveToolbutton->setText("");
+    pitchCommentText->clear();
+    pitchPreviousToolbutton->setText("");
+    pitchConnectionToolbutton->setText("");
+    pitchTiltToolbutton->setText("");
 }
 
 void MainWindow::onFinishPitch()
@@ -935,7 +1160,6 @@ void MainWindow::onFinishPitch()
     cursor.setPosition(cursor.position()+36);
     mainTextEdit->setTextCursor(cursor);
 
-    //renderWidget->addSegment(segment);
     renderWidget->update();
 }
 
@@ -951,6 +1175,32 @@ void MainWindow::onVarAddpitch()
     QString connection = varConnectionToolbutton->text();
     QString tilt = varTiltToolbutton->text();
 
+    if(intm.compare("same") == 0)
+    {
+        intm = *qtS;
+    }
+    if(intm.compare("went down from previous") == 0)
+    {
+        intm = *qtD;
+    }
+    if(intm.compare("went up from previous") == 0)
+    {
+        intm = *qtU;
+    }
+
+    if(connection.compare("loop") == 0)
+    {
+        connection = *qtL;
+    }
+    if(connection.compare("gapped") == 0)
+    {
+        connection = *qtG;
+    }
+    if(connection.compare("extended") == 0)
+    {
+        connection = *qtE;
+    }
+
     if(varSourceLabel->text().compare(sources[0]) == 0)
     {
         s += indent(9); s += qtAppBeg; s += qtN;
@@ -958,7 +1208,7 @@ void MainWindow::onVarAddpitch()
 
         if(!comment.isEmpty())
         {
-            s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+            s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
             s += indent(12); s += qtParagraphBeg; s+= qtN;
             s += indent(13); s += comment; s+= qtN;
             s += indent(12); s += qtParagraphEnd; s+= qtN;
@@ -966,12 +1216,28 @@ void MainWindow::onVarAddpitch()
         }
 
         s += indent(11); s += qtNcAttBeg;
-        s += qtAttOct; s += "\""; s += octave; s += "\"";
-        s += qtAttPname; s += "\""; s += pitch; s += "\"";
-        s += qtAttIntm; s += "\""; s += intm; s += "\"";
-        s += qtAttConnection; s += "\""; s += connection; s += "\"";
-        s += qtAttTilt; s += "\""; s += tilt; s += "\"";
-        s += qtClosingBracket; s += qtN;
+        if(!octave.isEmpty())
+        {
+            s += qtAttOct; s += "\""; s += octave; s += "\"";
+        }
+
+        if(!pitch.isEmpty())
+        {
+            s += qtAttPname; s += "\""; s += pitch; s += "\"";
+        }
+        if(!intm.isEmpty())
+        {
+            s += qtAttIntm; s += "\""; s += intm; s += "\"";
+        }
+        if(!connection.isEmpty())
+        {
+            s += qtAttConnection; s += "\""; s += connection; s += "\"";
+        }
+        if(!tilt.isEmpty())
+        {
+            s += qtAttTilt; s += "\""; s += tilt; s += "\"";
+        }
+        s += "/"; s += qtClosingBracket; s += qtN;
         s += indent(10); s += qtRdgEnd; s += qtN;
         s += indent(9); s += qtAppEnd; s += qtN;
 
@@ -1009,7 +1275,7 @@ void MainWindow::onVarAddpitch()
 
         if(!comment.isEmpty())
         {
-            s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+            s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
             s += indent(12); s += qtParagraphBeg; s+= qtN;
             s += indent(13); s += comment; s+= qtN;
             s += indent(12); s += qtParagraphEnd; s+= qtN;
@@ -1017,12 +1283,28 @@ void MainWindow::onVarAddpitch()
         }
 
         s += indent(11); s += qtNcAttBeg;
-        s += qtAttOct; s += "\""; s += octave; s += "\"";
-        s += qtAttPname; s += "\""; s += pitch; s += "\"";
-        s += qtAttIntm; s += "\""; s += intm; s += "\"";
-        s += qtAttConnection; s += "\""; s += connection; s += "\"";
-        s += qtAttTilt; s += "\""; s += tilt; s += "\"";
-        s += qtClosingBracket; s += qtN;
+        if(!octave.isEmpty())
+        {
+            s += qtAttOct; s += "\""; s += octave; s += "\"";
+        }
+
+        if(!pitch.isEmpty())
+        {
+            s += qtAttPname; s += "\""; s += pitch; s += "\"";
+        }
+        if(!intm.isEmpty())
+        {
+            s += qtAttIntm; s += "\""; s += intm; s += "\"";
+        }
+        if(!connection.isEmpty())
+        {
+            s += qtAttConnection; s += "\""; s += connection; s += "\"";
+        }
+        if(!tilt.isEmpty())
+        {
+            s += qtAttTilt; s += "\""; s += tilt; s += "\"";
+        }
+        s += "/"; s += qtClosingBracket; s += qtN;
         s += indent(10); s += qtRdgEnd; s += qtN;
 
         connect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch2);
@@ -1048,6 +1330,13 @@ void MainWindow::onVarAddpitch()
         renderWidget->currentSegment->addNote(n);
         renderWidget->update();
     }
+
+    varPitchToolbutton->setText("");
+    varOctaveToolbutton->setText("");
+    varCommentText->clear();
+    varPreviousToolbutton->setText("");
+    varConnectionToolbutton->setText("");
+    varTiltToolbutton->setText("");
 }
 
 void MainWindow::onVarAddpitch2()
@@ -1060,9 +1349,35 @@ void MainWindow::onVarAddpitch2()
     QString connection = varConnectionToolbutton->text();
     QString tilt = varTiltToolbutton->text();
 
+    if(intm.compare("same") == 0)
+    {
+        intm = *qtS;
+    }
+    if(intm.compare("went down from previous") == 0)
+    {
+        intm = *qtD;
+    }
+    if(intm.compare("went up from previous") == 0)
+    {
+        intm = *qtU;
+    }
+
+    if(connection.compare("loop") == 0)
+    {
+        connection = *qtL;
+    }
+    if(connection.compare("gapped") == 0)
+    {
+        connection = *qtG;
+    }
+    if(connection.compare("extended") == 0)
+    {
+        connection = *qtE;
+    }
+
     if(!comment.isEmpty())
     {
-        s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+        s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
         s += indent(12); s += qtParagraphBeg; s+= qtN;
         s += indent(13); s += comment; s+= qtN;
         s += indent(12); s += qtParagraphEnd; s+= qtN;
@@ -1070,12 +1385,28 @@ void MainWindow::onVarAddpitch2()
     }
 
     s += indent(11); s += qtNcAttBeg;
-    s += qtAttOct; s += "\""; s += octave; s += "\"";
-    s += qtAttPname; s += "\""; s += pitch; s += "\"";
-    s += qtAttIntm; s += "\""; s += intm; s += "\"";
-    s += qtAttConnection; s += "\""; s += connection; s += "\"";
-    s += qtAttTilt; s += "\""; s += tilt; s += "\"";
-    s += qtClosingBracket; s += qtN;
+    if(!octave.isEmpty())
+    {
+        s += qtAttOct; s += "\""; s += octave; s += "\"";
+    }
+
+    if(!pitch.isEmpty())
+    {
+        s += qtAttPname; s += "\""; s += pitch; s += "\"";
+    }
+    if(!intm.isEmpty())
+    {
+        s += qtAttIntm; s += "\""; s += intm; s += "\"";
+    }
+    if(!connection.isEmpty())
+    {
+        s += qtAttConnection; s += "\""; s += connection; s += "\"";
+    }
+    if(!tilt.isEmpty())
+    {
+        s += qtAttTilt; s += "\""; s += tilt; s += "\"";
+    }
+    s += "/"; s += qtClosingBracket; s += qtN;
 
     mainTextEdit->textCursor().insertText(s);
 
@@ -1096,12 +1427,17 @@ void MainWindow::onVarAddpitch2()
 
     renderWidget->currentSegment->addNote(n);
     renderWidget->update();
+
+    varPitchToolbutton->setText("");
+    varOctaveToolbutton->setText("");
+    varCommentText->clear();
+    varPreviousToolbutton->setText("");
+    varConnectionToolbutton->setText("");
+    varTiltToolbutton->setText("");
 }
 
 void MainWindow::onVarNext()
 {
-    //varCounter++;
-
     varPitchToolbutton->setText("");
     varOctaveToolbutton->setText("");
     varConnectionToolbutton->setText("");
@@ -1180,21 +1516,22 @@ void MainWindow::onVarNext2()
         mainTextEdit->textCursor().insertText(s);
 
         QTextCursor cursor = mainTextEdit->textCursor();
-        cursor.setPosition(cursor.position()+52);
+        cursor.setPosition(cursor.position()+16);
         mainTextEdit->setTextCursor(cursor);
 
     }
     else
     {
         QTextCursor cursor = mainTextEdit->textCursor();
-        cursor.setPosition(cursor.position()+69);
+        cursor.setPosition(cursor.position()+33
+                           );
         mainTextEdit->setTextCursor(cursor);
 
     }
 
 
-    QString *syllable = new QString("Syllable");
-    tabWidget->addTab(sylTab, *syllable);
+    QString *pitch = new QString("Pitch");
+    tabWidget->addTab(pitchTab, *pitch);
     tabWidget->removeTab(tabWidget->currentIndex());
 
     disconnect(varNextButton, &QPushButton::clicked, this, &MainWindow::onVarNext2);
@@ -1215,7 +1552,6 @@ void MainWindow::onSelectSource()
 
     if(!sylCurrentSource.isEmpty() && !sylCurrentStaff.isEmpty()){
         sylCreateButton->setDisabled(false);
-        //sylAddButton->setDisabled(false);
     }
 }
 
@@ -1228,7 +1564,6 @@ void MainWindow::onSelectStaff()
 
     if(!sylCurrentSource.isEmpty() && !sylCurrentStaff.isEmpty()){
         sylCreateButton->setDisabled(false);
-        //sylAddButton->setDisabled(false);
     }
 }
 
@@ -1314,6 +1649,7 @@ void MainWindow::sourcesToActions()
         sourcesMenu->addAction(action);
     }
 
+    sourcesMenu->setMinimumWidth(sylSourceToolbutton->width());
     sylSourceToolbutton->setMenu(sourcesMenu);
 }
 
@@ -1328,6 +1664,7 @@ void MainWindow::staffsToActions()
         staffMenu->addAction(action);
     }
 
+    staffMenu->setMinimumWidth(sylStaffToolbutton->width());
     sylStaffToolbutton->setMenu(staffMenu);
 }
 
@@ -1418,4 +1755,15 @@ void MainWindow::blankToActions(QMenu *menu, QList<QString*> list, void(MainWind
         menu->setMinimumWidth(buttons[i]->width());
         buttons[i]->setMenu(menu);
     }
+}
+void MainWindow::onUp()
+{
+    renderWidget->increaseInitY();
+    renderWidget->update();
+}
+
+void MainWindow::onDown()
+{
+     renderWidget->decreaseInitY();
+     renderWidget->update();
 }

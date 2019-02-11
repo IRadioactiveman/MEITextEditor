@@ -13,8 +13,8 @@ public:
     void setSyllable(string syl);
     void addNote(Note *n);
     vector<Note*> getNotes();
-    vector<float> getNoteValues();
     int  getLength();
+    string getSyllable();
 
 private:
     string syllable;

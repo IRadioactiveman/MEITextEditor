@@ -8,6 +8,9 @@ RenderSegment::RenderSegment(Segment *s)
     lineVBO.create();
     pointVBO.create();
 
+    //textVertexVBO.create();
+    //textUvVBO.create();
+
     initializePoint();
     seg = s;
 
@@ -18,6 +21,9 @@ RenderSegment::~RenderSegment()
 {
     lineVBO.destroy();
     pointVBO.destroy();
+
+    //textVertexVBO.destroy();
+    //textUvVBO.destroy();
 }
 
 void RenderSegment::addSeg(Segment *s)
@@ -25,8 +31,94 @@ void RenderSegment::addSeg(Segment *s)
     seg = s;
 }
 
-void RenderSegment::draw(QOpenGLShaderProgram *program, float x, float y, float *newX, float *newY)
+void RenderSegment::renderText(const char *text, float x, float y, int size, QOpenGLShaderProgram *program, QOpenGLTexture *texture)
 {
+    unsigned int length = strlen(text);
+
+    vector<QVector3D> vertices;
+    vector<QVector2D> uvs;
+
+    for(unsigned int i = 0; i < length; i++)
+    {
+        QVector3D vertexUL = QVector3D(x+i*size , y+size, 0.0f);
+        QVector3D vertexUR = QVector3D(x+i*size+size , y+size, 0.0f);
+        QVector3D vertexDL = QVector3D(x+i*size+size , y, 0.0f);
+        QVector3D vertexDR = QVector3D(x+i*size , y, 0.0f);
+
+        vertices.push_back(vertexUL);
+        vertices.push_back(vertexDL);
+        vertices.push_back(vertexUR);
+
+        vertices.push_back(vertexDR);
+        vertices.push_back(vertexUR);
+        vertices.push_back(vertexDL);
+
+        char character = text[i];
+
+        float uvX = (character%16)/16.0f;
+        float uvY = (character/16)/16.0f;
+
+        QVector2D uvUL = QVector2D(uvX, uvY);
+        QVector2D uvUR = QVector2D(uvX+1.0f/16.0f, uvY);
+        QVector2D uvDL = QVector2D(uvX+1.0f/16.0f, (uvY+1.0f/16.0f));
+        QVector2D uvDR = QVector2D(uvX, (uvY+1.0f/16.0f));
+
+        uvs.push_back(uvUL);
+        uvs.push_back(uvDL);
+        uvs.push_back(uvUR);
+
+        uvs.push_back(uvDR);
+        uvs.push_back(uvUR);
+        uvs.push_back(uvDL);
+    }
+
+    textVertexVBO.bind();
+    textVertexVBO.allocate(&vertices, vertices.size() * sizeof (QVector3D));
+
+    textUvVBO.bind();
+    textUvVBO.allocate(&uvs, uvs.size() * sizeof (QVector2D));
+
+    program->bind();
+
+    glActiveTexture(GL_TEXTURE0);
+
+    texture->bind();
+
+    program->setUniformValue("myTextureSampler", 0);
+
+    int position = program->attributeLocation("vertexPosition");
+    program->enableAttributeArray(position);
+    program->setAttributeBuffer(position, GL_FLOAT, 0, 3, 0);
+
+    int uv = program->attributeLocation("vertexUv");
+    program->enableAttributeArray(uv);
+    program->setAttributeBuffer(uv, GL_FLOAT, 0, 2, 0);
+
+    QMatrix4x4 model;
+    model.translate(x, y, -5.0f);
+    program->setUniformValue("model", model);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
+    glDisable(GL_BLEND);
+
+    program->disableAttributeArray(position);
+    program->disableAttributeArray(uv);
+
+    program->release();
+    textVertexVBO.release();
+    textUvVBO.release();
+}
+
+void RenderSegment::draw(QOpenGLShaderProgram *program, QOpenGLShaderProgram *textProgram, QOpenGLTexture *texture, float x, float y, float *newX, float *newY)
+{   
+    //renderText(seg->getSyllable().c_str(), x, y, 20, textProgram, texture);
+
+    program->bind();
+
     int position = program->attributeLocation("vertexPosition");
     program->enableAttributeArray(position);
     program->setAttributeBuffer(position, GL_FLOAT, 0, 3, 0);
@@ -52,9 +144,13 @@ void RenderSegment::draw(QOpenGLShaderProgram *program, float x, float y, float 
             counter++;
         }
 
+        model.translate(x + stride * i + xOffset, y + yOffset, -5.0f);
+        program->setUniformValue("model", model);
+        glDrawArrays(GL_LINES, 0, 10);
+        model.setToIdentity();
+
         translateNoteValue(n[i]);
 
-        pointVBO.bind();
         if(n[i]->getPitch().compare("undefined") == 0)
         {
             program->setUniformValue("color", QVector3D(1.0, 0.0, 0.0));
@@ -83,14 +179,17 @@ void RenderSegment::draw(QOpenGLShaderProgram *program, float x, float y, float 
         program->setUniformValue("color", QVector3D(0.0, 0.0, 0.0));
         model.setToIdentity();
 
-        lineVBO.bind();
-        model.translate(x + stride * i + xOffset, y + yOffset, -5.0f);
-        program->setUniformValue("model", model);
-        glDrawArrays(GL_LINES, 0, 10);
-        model.setToIdentity();
-
         previousNote = n[i];
     }
+
+    model.translate(x, y + 0.8f, -5.0f);
+    program->setUniformValue("model", model);
+    program->setUniformValue("color", QVector3D(1.0, 0.0, 1.0));
+    glDrawArrays(GL_POINTS, 0, 1);
+    program->setUniformValue("color", QVector3D(0.0, 0.0, 0.0));
+    model.setToIdentity();
+
+    program->disableAttributeArray(position);
 
     *newX = x + stride * i + xOffset;
     *newY = y + yOffset;
