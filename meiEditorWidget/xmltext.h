@@ -19,7 +19,7 @@ static const char *meiAttLine = " line=";
 static const char *meiAttShape = " shape=";
 static const char *meiAttDef = " def=";
 static const char *meiAttSource = " source=";
-static const char *meiAttUnits = " units=";
+static const char *meiAttUnits = " unit=";
 static const char *meiAttLabel = " label=";
 static const char *meiAttCharacter = " character=";
 static const char *meiAttType = " type=";
@@ -76,6 +76,7 @@ static const char *meiNorthwest = "nw";
 static const char *meiSoutheast = "se";
 static const char *meiSouthwest = "sw";
 
+static const char *mei0 = "0";
 static const char *mei1 = "1";
 static const char *mei2 = "2";
 static const char *mei3 = "3";
@@ -105,7 +106,14 @@ static const char *meiTristopha = "tristropha";
 static const char *meiVirga = "virga";
 static const char *meiVirgastrata = "virgastrata";
 
-static const char *meiTextBeg = "<mei>";
+static const char *meiClefC = "C";
+static const char *meiClefF = "F";
+static const char *meiClefG = "G";
+static const char *meiClefGG = "GG";
+static const char *meiClefPerc = "perc";
+static const char *meiClefTab = "TAB";
+
+static const char *meiTextBeg = "<mei xmlns=\"http://www.music-encoding.org/ns/mei\" meiversion=\"4.0.0\">";
 static const char *meiTextEnd = "</mei>";
 
 static const char *meiHeaderBeg = "<meiHead>";
@@ -129,8 +137,8 @@ static const char *meiPublicationEnd = "</pubStmt>";
 static const char *meiAvailabilityBeg = "<availability>";
 static const char *meiAvailabilityEnd = "</availability>";
 
-static const char *meiUserestrictBeg = "<userestrict>";
-static const char *meiUserestrictEnd = "</userestrict>";
+static const char *meiUserestrictBeg = "<useRestrict>";
+static const char *meiUserestrictEnd = "</useRestrict>";
 
 static const char *meiFiledescriptionBeg = "<fileDesc>";
 static const char *meiFiledescriptionEnd = "</fileDesc>";
@@ -280,5 +288,48 @@ static const char *meiPersnameEnd = "</persName>";
 
 static const char *meiWorkdescBeg = "<workDesc>";
 static const char *meiWorkdescEnd = "</workDesc>";
+
+static const char *meiManifestationBeg = "<manifestation>";
+static const char *meiManifestationEnd = "</manifestation>";
+static const char *meiManifestationAttBeg = "<manifestation";
+
+static const char *meiEncodingDescBeg = "<encodingDesc>";
+static const char *meiEncodingDescEnd = "</encodingDesc>";
+
+static const char *meiManifestationListBeg = "<manifestationList>";
+static const char *meiManifestationListEnd = "</manifestationList>";
+
+static const char *meiHistoryBeg = "<history>";
+static const char *meiHistoryEnd = "</history>";
+
+static const char *meiLayerBeg = "<layer>";
+static const char *meiLayerEnd = "</layer>";
+
+static const char *meiRepositoryBeg = "<repository>";
+static const char *meiRepositoryEnd = "</repository>";
+
+static const char *meiAddBeg = "<add>";
+static const char *meiAddEnd = "</add>";
+
+static const char *meiClassificationBeg = "<classification>";
+static const char *meiClassificationEnd = "</classification>";
+
+static const char *meiTermListBeg = "<termList>";
+static const char *meiTermListEnd = "</termList>";
+
+static const char *meiBodyBeg = "<body>";
+static const char *meiBodyEnd = "</body>";
+
+static const char *meiComponentListBeg = "<componentList>";
+static const char *meiComponentListEnd = "</componentList>";
+
+static const char *meiItemBeg = "<item>";
+static const char *meiItemEnd = "</item>";
+
+static const char *meiBiblListBeg = "<biblList>";
+static const char *meiBiblListEnd = "</biblList>";
+
+static const char *meiBiblBeg = "<bibl>";
+static const char *meiBiblEnd = "</bibl>";
 
 #endif // XMLTEXT_H

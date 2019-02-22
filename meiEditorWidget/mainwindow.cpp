@@ -34,7 +34,7 @@ void MainWindow::setup()
 {
     ui->setupUi(this);
 
-    ui->adjustByHand->setDisabled(true);
+    //ui->adjustByHand->setDisabled(true);
 
     readOnly = true;
 
@@ -53,7 +53,6 @@ void MainWindow::setup()
     titleLine = metaTab->findChild<QLineEdit*>("titleLine");
     composerLine = metaTab->findChild<QLineEdit*>("composerLine");
     authorLine1 = metaTab->findChild<QLineEdit*>("authorLine1");
-    languageLine = metaTab->findChild<QLineEdit*>("languageLine");
     availabilityText = metaTab->findChild<QTextEdit*>("availabilityText");
     commentsText = metaTab->findChild<QTextEdit*>("commentsText");
 
@@ -71,6 +70,7 @@ void MainWindow::setup()
     sourceUnitLine = sourcesTab->findChild<QLineEdit*>("sourceUnitLine");
     sourceConditionLine = sourcesTab->findChild<QLineEdit*>("sourceConditionLine");
     sourceExtentLine = sourcesTab->findChild<QLineEdit*>("sourceExtentLine");
+    sourceLanguageLine = sourcesTab->findChild<QLineEdit*>("sourceLanguageLine");
     sourceHandwritingText = sourcesTab->findChild<QTextEdit*>("sourceStyleText");
     sourceCreateButton = sourcesTab->findChild<QPushButton*>("sourceCreateButton");
     sourceAddButton = sourcesTab->findChild<QPushButton*>("sourceAddButton");
@@ -86,9 +86,9 @@ void MainWindow::setup()
 
     staffTab = ui->tabWidget->widget(2);
     staffIDLine = staffTab->findChild<QLineEdit*>("staffIDLine");
-    staffLinecountLine = staffTab->findChild<QLineEdit*>("staffLinecountLine");
-    staffCleflineLine = staffTab->findChild<QLineEdit*>("staffCleflineLine");
-    staffClefshapeLine = staffTab->findChild<QLineEdit*>("staffClefshapeLine");
+    staffLinecountToolbutton = staffTab->findChild<QToolButton*>("staffLinecountToolbutton");
+    staffCleflineToolbutton = staffTab->findChild<QToolButton*>("staffCleflineToolbutton");
+    staffClefshapeToolbutton = staffTab->findChild<QToolButton*>("staffClefshapeToolbutton");
     staffCreateButton = staffTab->findChild<QPushButton*>("staffCreateButton");
     staffAddclefButton = staffTab->findChild<QPushButton*>("staffAddclefButton");
     staffFinishButton = staffTab->findChild<QPushButton*>("staffFinishButton");
@@ -101,6 +101,8 @@ void MainWindow::setup()
 
     staffAdded = false;
 
+    staffCleflineToolbutton->setDisabled(true);
+    staffClefshapeToolbutton->setDisabled(true);
     staffAddclefButton->setDisabled(true);
     staffFinishButton->setDisabled(true);
     staffNewstaffButton->setDisabled(true);
@@ -180,6 +182,7 @@ void MainWindow::setup()
     colorsToActions();
 
     numbers.push_back(new QString(""));
+    numbers.push_back(qt0);
     numbers.push_back(qt1);
     numbers.push_back(qt2);
     numbers.push_back(qt3);
@@ -235,6 +238,15 @@ void MainWindow::setup()
     connections.push_back(qtExtended);
     connectionsToActions();
 
+    clefs.push_back(new QString(""));
+    clefs.push_back(qtClefC);
+    clefs.push_back(qtClefF);
+    clefs.push_back(qtClefG);
+    clefs.push_back(qtClefGG);
+    clefs.push_back(qtClefPerc);
+    clefs.push_back(qtClefTab);
+    clefsToActions();
+
     tabWidget->removeTab(1);
     tabWidget->removeTab(1);
     tabWidget->removeTab(1);
@@ -255,7 +267,6 @@ void MainWindow::onMeta()
     QString composer = composerLine->text();
     QString author = authorLine1->text();
     QStringList authors = author.split(",");
-    QString language = languageLine->text();
     QString availability = availabilityText->toPlainText();
     QString comments = commentsText->toPlainText();
     QString s;
@@ -273,11 +284,9 @@ void MainWindow::onMeta()
         s += indent(4); s += qtTitleBeg; s += qtN;
         s += indent(5); s += title; s += qtN;
         s += indent(4); s += qtTitleEnd; s += qtN;
-        s += indent(4); s += qtResponsibilityBeg; s += qtN;
-        s += indent(5); s += qtAgentBeg; s += qtN;
-        s += indent(6);  s += composer; s += qtN;
-        s += indent(5); s += qtAgentEnd; s += qtN;
-        s += indent(4); s += qtResponsibilityEnd; s += qtN;
+        s += indent(4); s += qtAgentBeg; s += qtN;
+        s += indent(5);  s += composer; s += qtN;
+        s += indent(4); s += qtAgentEnd; s += qtN;
         s += indent(3); s += qtTitlestmtEnd; s += qtN;
     }
 
@@ -307,28 +316,19 @@ void MainWindow::onMeta()
 
     if(!comments.isEmpty())
     {
-        s += indent(2); s += qtEditorialdeclarationBeg; s += qtN;
-        s += indent(3); s += qtParagraphBeg; s += qtN;
-        s += indent(4); s += comments; s += qtN;
-        s += indent(3); s += qtParagraphEnd; s += qtN;
-        s += indent(2); s += qtEditorialdeclarationEnd; s += qtN;
-
-    }
-
-    if(!language.isEmpty())
-    {
-        s += indent(2); s += qtWorkdescBeg; s += qtN;
-        s += indent(3); s += qtLangusageBeg; s += qtN;
-        s += indent(4); s += qtLanguageBeg; s += qtN;
-        s += indent(4); s += qtT; s += language; s += qtN;
-        s += indent(4); s += qtLanguageEnd;  s += qtN;
-        s += indent(3); s += qtLangusageEnd; s += qtN;
-        s += indent(2); s += qtWorkdescEnd; s += qtN;
+        s += indent(2); s += qtEncodingDescBeg; s += qtN;
+        s += indent(3); s += qtEditorialdeclarationBeg; s += qtN;
+        s += indent(4); s += qtParagraphBeg; s += qtN;
+        s += indent(5); s += comments; s += qtN;
+        s += indent(4); s += qtParagraphEnd; s += qtN;
+        s += indent(3); s += qtEditorialdeclarationEnd; s += qtN;
+        s += indent(2); s += qtEncodingDescEnd; s += qtN;
     }
 
     s += indent(1); s += qtHeaderEnd; s += qtN;
     s += qtTextEnd;
 
+    s = mutate(s);
     mainTextEdit->textCursor().insertText(s);
 
     QTextCursor cursor = mainTextEdit->textCursor();
@@ -358,115 +358,141 @@ void MainWindow::onCreateSource()
     QString unit = sourceUnitLine->text();
     QString condition = sourceConditionLine->text();
     QString extent = sourceExtentLine->text();
+    QString language = sourceLanguageLine->text();
     QString handwriting = sourceHandwritingText->toPlainText();
 
     QString s;
 
     s += qtN;
-    s += indent(2); s += qtSourcedescriptionBeg; s += qtN;
+    s += indent(2); s += qtManifestationListBeg; s += qtN;
 
     if(ID.isEmpty()){
        ID += genericSource; ID += QString::number(sourceCounter);
-       s += indent(3); s += qtSourceAttBeg;
+       s += indent(3); s += qtManifestationAttBeg;
        s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
 
        sourceCounter++;
     }
     else{
        s += indent(3);
-       s += qtSourceAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
+       s += qtManifestationAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
     }
 
-
-
-    if(!title.isEmpty() && !author.isEmpty())
+    if(!language.isEmpty())
     {
-        s += indent(4); s += qtTitlestmtBeg; s += qtN;
-        s += indent(5); s += qtTitleBeg; s += qtN;
-        s += indent(6); s += title; s += qtN;
-        s += indent(5); s += qtTitleEnd; s += qtN;
-        s += indent(5); s += qtResponsibilityBeg; s += qtN;
+
+        s += indent(4); s += qtLangusageBeg; s += qtN;
+        s += indent(5); s += qtLanguageBeg; s += qtN;
+        s += indent(6); s += language; s += qtN;
+        s += indent(5); s += qtLanguageEnd;  s += qtN;
+        s += indent(4); s += qtLangusageEnd; s += qtN;
+
+    }
+
+    s += indent(4); s += qtBiblListBeg; s += qtN;
+    s += indent(5); s += qtBiblBeg; s += qtN;
+    if(!title.isEmpty())
+    {
+
+        s += indent(6); s += qtTitleBeg; s += qtN;
+        s += indent(7); s += title; s += qtN;
+        s += indent(6); s += qtTitleEnd; s += qtN;
+    }
+    if(!author.isEmpty())
+    {
         s += indent(6); s += qtAgentBeg; s += qtN;
         s += indent(7); s += author; s += qtN;
         s += indent(6); s += qtAgentEnd; s += qtN;
-        s += indent(5); s += qtResponsibilityEnd; s += qtN;
-        s += indent(4); s += qtTitlestmtEnd; s += qtN;
     }
 
-
-    s += indent(4); s += qtPublicationBeg; s += qtN;
-    if(!pubstatus.isEmpty()){
-        s += indent(5); s += qtAvailabilityBeg; s += qtN;
-        s += indent(6); s += pubstatus; s += qtN;
-        s += indent(5); s += qtAvailabilityEnd; s += qtN;
-    }
     if(!date.isEmpty())
     {
-        s += indent(5); s += qtDateBeg; s += qtN;
-        s += indent(6); s += date; s += qtN;
-        s += indent(5); s += qtDateEnd; s += qtN;
+        s += indent(6); s += qtDateBeg; s += qtN;
+        s += indent(7); s += date; s += qtN;
+        s += indent(6); s += qtDateEnd; s += qtN;
     }
-    s += indent(4); s += qtPublicationEnd; s += qtN;
+    s += indent(5); s += qtBiblEnd; s += qtN;
+    s += indent(4); s += qtBiblListEnd; s += qtN;
 
+    s += indent(4); s += qtComponentListBeg; s += qtN;
+    s += indent(5); s += qtItemBeg; s += qtN;
 
-    s += indent(4); s += qtPhysdescriptionBeg; s += qtN;
+    if(!pubstatus.isEmpty()){
+        s += indent(6); s += qtAvailabilityBeg; s += qtN;
+        s += indent(7); s += pubstatus; s += qtN;
+        s += indent(6); s += qtAvailabilityEnd; s += qtN;
+    }
+
+    s += indent(6); s += qtPhysdescriptionBeg; s += qtN;
     if(!extent.isEmpty())
     {
-        s += indent(5); s += qtExtentBeg; s += qtN;
-        s += indent(6); s += extent; s += qtN;
-        s += indent(5); s += qtExtentEnd; s += qtN;
+        s += indent(7); s += qtExtentBeg; s += qtN;
+        s += indent(8); s += extent; s += qtN;
+        s += indent(7); s += qtExtentEnd; s += qtN;
     }
     if(!medium.isEmpty())
     {
-        s += indent(5); s += qtPhysmediumBeg; s += qtN;
-        s += indent(6); s += medium; s += qtN;
-        s += indent(5); s += qtPhysmediumEnd; s += qtN;
+        s += indent(7); s += qtPhysmediumBeg; s += qtN;
+        s += indent(8); s += medium; s += qtN;
+        s += indent(7); s += qtPhysmediumEnd; s += qtN;
 
     }
     if(!x.isEmpty())
     {
-        s += indent(5); s += qtDimensionsAttBeg; s += qtAttUnits; s += "\""; s += unit; s += "\""; s += qtClosingBracket; s += qtN;
-        s += indent(6); s += x; s += " x "; s += y; s += unit; s += qtN;
-        s += indent(5); s += qtDimensionsEnd; s += qtN;
+        s += indent(7); s += qtDimensionsAttBeg; s += qtAttUnits; s += "\""; s += unit; s += "\""; s += qtClosingBracket; s += qtN;
+        s += indent(8); s += x; s += " x "; s += y; s += unit; s += qtN;
+        s += indent(7); s += qtDimensionsEnd; s += qtN;
     }
     if(!condition.isEmpty())
     {
-        s += indent(5); s += qtConditionBeg; s += qtN;
-        s += indent(6); s += condition; s += qtN;
-        s += indent(5); s += qtConditionEnd; s += qtN;
+        s += indent(7); s += qtConditionBeg; s += qtN;
+        s += indent(8); s += condition; s += qtN;
+        s += indent(7); s += qtConditionEnd; s += qtN;
     }
-    if(!ownership.isEmpty())
+    if(!handwriting.isEmpty())
     {
-        s += indent(5); s += qtProvenanceBeg; s += qtN;
-        s += indent(6); s += qtCorpnameBeg; s += qtN;
-        s += indent(7); s += ownership; s += qtN;
-        s += indent(6); s += qtCorpnameEnd; s += qtN;
-        s += indent(5); s += qtProvenanceEnd; s += qtN;
+        s += indent(7); s += qtHandlistBeg; s += qtN;
+        s += indent(8); s += qtHandBeg; s += qtN;
+        s += indent(9); s += qtAnnotBeg; s += qtN;
+        s += indent(10); s += handwriting; s += qtN;
+        s += indent(9); s += qtAnnotEnd; s += qtN;
+        s += indent(8); s += qtHandEnd; s += qtN;
+        s += indent(7); s += qtHandlistEnd; s += qtN;
     }
-    s += indent(4); s += qtPhysdescriptionEnd; s += qtN;
+
+    s += indent(6); s += qtPhysdescriptionEnd; s += qtN;
 
     if(!location.isEmpty())
     {
-        s += indent(4); s += qtPhysicallocationBeg; s += qtN;
-        s += indent(5); s += location; s += qtN;
-        s += indent(4); s += qtPhysicallocationEnd; s += qtN;
+        s += indent(6); s += qtPhysicallocationBeg; s += qtN;
+        s += indent(7); s += qtRepositoryBeg; s += qtN;
+        s += indent(8); s += location; s += qtN;
+        s += indent(7); s += qtRepositoryEnd; s += qtN;
+        s += indent(6); s += qtPhysicallocationEnd; s += qtN;
     }
 
-    if(!handwriting.isEmpty())
+    if(!ownership.isEmpty())
     {
-        s += indent(4); s += qtHandlistBeg; s += qtN;
-        s += indent(5); s += qtHandAttBeg; s += qtAttCharacter; s += "\""; s += handwriting; s += "\""; s += "/"; s += qtClosingBracket; s += qtN; // add additional attributes!!
-        s += indent(4); s += qtHandlistEnd; s += qtN;
-
+        s += indent(6); s += qtHistoryBeg; s += qtN;
+        s += indent(7); s += qtProvenanceBeg; s += qtN;
+        s += indent(8); s += qtCorpnameBeg; s += qtN;
+        s += indent(9); s += ownership; s += qtN;
+        s += indent(8); s += qtCorpnameEnd; s += qtN;
+        s += indent(7); s += qtProvenanceEnd; s += qtN;
+        s += indent(6); s += qtHistoryEnd; s += qtN;
     }
 
-    s += indent(3); s += qtSourceEnd; s += qtN;
-    s += indent(2); s += qtSourcedescriptionEnd;// s += qtN;
+    s += indent(5); s += qtItemEnd; s += qtN;
+    s += indent(4); s += qtComponentListEnd; s += qtN;
 
+    s += indent(3); s += qtManifestationEnd; s += qtN;
+    s += indent(2); s += qtManifestationListEnd;
+
+    s = mutate(s);
     mainTextEdit->textCursor().insertText(s);
 
     QTextCursor cursor = mainTextEdit->textCursor();
-    cursor.setPosition(cursor.position()-15);
+    cursor.setPosition(cursor.position()-22);
     mainTextEdit->setTextCursor(cursor);
 
     sourceCreateButton->setDisabled(true);
@@ -489,6 +515,7 @@ void MainWindow::onCreateSource()
     sourceUnitLine->clear();
     sourceConditionLine->clear();
     sourceExtentLine->clear();
+    sourceLanguageLine->clear();
     sourceHandwritingText->clear();
 }
 
@@ -507,104 +534,132 @@ void MainWindow::onAddSource()
     QString unit = sourceUnitLine->text();
     QString condition = sourceConditionLine->text();
     QString extent = sourceExtentLine->text();
+    QString language = sourceLanguageLine->text();
     QString handwriting = sourceHandwritingText->toPlainText();
 
     QString s;
 
     if(ID.isEmpty()){
        ID += genericSource; ID += QString::number(sourceCounter);
-       s += indent(3); s += qtSourceAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
+       s += indent(3); s += qtManifestationAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
 
        sourceCounter++;
     }
     else{
-       s += indent(3); s += qtSourceAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
+       s += indent(3); s += qtManifestationAttBeg; s += qtAttID; s += "\""; s += ID; s += "\""; s += qtClosingBracket; s += qtN;
     }
 
 
-    if(!title.isEmpty() && !author.isEmpty())
+    if(!language.isEmpty())
     {
-        s += indent(4); s += qtTitlestmtBeg; s += qtN;
-        s += indent(5); s += qtTitleBeg; s += qtN;
-        s += indent(6); s += title; s += qtN;
-        s += indent(5); s += qtTitleEnd; s += qtN;
-        s += indent(5); s += qtResponsibilityBeg; s += qtN;
+
+        s += indent(4); s += qtLangusageBeg; s += qtN;
+        s += indent(5); s += qtLanguageBeg; s += qtN;
+        s += indent(6); s += language; s += qtN;
+        s += indent(5); s += qtLanguageEnd;  s += qtN;
+        s += indent(4); s += qtLangusageEnd; s += qtN;
+
+    }
+
+    s += indent(4); s += qtBiblListBeg; s += qtN;
+    s += indent(5); s += qtBiblBeg; s += qtN;
+    if(!title.isEmpty())
+    {
+
+        s += indent(6); s += qtTitleBeg; s += qtN;
+        s += indent(7); s += title; s += qtN;
+        s += indent(6); s += qtTitleEnd; s += qtN;
+    }
+    if(!author.isEmpty())
+    {
         s += indent(6); s += qtAgentBeg; s += qtN;
         s += indent(7); s += author; s += qtN;
         s += indent(6); s += qtAgentEnd; s += qtN;
-        s += indent(5); s += qtResponsibilityEnd; s += qtN;
-        s += indent(4); s += qtTitlestmtEnd; s += qtN;
     }
 
-
-    s += indent(4); s += qtPublicationBeg; s += qtN;
-    if(!pubstatus.isEmpty()){
-        s += indent(5); s += qtAvailabilityBeg; s += qtN;
-        s += indent(6); s += pubstatus; s += qtN;
-        s += indent(5); s += qtAvailabilityEnd; s += qtN;
-    }
     if(!date.isEmpty())
     {
-        s += indent(5); s += qtDateBeg; s += qtN;
-        s += indent(6); s += date; s += qtN;
-        s += indent(5); s += qtDateEnd; s += qtN;
+        s += indent(6); s += qtDateBeg; s += qtN;
+        s += indent(7); s += date; s += qtN;
+        s += indent(6); s += qtDateEnd; s += qtN;
     }
-    s += indent(4); s += qtPublicationEnd; s += qtN;
+    s += indent(5); s += qtBiblEnd; s += qtN;
+    s += indent(4); s += qtBiblListEnd; s += qtN;
 
+    s += indent(4); s += qtComponentListBeg; s += qtN;
+    s += indent(5); s += qtItemBeg; s += qtN;
 
-    s += indent(4); s += qtPhysdescriptionBeg; s += qtN;
+    if(!pubstatus.isEmpty()){
+        s += indent(6); s += qtAvailabilityBeg; s += qtN;
+        s += indent(7); s += pubstatus; s += qtN;
+        s += indent(6); s += qtAvailabilityEnd; s += qtN;
+    }
+
+    s += indent(6); s += qtPhysdescriptionBeg; s += qtN;
     if(!extent.isEmpty())
     {
-        s += indent(5); s += qtExtentBeg; s += qtN;
-        s += indent(6); s += extent; s += qtN;
-        s += indent(5); s += qtExtentEnd; s += qtN;
+        s += indent(7); s += qtExtentBeg; s += qtN;
+        s += indent(8); s += extent; s += qtN;
+        s += indent(7); s += qtExtentEnd; s += qtN;
     }
     if(!medium.isEmpty())
     {
-        s += indent(5); s += qtPhysmediumBeg; s += qtN;
-        s += indent(6); s += medium; s += qtN;
-        s += indent(5); s += qtPhysmediumEnd; s += qtN;
+        s += indent(7); s += qtPhysmediumBeg; s += qtN;
+        s += indent(8); s += medium; s += qtN;
+        s += indent(7); s += qtPhysmediumEnd; s += qtN;
 
     }
     if(!x.isEmpty())
     {
-        s += indent(5); s += qtDimensionsAttBeg; s += qtAttUnits; s += "\""; s += unit; s += "\""; s += qtClosingBracket; s += qtN;
-        s += indent(6); s += x; s += " x "; s += y; s += unit; s += qtN;
-        s += indent(5); s += qtDimensionsEnd; s += qtN;
+        s += indent(7); s += qtDimensionsAttBeg; s += qtAttUnits; s += "\""; s += unit; s += "\""; s += qtClosingBracket; s += qtN;
+        s += indent(8); s += x; s += " x "; s += y; s += unit; s += qtN;
+        s += indent(7); s += qtDimensionsEnd; s += qtN;
     }
     if(!condition.isEmpty())
     {
-        s += indent(5); s += qtConditionBeg; s += qtN;
-        s += indent(6); s += condition; s += qtN;
-        s += indent(5); s += qtConditionEnd; s += qtN;
+        s += indent(7); s += qtConditionBeg; s += qtN;
+        s += indent(8); s += condition; s += qtN;
+        s += indent(7); s += qtConditionEnd; s += qtN;
     }
-    if(!ownership.isEmpty())
+    if(!handwriting.isEmpty())
     {
-        s += indent(5); s += qtProvenanceBeg; s += qtN;
-        s += indent(6); s += qtCorpnameBeg; s += qtN;
-        s += indent(7); s += ownership; s += qtN;
-        s += indent(6); s += qtCorpnameEnd; s += qtN;
-        s += indent(5); s += qtProvenanceEnd; s += qtN;
+        s += indent(7); s += qtHandlistBeg; s += qtN;
+        s += indent(8); s += qtHandBeg; s += qtN;
+        s += indent(9); s += qtAnnotBeg; s += qtN;
+        s += indent(10); s += handwriting; s += qtN;
+        s += indent(9); s += qtAnnotEnd; s += qtN;
+        s += indent(8); s += qtHandEnd; s += qtN;
+        s += indent(7); s += qtHandlistEnd; s += qtN;
     }
-    s += indent(4); s += qtPhysdescriptionEnd; s += qtN;
+
+    s += indent(6); s += qtPhysdescriptionEnd; s += qtN;
 
     if(!location.isEmpty())
     {
-        s += indent(4); s += qtPhysicallocationBeg; s += qtN;
-        s += indent(5); s += location; s += qtN;
-        s += indent(4); s += qtPhysicallocationEnd; s += qtN;
+        s += indent(6); s += qtPhysicallocationBeg; s += qtN;
+        s += indent(7); s += qtRepositoryBeg; s += qtN;
+        s += indent(8); s += location; s += qtN;
+        s += indent(7); s += qtRepositoryEnd; s += qtN;
+        s += indent(6); s += qtPhysicallocationEnd; s += qtN;
     }
 
-    if(!handwriting.isEmpty())
+    if(!ownership.isEmpty())
     {
-        s += indent(4); s += qtHandlistBeg; s += qtN;
-        s += indent(5); s += qtHandAttBeg; s += qtAttCharacter; s += "\""; s += handwriting; s += "\""; s += "/"; s += qtClosingBracket; s += qtN; // add additional attributes!!
-        s += indent(4); s += qtHandlistEnd; s += qtN;
-
+        s += indent(6); s += qtHistoryBeg; s += qtN;
+        s += indent(7); s += qtProvenanceBeg; s += qtN;
+        s += indent(8); s += qtCorpnameBeg; s += qtN;
+        s += indent(9); s += ownership; s += qtN;
+        s += indent(8); s += qtCorpnameEnd; s += qtN;
+        s += indent(7); s += qtProvenanceEnd; s += qtN;
+        s += indent(6); s += qtHistoryEnd; s += qtN;
     }
 
-    s += indent(3); s += qtSourceEnd; s += qtN;
+    s += indent(5); s += qtItemEnd; s += qtN;
+    s += indent(4); s += qtComponentListEnd; s += qtN;
 
+    s += indent(3); s += qtManifestationEnd; s += qtN;
+
+    s = mutate(s);
     mainTextEdit->textCursor().insertText(s);
 
     sources.push_back(ID);
@@ -622,6 +677,7 @@ void MainWindow::onAddSource()
     sourceUnitLine->clear();
     sourceConditionLine->clear();
     sourceExtentLine->clear();
+    sourceLanguageLine->clear();
     sourceHandwritingText->clear();
 }
 
@@ -631,13 +687,13 @@ void MainWindow::onFinishSource()
 
     if(sourcesAdded){
         QTextCursor cursor = mainTextEdit->textCursor();
-        cursor.setPosition(cursor.position()+28);
+        cursor.setPosition(cursor.position()+35);
         mainTextEdit->setTextCursor(cursor);
 
     }
     else {
         QTextCursor cursor = mainTextEdit->textCursor();
-        cursor.setPosition(cursor.position()+13);
+        cursor.setPosition(cursor.position()+23);
         mainTextEdit->setTextCursor(cursor);
 
     }
@@ -657,7 +713,7 @@ void MainWindow::onCreateStaff()
     staffNCounter++;
 
     QString ID = staffIDLine->text();
-    QString linecount = staffLinecountLine->text();
+    QString linecount = staffLinecountToolbutton->text();
     QString mode = staffModeToolbutton->text();
     QString linecolor = staffLinecolorToolbutton->text();
 
@@ -668,8 +724,9 @@ void MainWindow::onCreateStaff()
 
     QString s;
 
-    s += indent(1); s += qtWorkBeg; s += qtN;
-    s += indent(2); s += qtMusicBeg; s += qtN;
+
+    s += indent(1); s += qtMusicBeg; s += qtN;
+    s += indent(2); s += qtBodyBeg; s += qtN;
     s += indent(3); s += qtMdivBeg; s += qtN;
     s += indent(4); s += qtScoreBeg; s += qtN;
     s += indent(5); s += qtScoredefBeg; s += qtN;
@@ -681,7 +738,7 @@ void MainWindow::onCreateStaff()
         staffCounter++;
     }
     else{
-        s += indent(7); s += qtStaffdefAttBeg; s += qtAttDef; s += "\""; s += ID; s += "\"";
+        s += indent(7); s += qtStaffdefAttBeg; s += qtAttID; s += "\""; s += ID; s += "\"";
     }
 
     s += qtAttN; s += "\""; s += QString::number(staffNCounter); s += "\"";
@@ -703,14 +760,16 @@ void MainWindow::onCreateStaff()
     s += indent(5); s += qtScoredefEnd; s += qtN;
     s += indent(4); s += qtScoreEnd; s += qtN;
     s += indent(3); s += qtMdivEnd; s += qtN;
-    s += indent(2); s += qtMusicEnd; s += qtN;
-    s += indent(1); s += qtWorkEnd; s += qtN;
+    s += indent(2); s += qtBodyEnd; s += qtN;
+    s += indent(1); s += qtMusicEnd; s += qtN;
+
 
     staffAddclefButton->setDisabled(false);
     staffCreateButton->setDisabled(true);
     staffFinishButton->setDisabled(false);
     staffNewstaffButton->setDisabled(false);
 
+    s = mutate(s);
     mainTextEdit->textCursor().insertText(s);
 
     QTextCursor cursor = mainTextEdit->textCursor();
@@ -723,9 +782,17 @@ void MainWindow::onCreateStaff()
     disconnect(staffCreateButton, &QPushButton::clicked, this, &MainWindow::onCreateStaff);
 
     staffIDLine->clear();
-    staffLinecountLine->clear();
+    staffLinecountToolbutton->setText("");
     staffModeToolbutton->setText("");
     staffLinecolorToolbutton->setText("");
+    staffCleflineToolbutton->setText("");
+
+    staffIDLine->setDisabled(true);
+    staffLinecountToolbutton->setDisabled(true);
+    staffModeToolbutton->setDisabled(true);
+    staffLinecolorToolbutton->setDisabled(true);
+    staffCleflineToolbutton->setDisabled(false);
+    staffClefshapeToolbutton->setDisabled(false);
 }
 
 void MainWindow::onAddStaff()
@@ -733,7 +800,7 @@ void MainWindow::onAddStaff()
     staffNCounter++;
 
     QString ID = staffIDLine->text();
-    QString linecount = staffLinecountLine->text();
+    QString linecount = staffLinecountToolbutton->text();
     QString mode = staffModeToolbutton->text();
     QString linecolor = staffLinecolorToolbutton->text();
 
@@ -750,7 +817,7 @@ void MainWindow::onAddStaff()
         staffCounter++;
     }
     else{
-        s += indent(7); s += qtStaffdefAttBeg; s += qtAttDef; s += "\""; s += ID; s += "\"";
+        s += indent(7); s += qtStaffdefAttBeg; s += qtAttID; s += "\""; s += ID; s += "\"";
     }
     s += qtAttN; s += "\""; s += QString::number(staffNCounter); s += "\"";
     s += qtAttLines; s += "\""; s += linecount; s += "\"";
@@ -772,6 +839,7 @@ void MainWindow::onAddStaff()
     staffFinishButton->setDisabled(false);
     staffNewstaffButton->setDisabled(false);
 
+    s = mutate(s);
     mainTextEdit->textCursor().insertText(s);
 
     QTextCursor cursor = mainTextEdit->textCursor();
@@ -781,16 +849,24 @@ void MainWindow::onAddStaff()
     staffs.push_back(ID);
 
     staffIDLine->clear();
-    staffLinecountLine->clear();
+    staffLinecountToolbutton->setText("");
     staffModeToolbutton->setText("");
     staffLinecolorToolbutton->setText("");
+    staffCleflineToolbutton->setText("");
+
+    staffIDLine->setDisabled(true);
+    staffLinecountToolbutton->setDisabled(true);
+    staffModeToolbutton->setDisabled(true);
+    staffLinecolorToolbutton->setDisabled(true);
+    staffCleflineToolbutton->setDisabled(false);
+    staffClefshapeToolbutton->setDisabled(false);
 }
 
 void MainWindow::onAddclefStaff()
 {
 
-    QString line = staffCleflineLine->text();
-    QString shape = staffClefshapeLine->text();
+    QString line = staffCleflineToolbutton->text();
+    QString shape = staffClefshapeToolbutton->text();
 
     QString s;
 
@@ -806,10 +882,12 @@ void MainWindow::onAddclefStaff()
     }
     s += "/"; s += qtClosingBracket; s += qtN;
 
+    s = mutate(s);
     mainTextEdit->textCursor().insertText(s);
 
-    staffCleflineLine->clear();
-    staffClefshapeLine->clear();
+    staffCleflineToolbutton->setText("");
+    staffClefshapeToolbutton->setText("");
+    staffLinecountToolbutton->setText("");
 }
 
 void MainWindow::onAddNewStaff()
@@ -822,6 +900,13 @@ void MainWindow::onAddNewStaff()
     staffCreateButton->setDisabled(false);
     staffNewstaffButton->setDisabled(true);
     staffFinishButton->setDisabled(true);
+
+    staffIDLine->setDisabled(false);
+    staffLinecountToolbutton->setDisabled(false);
+    staffModeToolbutton->setDisabled(false);
+    staffLinecolorToolbutton->setDisabled(false);
+    staffCleflineToolbutton->setDisabled(true);
+    staffClefshapeToolbutton->setDisabled(true);
 }
 
 void MainWindow::onFinishStaff()
@@ -860,43 +945,47 @@ void MainWindow::onCreateSyllable()
 
     s += indent(5); s += qtSectionBeg; s += qtN;
     s += indent(6); s += qtStaffAttBeg;
-    s += qtAttSource; s += "\""; s += sylCurrentSource; s += "\"";
     s += qtAttDef; s += "\""; s += sylCurrentStaff; s += "\"";
     s += qtClosingBracket; s += qtN;
+    s += indent(7); s += qtLayerBeg; s += qtN;
     if(!page.isEmpty()){
-        s += indent(7); s += qtPbAttBeg; s += qtAttN; s += "\""; s += page; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+        s += indent(8); s += qtPbAttBeg; s += qtAttN; s += "\""; s += page; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
     }
     if(!line.isEmpty()){
-        s += indent(7); s += qtSbAttBeg; s += qtAttN; s += "\""; s += line; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+        s += indent(8); s += qtSbAttBeg; s += qtAttN; s += "\""; s += line; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
     }
     if(!comment.isEmpty()){
-        s += indent(7); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
-        s += indent(8); s += qtParagraphBeg; s+= qtN;
-        s += indent(9); s += comment; s+= qtN;
-        s += indent(8); s += qtParagraphEnd; s+= qtN;
-        s += indent(7); s += qtAnnotEnd; s+= qtN;
+        s += indent(8); s += qtAddBeg; s += qtN;
+        s += indent(9); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
+        s += indent(10); s += qtParagraphBeg; s+= qtN;
+        s += indent(11); s += comment; s+= qtN;
+        s += indent(10); s += qtParagraphEnd; s+= qtN;
+        s += indent(9); s += qtAnnotEnd; s+= qtN;
+        s += indent(8); s += qtAddEnd; s += qtN;
     }
     if(!type.isEmpty()){
-        s += indent(7); s += qtSyllableAttBeg;
+        s += indent(8); s += qtSyllableAttBeg;
         s += qtAttType;  s += "\""; s += type; s += "\""; s += qtClosingBracket; s+= qtN;
     }
     else {
-        s += indent(7); s += qtSyllableBeg; s+= qtN;
+        s += indent(8); s += qtSyllableBeg; s+= qtN;
     }
 
-    s += indent(8); s += qtSylBeg; s+= qtN;
-    s += indent(9); s += syl; s += qtN;
-    s += indent(8); s += qtSylEnd; s += qtN;
-    s += indent(8); s += qtNeumeBeg; s += qtN;
-    s += indent(8); s += qtNeumeEnd; s += qtN;
-    s += indent(7); s += qtSyllableEnd;  s+= qtN;
+    s += indent(9); s += qtSylBeg; s+= qtN;
+    s += indent(10); s += syl; s += qtN;
+    s += indent(9); s += qtSylEnd; s += qtN;
+    s += indent(9); s += qtNeumeBeg; s += qtN;
+    s += indent(9); s += qtNeumeEnd; s += qtN;
+    s += indent(8); s += qtSyllableEnd;  s+= qtN;
+    s += indent(7); s += qtLayerEnd; s += qtN;
     s += indent(6); s += qtStaffEnd; s += qtN;
     s += indent(5); s += qtSectionEnd; s += qtN;
 
+    s = mutate(s);
     mainTextEdit->textCursor().insertText(s);
 
     QTextCursor cursor = mainTextEdit->textCursor();
-    cursor.setPosition(cursor.position()-67);
+    cursor.setPosition(cursor.position()-85);
     mainTextEdit->setTextCursor(cursor);
 
     disconnect(sylCreateButton, &QPushButton::clicked, this, &MainWindow::onCreateSyllable);
@@ -927,6 +1016,7 @@ void MainWindow::onCreateSyllable()
     sylSyllableLine->clear();
     sylCommentText->clear();
     sylTypeToolbutton->setText("");
+    pitchOctaveToolbutton->setText("");
 }
 
 void MainWindow::onAddSyllable()
@@ -941,59 +1031,66 @@ void MainWindow::onAddSyllable()
 
     if(sylCurrentStaff.compare(sylFormerStaff))
     {
+        /*
         QTextCursor cursor = mainTextEdit->textCursor();
         cursor.setPosition(cursor.position()+15);
         mainTextEdit->setTextCursor(cursor);
-
+        */
+        s += indent(7); s += qtLayerEnd; s += qtN;
+        s += indent(6); s += qtStaffEnd; s += qtN;
         s += indent(6); s += qtStaffAttBeg;
-        s += qtAttSource; s += "\""; s += sylCurrentSource; s += "\"";
         s += qtAttDef; s += "\""; s += sylCurrentStaff; s += "\"";
         s += qtClosingBracket; s += qtN;
 
         sylFormerStaff = sylCurrentStaff;
 
-        s += indent(6); s += qtStaffEnd; s += qtN;
+        s += indent(7); s += qtLayerBeg; s += qtN;
 
+        s = mutate(s);
         mainTextEdit->textCursor().insertText(s);
 
+        /*
         cursor = mainTextEdit->textCursor();
         cursor.setPosition(cursor.position()-15);
         mainTextEdit->setTextCursor(cursor);
-
+        */
         s.clear();
     }
 
     if(!page.isEmpty()){
-        s += indent(7); s += qtPbAttBeg; s += qtAttN; s += "\""; s += page; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+        s += indent(8); s += qtPbAttBeg; s += qtAttN; s += "\""; s += page; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
     }
     if(!line.isEmpty()){
-        s += indent(7); s += qtSbAttBeg; s += qtAttN; s += "\""; s += line; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
+        s += indent(8); s += qtSbAttBeg; s += qtAttN; s += "\""; s += line; s += "\""; s += "/"; s += qtClosingBracket; s+= qtN;
     }
     if(!comment.isEmpty()){
-        s += indent(7); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
-        s += indent(8); s += qtParagraphBeg; s+= qtN;
-        s += indent(9); s += comment; s+= qtN;
-        s += indent(8); s += qtParagraphEnd; s+= qtN;
-        s += indent(7); s += qtAnnotEnd; s+= qtN;
+        s += indent(8); s += qtAddBeg; s += qtN;
+        s += indent(9); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
+        s += indent(10); s += qtParagraphBeg; s+= qtN;
+        s += indent(11); s += comment; s+= qtN;
+        s += indent(10); s += qtParagraphEnd; s+= qtN;
+        s += indent(9); s += qtAnnotEnd; s+= qtN;
+        s += indent(8); s += qtAddEnd; s += qtN;
     }
     if(!type.isEmpty()){
-        s += indent(7); s += qtSyllableAttBeg;
+        s += indent(8); s += qtSyllableAttBeg;
         s += qtAttType;  s += "\""; s += type; s += "\""; s += qtClosingBracket; s+= qtN;
     }
     else {
-        s += indent(7); s += qtSyllableBeg; s+= qtN;
+        s += indent(8); s += qtSyllableBeg; s+= qtN;
     }
-    s += indent(8); s += qtSylBeg; s+= qtN;
-    s += indent(9); s += syl; s += qtN;
-    s += indent(8); s += qtSylEnd; s += qtN;
-    s += indent(8); s += qtNeumeBeg; s += qtN;
-    s += indent(8); s += qtNeumeEnd; s += qtN;
-    s += indent(7); s += qtSyllableEnd;  s+= qtN;
+    s += indent(9); s += qtSylBeg; s+= qtN;
+    s += indent(10); s += syl; s += qtN;
+    s += indent(9); s += qtSylEnd; s += qtN;
+    s += indent(9); s += qtNeumeBeg; s += qtN;
+    s += indent(9); s += qtNeumeEnd; s += qtN;
+    s += indent(8); s += qtSyllableEnd;  s+= qtN;
 
+    s = mutate(s);
     mainTextEdit->textCursor().insertText(s);
 
     QTextCursor cursor = mainTextEdit->textCursor();
-    cursor.setPosition(cursor.position()-36);
+    cursor.setPosition(cursor.position()-38);
     mainTextEdit->setTextCursor(cursor);
 
     QString *pitch = new QString("Pitch");
@@ -1014,6 +1111,7 @@ void MainWindow::onAddSyllable()
     sylSyllableLine->clear();
     sylCommentText->clear();
     sylTypeToolbutton->setText("");
+    pitchOctaveToolbutton->setText("");
 }
 
 void MainWindow::onAddVariant()
@@ -1025,6 +1123,11 @@ void MainWindow::onAddVariant()
     varSourceLabel->setText(sources[varCounter]);
 
     pitchAddVariantButton->setDisabled(true);
+    varOctaveToolbutton->setText("");
+    varPitchToolbutton->setText("");
+    varTiltToolbutton->setText("");
+    varPreviousToolbutton->setText("");
+    varConnectionToolbutton->setText("");
 }
 
 void MainWindow::onFinishSyllable()
@@ -1090,13 +1193,15 @@ void MainWindow::onAddPitch()
     QString s;
 
     if(!comment.isEmpty()){
-        s += indent(9); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
-        s += indent(10); s += qtParagraphBeg; s+= qtN;
-        s += indent(11); s += comment; s+= qtN;
-        s += indent(10); s += qtParagraphEnd; s+= qtN;
-        s += indent(9); s += qtAnnotEnd; s+= qtN;
+        s += indent(10); s += qtAddBeg; s += qtN;
+        s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
+        s += indent(12); s += qtParagraphBeg; s+= qtN;
+        s += indent(13); s += comment; s+= qtN;
+        s += indent(12); s += qtParagraphEnd; s+= qtN;
+        s += indent(11); s += qtAnnotEnd; s+= qtN;
+        s += indent(10); s += qtAddEnd; s += qtN;
     }
-    s += indent(9); s += qtNcAttBeg;
+    s += indent(10); s += qtNcAttBeg;
 
     if(!octave.isEmpty())
     {
@@ -1121,6 +1226,7 @@ void MainWindow::onAddPitch()
     }
     s += "/"; s += qtClosingBracket; s += qtN;
 
+    s = mutate(s);
     mainTextEdit->textCursor().insertText(s);
 
     Note *n;
@@ -1157,7 +1263,7 @@ void MainWindow::onFinishPitch()
     tabWidget->removeTab(tabWidget->currentIndex());
 
     QTextCursor cursor = mainTextEdit->textCursor();
-    cursor.setPosition(cursor.position()+36);
+    cursor.setPosition(cursor.position()+38);
     mainTextEdit->setTextCursor(cursor);
 
     renderWidget->update();
@@ -1203,19 +1309,21 @@ void MainWindow::onVarAddpitch()
 
     if(varSourceLabel->text().compare(sources[0]) == 0)
     {
-        s += indent(9); s += qtAppBeg; s += qtN;
-        s += indent(10); s += qtRdgAttBeg; s += qtAttSource; s += "\""; s += sources[0]; s += "\""; s += qtClosingBracket; s += qtN;
+        s += indent(10); s += qtAppBeg; s += qtN;
+        s += indent(11); s += qtRdgAttBeg; s += qtAttSource; s += "\""; s += sources[0]; s += "\""; s += qtClosingBracket; s += qtN;
 
         if(!comment.isEmpty())
         {
-            s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
-            s += indent(12); s += qtParagraphBeg; s+= qtN;
-            s += indent(13); s += comment; s+= qtN;
-            s += indent(12); s += qtParagraphEnd; s+= qtN;
-            s += indent(11); s += qtAnnotEnd; s+= qtN;
+            s += indent(12); s += qtAddBeg; s += qtN;
+            s += indent(13); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
+            s += indent(14); s += qtParagraphBeg; s+= qtN;
+            s += indent(15); s += comment; s+= qtN;
+            s += indent(14); s += qtParagraphEnd; s+= qtN;
+            s += indent(13); s += qtAnnotEnd; s+= qtN;
+            s += indent(12); s += qtAddEnd; s += qtN;
         }
 
-        s += indent(11); s += qtNcAttBeg;
+        s += indent(12); s += qtNcAttBeg;
         if(!octave.isEmpty())
         {
             s += qtAttOct; s += "\""; s += octave; s += "\"";
@@ -1238,16 +1346,17 @@ void MainWindow::onVarAddpitch()
             s += qtAttTilt; s += "\""; s += tilt; s += "\"";
         }
         s += "/"; s += qtClosingBracket; s += qtN;
-        s += indent(10); s += qtRdgEnd; s += qtN;
-        s += indent(9); s += qtAppEnd; s += qtN;
+        s += indent(11); s += qtRdgEnd; s += qtN;
+        s += indent(10); s += qtAppEnd; s += qtN;
 
         connect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch2);
         disconnect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch);
 
+        s = mutate(s);
         mainTextEdit->textCursor().insertText(s);
 
         QTextCursor cursor = mainTextEdit->textCursor();
-        cursor.setPosition(cursor.position()-33);
+        cursor.setPosition(cursor.position()-35);
         mainTextEdit->setTextCursor(cursor);
 
         Note *n;
@@ -1270,19 +1379,21 @@ void MainWindow::onVarAddpitch()
     }
     else
     {
-        s += indent(10); s += qtRdgAttBeg; s += qtAttSource; s += "\""; s += sources[varCounter]; s += "\""; s += qtClosingBracket; s += qtN;
+        s += indent(11); s += qtRdgAttBeg; s += qtAttSource; s += "\""; s += sources[varCounter]; s += "\""; s += qtClosingBracket; s += qtN;
 
 
         if(!comment.isEmpty())
         {
-            s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
-            s += indent(12); s += qtParagraphBeg; s+= qtN;
-            s += indent(13); s += comment; s+= qtN;
-            s += indent(12); s += qtParagraphEnd; s+= qtN;
-            s += indent(11); s += qtAnnotEnd; s+= qtN;
+            s += indent(12); s += qtAddBeg; s += qtN;
+            s += indent(13); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
+            s += indent(14); s += qtParagraphBeg; s+= qtN;
+            s += indent(15); s += comment; s+= qtN;
+            s += indent(14); s += qtParagraphEnd; s+= qtN;
+            s += indent(13); s += qtAnnotEnd; s+= qtN;
+            s += indent(12); s += qtAddEnd; s += qtN;
         }
 
-        s += indent(11); s += qtNcAttBeg;
+        s += indent(12); s += qtNcAttBeg;
         if(!octave.isEmpty())
         {
             s += qtAttOct; s += "\""; s += octave; s += "\"";
@@ -1305,15 +1416,16 @@ void MainWindow::onVarAddpitch()
             s += qtAttTilt; s += "\""; s += tilt; s += "\"";
         }
         s += "/"; s += qtClosingBracket; s += qtN;
-        s += indent(10); s += qtRdgEnd; s += qtN;
+        s += indent(11); s += qtRdgEnd; s += qtN;
 
         connect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch2);
         disconnect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch);
 
+        s = mutate(s);
         mainTextEdit->textCursor().insertText(s);
 
         QTextCursor cursor = mainTextEdit->textCursor();
-        cursor.setPosition(cursor.position()-17);
+        cursor.setPosition(cursor.position()-18);
         mainTextEdit->setTextCursor(cursor);
 
         Note *n;
@@ -1377,14 +1489,16 @@ void MainWindow::onVarAddpitch2()
 
     if(!comment.isEmpty())
     {
-        s += indent(11); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
-        s += indent(12); s += qtParagraphBeg; s+= qtN;
-        s += indent(13); s += comment; s+= qtN;
-        s += indent(12); s += qtParagraphEnd; s+= qtN;
-        s += indent(11); s += qtAnnotEnd; s+= qtN;
+        s += indent(12); s += qtAddBeg; s += qtN;
+        s += indent(13); s += qtAnnotAttBeg; s += qtAttStaff; s += "\""; s += sylCurrentStaff; s += "\""; s += qtClosingBracket; s+= qtN;
+        s += indent(14); s += qtParagraphBeg; s+= qtN;
+        s += indent(15); s += comment; s+= qtN;
+        s += indent(14); s += qtParagraphEnd; s+= qtN;
+        s += indent(13); s += qtAnnotEnd; s+= qtN;
+        s += indent(12); s += qtAddEnd; s += qtN;
     }
 
-    s += indent(11); s += qtNcAttBeg;
+    s += indent(12); s += qtNcAttBeg;
     if(!octave.isEmpty())
     {
         s += qtAttOct; s += "\""; s += octave; s += "\"";
@@ -1408,6 +1522,7 @@ void MainWindow::onVarAddpitch2()
     }
     s += "/"; s += qtClosingBracket; s += qtN;
 
+    s = mutate(s);
     mainTextEdit->textCursor().insertText(s);
 
     Note *n;
@@ -1457,7 +1572,7 @@ void MainWindow::onVarNext()
     if(varAdded)
     {
         QTextCursor cursor = mainTextEdit->textCursor();
-        cursor.setPosition(cursor.position()+17);
+        cursor.setPosition(cursor.position()+18);
         mainTextEdit->setTextCursor(cursor);
         varCounter++;
     }
@@ -1466,30 +1581,31 @@ void MainWindow::onVarNext()
         QString s;
         if(varSourceLabel->text().compare(sources[0]) == 0)
         {
-            s += indent(9); s += qtAppBeg; s += qtN;
-            s += indent(10); s += qtRdgAttBeg;
+            s += indent(10); s += qtAppBeg; s += qtN;
+            s += indent(11); s += qtRdgAttBeg;
             s += qtAttSource; s += "\""; s += sources[varCounter]; s += "\""; s += qtClosingBracket; s += qtN;
-            s += indent(10); s += qtRdgEnd; s += qtN;
-            s += indent(9); s += qtAppEnd; s += qtN;
+            s += indent(11); s += qtRdgEnd; s += qtN;
+            s += indent(10); s += qtAppEnd; s += qtN;
 
             varCounter++;
 
 
-
+            s = mutate(s);
             mainTextEdit->textCursor().insertText(s);
 
             QTextCursor cursor = mainTextEdit->textCursor();
-            cursor.setPosition(cursor.position()-16);
+            cursor.setPosition(cursor.position()-17);
             mainTextEdit->setTextCursor(cursor);
         }
         else
         {
-            s += indent(10); s += qtRdgAttBeg;
+            s += indent(11); s += qtRdgAttBeg;
             s += qtAttSource; s += "\""; s += sources[varCounter]; s += "\""; s += qtClosingBracket; s += qtN;
-            s += indent(10); s += qtRdgEnd; s += qtN;
+            s += indent(11); s += qtRdgEnd; s += qtN;
 
             varCounter++;
 
+            s = mutate(s);
             mainTextEdit->textCursor().insertText(s);
 
         }
@@ -1510,21 +1626,22 @@ void MainWindow::onVarNext2()
     if(!varAdded)
     {
         QString s;
-        s += indent(10); s += qtRdgAttBeg;
+        s += indent(11); s += qtRdgAttBeg;
         s += qtAttSource; s += "\""; s += sources[varCounter]; s += "\""; s += qtClosingBracket; s += qtN;
-        s += indent(10); s += qtRdgEnd; s += qtN;
+        s += indent(11); s += qtRdgEnd; s += qtN;
+
+        s = mutate(s);
         mainTextEdit->textCursor().insertText(s);
 
         QTextCursor cursor = mainTextEdit->textCursor();
-        cursor.setPosition(cursor.position()+16);
+        cursor.setPosition(cursor.position()+17);
         mainTextEdit->setTextCursor(cursor);
 
     }
     else
     {
         QTextCursor cursor = mainTextEdit->textCursor();
-        cursor.setPosition(cursor.position()+33
-                           );
+        cursor.setPosition(cursor.position()+35);
         mainTextEdit->setTextCursor(cursor);
 
     }
@@ -1536,6 +1653,9 @@ void MainWindow::onVarNext2()
 
     disconnect(varNextButton, &QPushButton::clicked, this, &MainWindow::onVarNext2);
     connect(varNextButton, &QPushButton::clicked, this, &MainWindow::onVarNext);
+
+    connect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch);
+    disconnect(varAddpitchButton, &QPushButton::clicked, this, &MainWindow::onVarAddpitch2);
 
     varCounter = 0;
     varAdded = false;
@@ -1596,6 +1716,8 @@ void MainWindow::onSelectNumber()
     QAction *action = qobject_cast<QAction*>(sender);
     pitchOctaveToolbutton->setText(action->text());
     varOctaveToolbutton->setText(action->text());
+    staffLinecountToolbutton->setText(action->text());
+    staffCleflineToolbutton->setText(action->text());
 }
 
 void MainWindow::onSelectType()
@@ -1629,6 +1751,13 @@ void MainWindow::onSelectConnection()
     varConnectionToolbutton->setText(action->text());
 }
 
+void MainWindow::onSelectClef()
+{
+    QObject *sender = QObject::sender();
+    QAction *action = qobject_cast<QAction*>(sender);
+    staffClefshapeToolbutton->setText(action->text());
+}
+
 QString MainWindow::indent(int a)
 {
     QString s;
@@ -1636,6 +1765,31 @@ QString MainWindow::indent(int a)
         s += qtT;
     }
     return s;
+}
+
+QString MainWindow::mutate(QString s)
+{
+    s = s.replace("Ö", "Oe");
+    s = s.replace("ö", "oe");
+    s = s.replace("Ä", "Ae");
+    s = s.replace("ä", "ae");
+    s = s.replace("Ü", "Ue");
+    s = s.replace("ü", "ue");
+
+    return s;
+}
+
+bool MainWindow::checkIDs(QString s)
+{
+    for(int i = 0; i < IDs.size(); i++)
+    {
+        if(s.compare(IDs[i]) == 0)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void MainWindow::sourcesToActions()
@@ -1698,6 +1852,8 @@ void MainWindow::numbersToActions()
     QList<QToolButton*> buttons;
     buttons.push_back(varOctaveToolbutton);
     buttons.push_back(pitchOctaveToolbutton);
+    buttons.push_back(staffCleflineToolbutton);
+    buttons.push_back(staffLinecountToolbutton);
 
     blankToActions(numberMenu, numbers, &MainWindow::onSelectNumber, buttons);
 }
@@ -1735,6 +1891,14 @@ void MainWindow::connectionsToActions()
     buttons.push_back(pitchConnectionToolbutton);
 
     blankToActions(connectionMenu, connections, &MainWindow::onSelectConnection, buttons);
+}
+
+void MainWindow::clefsToActions()
+{
+    QList<QToolButton*> buttons;
+    buttons.push_back(staffClefshapeToolbutton);
+
+    blankToActions(clefMenu, clefs, &MainWindow::onSelectClef, buttons);
 }
 
 void MainWindow::blankToActions(QMenu *menu, QList<QString*> list, void(MainWindow::*func)(), QList<QToolButton*> buttons)

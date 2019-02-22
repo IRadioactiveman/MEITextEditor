@@ -1,0 +1,191 @@
+<?xml version ="1.0" encoding ="UTF-8"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
+	<meiHead>
+		<fileDesc>
+			<titleStmt>
+				<title>
+					hi
+				</title>
+					
+				<composer>
+					hi
+				</composer>
+				
+			</titleStmt>
+			<pubStmt>
+				<availability>
+					<useRestrict>
+						hi		
+					</useRestrict>
+				</availability>
+			</pubStmt>
+		</fileDesc>
+		
+		<encodingDesc>
+		
+			<editorialDecl>
+				<p>
+					hi
+				</p>
+			</editorialDecl>
+		</encodingDesc>
+		
+		<manifestationList>
+			<manifestation xml:id="i0">
+				<titleStmt>
+				<title>
+				hi
+				</title>
+				<composer>
+				me
+				</composer>
+				</titleStmt>
+				<pubStmt>
+				<date>
+					hi
+				</date>
+				<availability>
+						hi
+					</availability>
+				</pubStmt>
+				<physDesc>
+					<extent>
+						hi
+					</extent>
+					<physMedium>
+						hi
+					</physMedium>
+					<dimensions unit="hi">
+						hi x hihi
+					</dimensions>
+					<condition>
+						hi
+					</condition>
+					<handList>
+						<hand>
+							<annot>
+								hi
+							</annot>
+						</hand>
+					</handList>	
+				</physDesc>
+				<physLoc>
+				<repository>
+					hi
+				</repository>
+				</physLoc>
+				
+				<history>
+					<provenance>
+						<corpName>
+							hi
+						</corpName>
+					</provenance>
+				</history>
+				<langUsage>
+					<language>
+						hi
+					</language>
+				</langUsage>
+			</manifestation>
+			<manifestation xml:id="i1">
+				<titleStmt>
+				<title>
+				hi
+				</title>
+				</titleStmt>
+				<pubStmt>
+				<date>
+					hi
+				</date>
+				<availability>
+						hi
+					</availability>
+				</pubStmt>
+				<physDesc>
+				</physDesc>
+				<physLoc>
+				<repository>
+					hi
+				</repository>
+				</physLoc>
+				<langUsage>
+					<language>
+						hi
+					</language>
+				</langUsage>
+			</manifestation>
+		</manifestationList>
+	</meiHead>
+	
+		<music>
+		<body>
+			<mdiv>
+				<score>
+					<scoreDef>
+						<staffGrp xml:id="all">
+							<staffDef xml:id="hi2" n="1" lines="5" lines.color="blue" key.mode="minor">
+								<clef line="3" shape="F"/>
+							</staffDef>
+							<staffDef xml:id="staff0" n="2" lines="7">
+								<clef line="3" shape="C"/>
+							</staffDef>
+						</staffGrp>
+					</scoreDef>
+					<section>
+						<staff def="staff0">
+						<layer>
+							<pb n="7"/>
+							<sb n="7"/>
+							<annot staff="1">
+								<p>
+									hi
+								</p>
+							</annot>
+							<syllable type="clivis">
+								<syl>
+									hi
+								</syl>
+								<neume>
+									<nc/>
+									<nc/>
+									<nc/>
+								</neume>
+							</syllable>
+							<syllable>
+								<syl>
+									yoyo
+								</syl>
+								<neume>
+									<add>
+									<annot staff="1">
+										<p>
+											hi
+										</p>
+									</annot>
+									</add>
+									<nc oct="2" pname="c" intm="s" con="g" tilt="s"/>
+									<app>
+										<rdg source="hi">
+											<nc oct="2" pname="c" intm="s" con="g" tilt="s"/>
+										</rdg>
+										<rdg source="source0">
+											<annot staff="1">
+												<p>
+													hi
+												</p>
+											</annot>
+											<nc oct="3" pname="f" intm="u" con="l" tilt="s"/>
+										</rdg>
+									</app>
+								</neume>
+							</syllable>
+							</layer>
+						</staff>
+					</section>
+				</score>
+			</mdiv>
+			</body>
+		</music>
+	
+</mei>

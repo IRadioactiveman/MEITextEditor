@@ -30,7 +30,10 @@ SOURCES += \
     rendersegment.cpp \
     renderwidget.cpp \
     note.cpp \
-    segment.cpp
+    segment.cpp \
+    source.cpp \
+    staff.cpp \
+    metadata.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,7 +42,10 @@ HEADERS += \
     rendersegment.h \
     renderwidget.h \
     note.h \
-    segment.h
+    segment.h \
+    source.h \
+    staff.h \
+    metadata.h
 
 FORMS += \
         mainwindow.ui

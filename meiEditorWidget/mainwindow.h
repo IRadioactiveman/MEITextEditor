@@ -50,7 +50,6 @@ private:
     QLineEdit *titleLine;
     QLineEdit *composerLine;
     QLineEdit *authorLine1;
-    QLineEdit *languageLine;
     QTextEdit *availabilityText;
     QTextEdit *commentsText;
     QLineEdit *keywordsLine;
@@ -69,6 +68,7 @@ private:
     QLineEdit *sourceUnitLine;
     QLineEdit *sourceConditionLine;
     QLineEdit *sourceExtentLine;
+    QLineEdit *sourceLanguageLine;
     QTextEdit *sourceHandwritingText;
     QPushButton *sourceCreateButton;
     QPushButton *sourceAddButton;
@@ -81,15 +81,15 @@ private:
 
     QWidget *staffTab;
     QLineEdit *staffIDLine;
-    QLineEdit *staffLinecountLine;
-    QLineEdit *staffCleflineLine;
-    QLineEdit *staffClefshapeLine;
     QPushButton *staffCreateButton;
     QPushButton *staffAddclefButton;
     QPushButton *staffFinishButton;
     QPushButton *staffNewstaffButton;
     QToolButton *staffLinecolorToolbutton;
     QToolButton *staffModeToolbutton;
+    QToolButton *staffClefshapeToolbutton;
+    QToolButton *staffCleflineToolbutton;
+    QToolButton *staffLinecountToolbutton;
     bool staffAdded;
     QString *genericStaff;
     int staffCounter;
@@ -150,6 +150,8 @@ private:
     QList<QString*> directions;
     QList<QString*> relations;
     QList<QString*> connections;
+    QList<QString*> clefs;
+    QList<QString*> IDs;
 
     QMenu *modeMenu;
     QMenu *pitchMenu;
@@ -159,8 +161,11 @@ private:
     QMenu *directionMenu;
     QMenu *relationMenu;
     QMenu *connectionMenu;
+    QMenu *clefMenu;
 
     QString indent(int a);
+    QString mutate(QString s);
+    bool checkIDs(QString s);
     void sourcesToActions();
     void staffsToActions();
     void modesToActions();
@@ -171,6 +176,7 @@ private:
     void directionsToActions();
     void relationsToActions();
     void connectionsToActions();
+    void clefsToActions();
     void blankToActions(QMenu *menu, QList<QString*> list, void(MainWindow::*func)(), QList<QToolButton*> buttons);
 
 private slots:
@@ -205,6 +211,7 @@ private slots:
     void onSelectDirection();
     void onSelectRelation();
     void onSelectConnection();
+    void onSelectClef();
     void onUp();
     void onDown();
 };
