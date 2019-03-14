@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Graphic MEI Generator</title>
+        
+        <script src="vkbeautify.js"></script>
+        <script src="JS/setup.js"></script>
+        <script src="JS/selectors.js"></script>
+        <script src="JS/xmlOutput.js"></script>
+        <script src="JS/graphicOutput.js"></script>
+        <script src="JS/misc.js"></script>
+        <script src="JS/buttonActions.js"></script>
+        <script src="JS/forms.js"></script>
+        <script src="xmlText.js"></script>
+        <script src="JS/metaData.js"></script>
+        <script src="JS/source.js"></script>
+        <script src="JS/clef.js"></script>
+        <script src="JS/staff.js"></script>
+        <script src="JS/syllable.js"></script>
+        <script src="JS/pitch.js"></script>
+        <script src="JS/variation.js"></script>
+        
+        <style type="text/css">
+            div {
+                display: inline-block;
+                vertical-align: top;
+            }
+            #in {
+                width: 45%;
+                min-height: 620px;
+            }
+            #out {
+                width: 54%;
+            }
+            select {
+                max-width: 200px;
+                min-width: 172px;
+                text-overflow: ellipsis;
+            }
+            option {
+                width: 200px;
+            }
+            button {
+                min-width: 200px;
+            }
+            .formArea {
+                width: 167px;
+            }
+            #meiOutput {
+                white-space: pre;
+            }
+        </style>
+    </head>
+    <header>
+        <h1>Graphic MEI Generator</h1>
+        <a href="help.html" target="_blank">Help</a>
+        <button onclick="toChangeValues()">Change values</button>
+    </header>
+    <body>
+        
+        <div id="in">
+        <h3>Input Mask</h3>
+        <p id="input" >
+            Please see the help section to get to know this tool!
+            <button onclick="start()">Start</button>
+        </p>
+        </div>
+        
+        <div id="out">
+        <h3>MEI Output</h3>
+        <p id="output">
+            <textarea id="meiOutput" rows="25" cols="100" readonly>
+            </textarea>
+        </p>
+        </div>
+        
+        
+        <h3>Graphical Output</h3>
+        <button onclick="scrollUp()">Scroll up graphics</button>
+        <button onclick="scrollDown()">Scroll down graphics</button>
+        <p id="svgout"></p>
+        
+
+    </body>
+    <footer>
+        <a href="help.html" target="_blank">Help</a>
+        <button onclick="toChangeValues()">Change values</button>
+    </footer>
+</html>

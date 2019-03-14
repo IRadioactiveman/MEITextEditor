@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>MEI Gen Help</title>
+    </head>
+    <body>
+        <h1>Graphic MEI Generator Help</h1>
+        <p>
+            Welcome to the Graphic MEI Generator! This tool was designed to make it easier to create XML files containing neumes according to the MEI schema. Please visit the <a href="https://music-encoding.org/" target="_blank">official Music Encoding Initiative website</a> for more information about MEI.
+        </p>
+        <p>
+            <b>Important!</b> The tool is designed as a single page application, which means that it is not advised to use the refresh or the back button. If you do <b>all your progress will probably be lost and you have to start all over again!</b> If you want to change any mistakes you made, please do so by hand or with the opportunities given on the site.
+        </p>
+        <p>
+            <h4>UI</h4>
+            Zhe user interface is dividedin three sections, on the left is an input mask where you enter all the data, right next to it is the xml output, which will change by your input. Below those two is a raw graphical output of the syllables and pitches you added.
+        </p>
+        <p>
+            <h4>General workflow</h4>
+            The process is divided into a couple of steps:<br><br>
+            Meta data:<br>
+            This section contains general data about the work itself as well as information about the file itself.<br><br>
+            Source data:<br>
+            This section contains information about the sources of the musical work. Multiple sources may be added, at least one source is mandatory.<br><br>
+            Staff data:<br>
+            This section contains information about the staffs, e.g. the lines the notes are painted on, including associated clefs.<br><br>
+            Syllable data:<br>
+            This section displays the muscial content itself. First, there is the words that are sung, then you may enter the sung pitches, including variations between sources. To make input easier, the basic neumes virga, punctum, pes, clivis, torculus, porrectus, climacus and scandicus are pre programmed, so don't worry if you add a base pitch and the rest will be generated while you are redirected to the syllable form.
+        </p>
+    
+        <p>
+            <h4>Correcting errors</h4>
+            From time to time an error will occur. If you are in the middle of creating the document, you can use one of the "change value" buttons on the top or the bottom of the site. You will be able to select the source, staff, syllable or any other element you created, and the on the right side you will see the current values of the selected item. You can then change the values, create new ones or delete values. When you are finished there you can go back to the respective form. <b>Watch out: the pre programmed neume types will not be considered if you use an "insert syllable" button!</b> They will have to be inserted by hand.
+        </p>
+        <p>
+            <h4>Graphical output</h4>
+            The graphical output is for the unexperienced xml user to control his inputs concerning syllables and pitches. It is by no means 100% accurate, but it gives you the idea of what you are doing. First of all, there is only one octave displayed, so don't worry if you have two c's in two octaves and they are displayed on the same line. Red notes mean there is no given pitch, and blue notes are from variations.
+        </p>
+        <p>
+            This tool does not validate your data against the MEI schema since proper Relax NG validators for javascript were not found. The tool has been properly tested, but to be sure you should consider validating the resulting MEI file yourself. I had good experiences with <a href="https://relaxng.org/jclark/jing.html" target="_blank">Jing</a>, an easy to use Java command line tool for validating Relax NG schemata amongst others.
+        </p>
+    </body>
+</html>
