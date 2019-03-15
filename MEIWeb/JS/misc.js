@@ -47,7 +47,7 @@ function translateNoteValue(note){
     if(note == "a"){
         return 25;
     }
-    if(note == "h"){
+    if(note == "b"){
         return 20;
     }
     else{
@@ -82,9 +82,9 @@ function followingNote(note){
         return "a";
     }
     if(note == "a"){
-        return "h";
+        return "b";
     }
-    if(note == "h"){
+    if(note == "b"){
         return "c";
     }
     else{
@@ -94,7 +94,7 @@ function followingNote(note){
 
 function previousNote(note){
     if(note == "c"){
-        return "h";
+        return "b";
     }
     if(note == "d"){
         return "c";
@@ -111,7 +111,7 @@ function previousNote(note){
     if(note == "a"){
         return "g";
     }
-    if(note == "h"){
+    if(note == "b"){
         return "a";
     }
     else{

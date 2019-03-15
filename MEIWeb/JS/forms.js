@@ -154,7 +154,7 @@ Pitch:              <select id=\"pitch\">\
                                 <option value=\"f\">F</option>\
                                 <option value=\"g\">G</option>\
                                 <option value=\"a\">A</option>\
-                                <option value=\"h\">H</option>\
+                                <option value=\"b\">B</option>\
                             </select><br>\
 Octacve:            <select id=\"octave\">\
                                 <option value=\"none\">none</option>\
@@ -215,7 +215,7 @@ s += "Pitch:              <select id=\"pitch\">\
                                 <option value=\"f\">F</option>\
                                 <option value=\"g\">G</option>\
                                 <option value=\"a\">A</option>\
-                                <option value=\"h\">H</option>\
+                                <option value=\"b\">B</option>\
                             </select><br>\
 Octacve:            <select id=\"octave\">\
                                 <option value=\"none\">none</option>\
@@ -558,7 +558,7 @@ Pitch:              <select id=\"pitch\">\
                                 <option value=\"f\">F</option>\
                                 <option value=\"g\">G</option>\
                                 <option value=\"a\">A</option>\
-                                <option value=\"h\">H</option>\
+                                <option value=\"b\">B</option>\
                             </select><br>\
 Octacve:            <select id=\"octave\">\
                                 <option value=\"none\">none</option>\
@@ -635,7 +635,7 @@ Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=
                                 <option value=\"f\">F</option>\
                                 <option value=\"g\">G</option>\
                                 <option value=\"a\">A</option>\
-                                <option value=\"h\">H</option>\
+                                <option value=\"b\">B</option>\
                             </select>";
             if(currentVarPitch){
                 s += currentVarPitch.pitch;
@@ -731,7 +731,7 @@ Pitch:              <select id=\"pitch\">\
                                 <option value=\"f\">F</option>\
                                 <option value=\"g\">G</option>\
                                 <option value=\"a\">A</option>\
-                                <option value=\"h\">H</option>\
+                                <option value=\"b\">B</option>\
                             </select>"+ currentPitch.pitch +"<br>\
 Octacve:            <select id=\"octave\">\
                                 <option value=\"none\">none</option>\

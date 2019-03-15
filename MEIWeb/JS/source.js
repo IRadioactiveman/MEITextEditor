@@ -77,13 +77,13 @@ function Source(composer, title, location, ownership, date, publicationstatus, m
                     physicalDescription.appendChild(e);
                 }
                 if(this.medium){
-                    var m = xmlDoc.createElement("medium");
+                    var m = xmlDoc.createElement("physMedium");
                     var mString = xmlDoc.createTextNode(this.medium);
                     m.appendChild(mString);
                     physicalDescription.appendChild(m);
                 }
                 if(this.x){
-                    var d = xmlDoc.createElement("dimension");
+                    var d = xmlDoc.createElement("dimensions");
                     d.setAttribute("unit", this.unit);
                     var dString = xmlDoc.createTextNode(this.x + " x " + this.y + this.unit);
                     d.appendChild(dString);

@@ -57,6 +57,10 @@ function createSVGOutput(){
                                 previousValue = y+10;
                             }
                             x += stride;
+                            if(x >= 1000){
+                                x = 0;
+                                y += 85;
+                            }
                         }
                     }
                 }
@@ -94,11 +98,12 @@ function createSVGOutput(){
                         previousValue = y + 10;
                     }
                     x += stride;
+                    if(x >= 1000){
+                        x = 0;
+                        y += 85;
+                        previousValue += 85;
+                    }
                     
-                }
-                if(x >= 1000){
-                    x = 0;
-                    y += 85;
                 }
                 notesLength += stride;
             }
