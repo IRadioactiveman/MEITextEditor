@@ -12,7 +12,6 @@
         <script src="JS/misc.js"></script>
         <script src="JS/buttonActions.js"></script>
         <script src="JS/forms.js"></script>
-        <script src="xmlText.js"></script>
         <script src="JS/metaData.js"></script>
         <script src="JS/source.js"></script>
         <script src="JS/clef.js"></script>
@@ -62,6 +61,7 @@
         <h3>Graphical Output</h3>
         <button onclick="scrollUp()">Scroll up graphics</button>
         <button onclick="scrollDown()">Scroll down graphics</button>
+        
         <p id="svgout"></p>
         
         <div id="in">
@@ -76,11 +76,11 @@
         <h3>MEI Output</h3>
         <p id="output">
             <textarea id="meiOutput" rows="25" cols="100" readonly>
-            </textarea>
+            </textarea><br>
+            <button onclick="d()">download</button>
         </p>
         </div>
         
-
     </body>
     <footer>
         <a href="help.html" target="_blank">Help</a>

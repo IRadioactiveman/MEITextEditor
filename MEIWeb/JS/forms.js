@@ -123,6 +123,7 @@ Page:               <input id=\"page\" type=\"text\"><br>\
 Line:               <input id=\"line\" type=\"text\"><br>\
 Staff:              " + createStaffSelector();
 s += "Syllable:           <input id=\"syllable\" type=\"text\"><br>\
+Initial?            <input type=\"checkbox\" id=\"initial\"><br>\
 Text color:         <select id=\"color\">\
                                 <option value=\"none\">none</option>\
                                 <option value=\"black\">Black</option>\
@@ -164,12 +165,7 @@ Octacve:            <select id=\"octave\">\
                                 <option value=\"4\">4</option>\
                                 <option value=\"5\">5</option>\
                             </select><br>\
-From previous note: <select id=\"intm\">\
-                                <option value=\"none\">none</option>\
-                                <option value=\"s\">same</option>\
-                                <option value=\"d\">went down from</option>\
-                                <option value=\"u\">went up from</option>\
-                            </select><br>\
+From previous note: "+createIntmSelector()+"<br>\
 Connection:         <select id=\"connection\">\
                                 <option value=\"none\">none</option>\
                                 <option value=\"g\">gapped</option>\
@@ -504,6 +500,13 @@ Staff:              " + createStaffSelector();
         s += staffID + "<br>";
         s += 
 "Syllable:           <input id=\"syllabletext\" type=\"text\">"+ currentSyllable.syllable +"<br>\
+Initial?            <input type=\"checkbox\" id=\"initial\"";
+        
+        if(currentSyllable.initial){
+            s += " checked";
+        }
+        
+        s += "><br>\
 Text color:         <select id=\"color\">\
                                 <option value=\"none\">none</option>\
                                 <option value=\"black\">Black</option>\

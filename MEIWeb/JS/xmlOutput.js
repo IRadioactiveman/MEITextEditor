@@ -65,5 +65,7 @@ function createMEIOutput(){
     toStr = toStr.replace(" xmlns=\"\"", "");
     toStr = toStr.replace(" xmlns=\"\"", "");
     
-    return vkbeautify.xml(toStr);
+    output = vkbeautify.xml(toStr);
+    
+    return output;
 }

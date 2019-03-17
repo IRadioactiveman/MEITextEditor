@@ -1,8 +1,9 @@
-function Syllable(page, line, staff, syllable, color, type, comment){
+function Syllable(page, line, staff, syllable, initial, color, type, comment){
     this.page = page;
     this.line = line;
     this.staff = staff;
     this.syllable = syllable;
+    this.initial = initial;
     this.color = color;
     this.pitches = new Array();
     this.type = type;
@@ -35,12 +36,22 @@ function Syllable(page, line, staff, syllable, color, type, comment){
             s.setAttribute("type", this.type);
         }
         var syl = xmlDoc.createElement("syl");
+        if(this.initial){
+            syl.setAttribute("type", "initial");
+        }
         if(this.syllable){
-            var rend = xmlDoc.createElement("rend");
-            rend.setAttribute("color", this.color);
             var sylString = xmlDoc.createTextNode(this.syllable);
-            rend.appendChild(sylString);
-            syl.appendChild(rend);
+            
+            if(color == "none"){
+                var sylString = xmlDoc.createTextNode(this.syllable);
+                syl.appendChild(sylString);
+            }
+            else{
+                var rend = xmlDoc.createElement("rend");
+                rend.setAttribute("color", this.color);
+                rend.appendChild(sylString);
+                syl.appendChild(rend);   
+            }
             s.appendChild(syl);
         }
         var neume = xmlDoc.createElement("neume");

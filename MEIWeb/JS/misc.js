@@ -6,26 +6,42 @@ function indent(n){
     return s;
 }
 
-function lines(x, y, stride){    
-    var s = "";
+function lines(x, y, stride, svg){    
     for(var i = 0; i < 5; i++){
-        s += "<line x1=\""+x+"\" y1= \""+(y+10*i)+"\" x2=\""+(x+stride)+"\" y2=\""+(y+10*i)+"\"";
-        s += " style=\"stroke:black;\"";
-        s += "/>";
+        var line = document.createElementNS(svgNS, "line");
+        line.setAttribute("x1", x);
+        line.setAttribute("x2", (x + stride));
+        line.setAttribute("y1", (y+10*i));
+        line.setAttribute("y2", (y+10*i));
+        line.setAttribute("style", "stroke: black;");
+        svg.appendChild(line);
     }
-    return s;
 }
 
-function ellipse(x, y, color){
-    var s = "";
-    s += "<ellipse cx=\""+x+"\" cy=\""+y+"\" rx=\"6\" ry=\"4\" style=\"stroke:"+color+";\" fill=\""+color+"\"/>"
-    return s;
+function ellipse(x, y, color, svg){
+    
+    var ellipse = document.createElementNS(svgNS, "ellipse");
+    ellipse.setAttribute("cx", x);
+    ellipse.setAttribute("cy", y);
+    ellipse.setAttribute("rx", 6);
+    ellipse.setAttribute("ry", 5);
+    ellipse.setAttribute("style", "strike:" + color + ";");
+    ellipse.setAttribute("fill", color);
+    svg.appendChild(ellipse);
 }
 
-function text(x, y, text, color){
-    var s = "";
-    s += "<text x=\""+x+"\" y=\""+y+"\" font-size=\"12\" fill=\""+color+"\">"+text+"</text>";
-    return s;
+function text(x, y, text, color, svg){
+    
+    var textElem = document.createElementNS(svgNS, "text");
+    textElem.setAttribute("x", x);
+    textElem.setAttribute("y", y);
+    textElem.setAttribute("font-size", 12);
+    textElem.setAttribute("fill", color);
+    
+    var textNode = document.createTextNode(text);
+    textElem.appendChild(textNode);
+    
+    svg.appendChild(textElem);
 }
 
 function translateNoteValue(note){
@@ -116,5 +132,25 @@ function previousNote(note){
     }
     else{
         return "none";
+    }
+}
+
+function d(){
+    var filename = "file.mei";
+    downloadFile(filename, output);
+}
+
+function downloadFile(filename, data) {
+    var blob = new Blob([data], {type: 'text/plain;charset=utf-8,'});
+    if(window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveBlob(blob, filename);
+    }
+    else{
+        var elem = window.document.createElement('a');
+        elem.href = window.URL.createObjectURL(blob);
+        elem.download = filename;
+        document.body.appendChild(elem);
+        elem.click();
+        document.body.removeChild(elem);
     }
 }

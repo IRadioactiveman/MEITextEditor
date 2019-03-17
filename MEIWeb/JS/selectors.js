@@ -12,6 +12,34 @@ function createTypeSelector(){
     return s;
 }
 
+function createIntmSelector(){
+     var s = "";
+    s += "<select id=\"intm\" width=\"200\">\n";
+    for(var i = 0; i < intms.length; i++){
+        s += "<option value=\""+intms[i]+"\"";
+        if(currentIntm == intms[i]){
+            s += " selected";
+        }
+        s += ">";
+        if(intms[i] == "u"){
+            s += "went up";
+        }
+        else if(intms[i] == "d"){
+            s += "went down";
+        }
+        else if(intms[i] == "s"){
+            s += "same";
+        }
+        else{
+            s += "none";
+        }
+            
+        s += "</option>\n";
+    }
+    s += "</select>\n";
+    return s;
+}
+
 function createStaffSelector(onChange){ 
     var s = "";
     s += "<select id=\"staff\" width=\"200\"";
