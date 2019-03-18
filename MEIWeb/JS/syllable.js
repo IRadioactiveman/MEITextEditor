@@ -1,12 +1,11 @@
-function Syllable(page, line, staff, syllable, initial, color, type, comment){
+function Syllable(page, line, staff, syllable, initial, color, comment){
     this.page = page;
     this.line = line;
     this.staff = staff;
     this.syllable = syllable;
     this.initial = initial;
     this.color = color;
-    this.pitches = new Array();
-    this.type = type;
+    this.neumes = new Array();
     this.comment = comment;
     this.create = function(layer){
         
@@ -32,9 +31,6 @@ function Syllable(page, line, staff, syllable, initial, color, type, comment){
         }
         
         var s = xmlDoc.createElement("syllable");
-        if(this.type && this.type != "none"){
-            s.setAttribute("type", this.type);
-        }
         var syl = xmlDoc.createElement("syl");
         if(this.initial){
             syl.setAttribute("type", "initial");
@@ -54,12 +50,16 @@ function Syllable(page, line, staff, syllable, initial, color, type, comment){
             }
             s.appendChild(syl);
         }
+        for(var i = 0; i < this.neumes.length; i++){
+            this.neumes[i].create(s);
+        }
+        /*
         var neume = xmlDoc.createElement("neume");
         if(this.pitches.length >= 1){
             for(var i = 0; i < this.pitches.length; i++){
                 if(Array.isArray(this.pitches[i])){
                     var app = xmlDoc.createElement("app");
-                    /**/
+                    
                     var vars = new Array();
                     for(var h = 0; h < sources.length; h++){
                         var x;
@@ -85,6 +85,7 @@ function Syllable(page, line, staff, syllable, initial, color, type, comment){
             }
         }
         s.appendChild(neume);
+        */
         layer.appendChild(s);
     }
 }

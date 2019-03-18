@@ -99,6 +99,11 @@ function toSyllable(){
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
+function toNeume(){
+    document.getElementById("input").innerHTML = neumeForm();
+    document.getElementById("meiOutput").value = createMEIOutput();
+}
+
 function createSyllable(){
     var page = document.getElementById("page").value;
     var line = document.getElementById("line").value;
@@ -106,110 +111,11 @@ function createSyllable(){
     var syllable = document.getElementById("syllable").value;
     var initial = document.getElementById("initial").checked;
     var color = document.getElementById("color").value;
-    var type = document.getElementById("type").value;
     var comment = document.getElementById("comment").value;
     
-    currentSyllable = new Syllable(page, line, staff, syllable, initial, color, type , comment);
+    currentSyllable = new Syllable(page, line, staff, syllable, initial, color, comment);
     
     syllables.push(currentSyllable);
-    
-    if(currentSyllable.type == "virga" || currentSyllable.type == "punctum"){
-        var p = new Pitch();
-        p.pitch = "none";
-        currentSyllable.pitches.push(p);
-    }
-    else if(currentSyllable.type == "pes"){
-        var p;
-        
-        p = new Pitch();
-        p.pitch = "none";
-        currentSyllable.pitches.push(p);
-        
-        p = new Pitch();
-        p.pitch = "none";
-        p.intm = "u";
-        currentSyllable.pitches.push(p);
-    }
-    else if(currentSyllable.type == "clivis"){
-        var p;
-        
-        p = new Pitch();
-        p.pitch = "none";
-        currentSyllable.pitches.push(p);
-        
-        p = new Pitch();
-        p.pitch = "none";
-        p.intm = "d";
-        currentSyllable.pitches.push(p);
-    }
-    else if(currentSyllable.type == "torculus"){
-        var p;
-        
-        p = new Pitch();
-        p.pitch = "none";
-        currentSyllable.pitches.push(p);
-        
-        p = new Pitch();
-        p.pitch = "none";
-        p.intm = "u";
-        currentSyllable.pitches.push(p);
-        
-        p = new Pitch();
-        p.pitch = "none";
-        p.intm = "d";
-        currentSyllable.pitches.push(p);
-    }
-    else if(currentSyllable.type == "porrectus"){
-        var p;
-        
-        p = new Pitch();
-        p.pitch = "none";
-        currentSyllable.pitches.push(p);
-        
-        p = new Pitch();
-        p.pitch = "none";
-        p.intm = "d";
-        currentSyllable.pitches.push(p);
-        
-        p = new Pitch();
-        p.pitch = "none";
-        p.intm = "u";
-        currentSyllable.pitches.push(p);
-    }
-    else if(currentSyllable.type == "climacus"){
-        var p;
-        
-        p = new Pitch();
-        p.pitch = "none";
-        currentSyllable.pitches.push(p);
-        
-        p = new Pitch();
-        p.pitch = "none";
-        p.intm = "d";
-        currentSyllable.pitches.push(p);
-        
-        p = new Pitch();
-        p.pitch = "none";
-        p.intm = "d";
-        currentSyllable.pitches.push(p);
-    }
-    else if(currentSyllable.type == "scandicus"){
-        var p;
-        
-        p = new Pitch();
-        p.pitch = "none";
-        currentSyllable.pitches.push(p);
-        
-        p = new Pitch();
-        p.pitch = "none";
-        p.intm = "u";
-        currentSyllable.pitches.push(p);
-        
-        p = new Pitch();
-        p.pitch = "none";
-        p.intm = "u";
-        currentSyllable.pitches.push(p);
-    } 
     
     document.getElementById("meiOutput").value = createMEIOutput();
     document.getElementById("input").innerHTML = syllableForm();
@@ -217,7 +123,7 @@ function createSyllable(){
     
 }
 
-function createSyllableWithPitches(){
+function createSyllableWithNeumes(){
     
     var page = document.getElementById("page").value;
     var line = document.getElementById("line").value;
@@ -225,13 +131,161 @@ function createSyllableWithPitches(){
     var syllable = document.getElementById("syllable").value;
     var initial = document.getElementById("initial").checked;
     var color = document.getElementById("color").value;
-    var type = document.getElementById("type").value;
     var comment = document.getElementById("comment").value;
     
-    currentSyllable = new Syllable(page, line, staff, syllable, initial, color, type , comment);
+    currentSyllable = new Syllable(page, line, staff, syllable, initial, color, comment);
     
     syllables.push(currentSyllable);
     
+    document.getElementById("meiOutput").value = createMEIOutput();
+    document.getElementById("input").innerHTML = neumeForm();
+    createSVGOutput();
+}
+
+function createNeume(){
+    var type = document.getElementById("type").value;
+    
+    if(isClimacus){
+        maxPitches = document.getElementById("numberofpitches").value;
+    }
+    
+    currentNeume = new Neume();
+    currentNeume.type = type;
+    
+    if(type == "virga" || type == "punctum"){
+        var p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+    }
+    else if(currentNeume.type == "pes"){
+        var p;
+        
+        p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "u";
+        currentNeume.pitches.push(p);
+    }
+    else if(currentNeume.type == "clivis"){
+        var p;
+        
+        p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "d";
+        currentNeume.pitches.push(p);
+    }
+    else if(currentNeume.type == "torculus"){
+        var p;
+        
+        p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "u";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "d";
+        currentNeume.pitches.push(p);
+    }
+    else if(currentNeume.type == "porrectus"){
+        var p;
+        
+        p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "d";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "u";
+        currentNeume.pitches.push(p);
+    }
+    else if(currentNeume.type == "climacus"){
+        var p;
+        
+        p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "d";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "d";
+        currentNeume.pitches.push(p);
+        
+        if(maxPitches == 4){
+            p = new Pitch();
+            p.pitch = "none";
+            p.intm = "d";
+            currentNeume.pitches.push(p);
+        }
+        
+        if(maxPitches == 5){
+            p = new Pitch();
+            p.pitch = "none";
+            p.intm = "d";
+            currentNeume.pitches.push(p);
+            
+            p = new Pitch();
+            p.pitch = "none";
+            p.intm = "d";
+            currentNeume.pitches.push(p);
+        }
+    }
+    else if(currentNeume.type == "scandicus"){
+        var p;
+        
+        p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "u";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "u";
+        currentNeume.pitches.push(p);
+    }
+    
+    currentSyllable.neumes.push(currentNeume);
+    document.getElementById("meiOutput").value = createMEIOutput();
+    document.getElementById("input").innerHTML = neumeForm();
+    createSVGOutput();
+}
+
+function createNeumeWithPitches(){
+    var type = document.getElementById("type").value;
+    
+    if(isClimacus){
+        maxPitches = document.getElementById("numberofpitches").value;
+    }
+    
+    currentNeume = new Neume();
+    currentNeume.type = type;
+    
+    currentSyllable.neumes.push(currentNeume);
     document.getElementById("meiOutput").value = createMEIOutput();
     document.getElementById("input").innerHTML = pitchForm();
     createSVGOutput();
@@ -246,17 +300,17 @@ function createPitch(){
     var tilt = document.getElementById("tilt").value;
     
     var p = new Pitch(pitch, octave, comment, intm, connection, tilt);
-    currentSyllable.pitches.push(p);
+    currentNeume.pitches.push(p);
     
-    if(currentSyllable.type == "virga" || currentSyllable.type == "punctum"){
-        document.getElementById("input").innerHTML = syllableForm();
+    if(currentNeume.type == "virga" || currentNeume.type == "punctum"){
+        document.getElementById("input").innerHTML = neumeForm();
     }
-    else if(currentSyllable.type == "pes"){
+    else if(currentNeume.type == "pes"){
         if(pitch == "none" && pitchCounter == 0){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "u";
-            currentSyllable.pitches.push(p);
-            document.getElementById("input").innerHTML = syllableForm();
+            currentNeume.pitches.push(p);
+            document.getElementById("input").innerHTML = neumeForm();
         }
         else if(pitchCounter == 0){
             currentIntm = "u";
@@ -267,15 +321,15 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = syllableForm();
+            document.getElementById("input").innerHTML = neumeForm();
         }
     }
-    else if(currentSyllable.type == "clivis"){
+    else if(currentNeume.type == "clivis"){
         if(pitch == "none" && pitchCounter == 0){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "d";
-            currentSyllable.pitches.push(p);
-            document.getElementById("input").innerHTML = syllableForm();
+            currentNeume.pitches.push(p);
+            document.getElementById("input").innerHTML = neumeForm();
         }
         else if(pitchCounter == 0){
             currentIntm = "d";
@@ -286,83 +340,23 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = syllableForm();
+            document.getElementById("input").innerHTML = neumeForm();
         }
     }
-    else if(currentSyllable.type == "torculus"){
+    else if(currentNeume.type == "torculus"){
         if(pitch == "none" && pitchCounter == 0){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "u";
-            currentSyllable.pitches.push(p);
+            currentNeume.pitches.push(p);
             
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "d";
-            currentSyllable.pitches.push(p);
+            currentNeume.pitches.push(p);
             
-            document.getElementById("input").innerHTML = syllableForm();
+            document.getElementById("input").innerHTML = neumeForm();
         }
         else if(pitchCounter == 0){
             currentIntm = "u";
-            pitchCounter++;
-            document.getElementById("input").innerHTML = pitchForm();
-        }
-        else if(pitchCounter == 1)
-        {
-            currentIntm = "d";
-            pitchCounter++;
-            document.getElementById("input").innerHTML = pitchForm();
-        }
-        else if(pitchCounter == 2)
-        {
-            currentIntm = "none";
-            pitchCounter = 0;
-            document.getElementById("input").innerHTML = syllableForm();
-        }
-    }
-    else if(currentSyllable.type == "porrectus"){
-        if(pitch == "none" && pitchCounter == 0){
-            p = new Pitch(pitch, octave, comment, intm, connection, tilt);
-            p.intm = "u";
-            currentSyllable.pitches.push(p);
-            
-            p = new Pitch(pitch, octave, comment, intm, connection, tilt);
-            p.intm = "d";
-            currentSyllable.pitches.push(p);
-            
-            document.getElementById("input").innerHTML = syllableForm();
-        }
-        else if(pitchCounter == 0){
-            currentIntm = "d";
-            pitchCounter++;
-            document.getElementById("input").innerHTML = pitchForm();
-        }
-        else if(pitchCounter == 1)
-        {
-            currentIntm = "u";
-            pitchCounter++;
-            document.getElementById("input").innerHTML = pitchForm();
-        }
-        else if(pitchCounter == 2)
-        {
-            currentIntm = "none";
-            pitchCounter = 0;
-            document.getElementById("input").innerHTML = syllableForm();
-        }
-    }
-    else if(currentSyllable.type == "climacus"){
-        if(pitch == "none" && pitchCounter == 0){
-            p = new Pitch(pitch, octave, comment, intm, connection, tilt);
-            p.intm = "u";
-            currentSyllable.pitches.push(p);
-            
-            p = new Pitch(pitch, octave, comment, intm, connection, tilt);
-            p.intm = "d";
-            currentSyllable.pitches.push(p);
-            
-            document.getElementById("input").innerHTML = syllableForm();
-        }
-        else if(pitchCounter == 0){
-            currentIntm = "d";
             pitchCounter++;
             document.getElementById("input").innerHTML = pitchForm();
         }
@@ -376,20 +370,106 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = syllableForm();
+            document.getElementById("input").innerHTML = neumeForm();
         }
     }
-    else if(currentSyllable.type == "scandicus"){
+    else if(currentNeume.type == "porrectus"){
         if(pitch == "none" && pitchCounter == 0){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "u";
-            currentSyllable.pitches.push(p);
+            currentNeume.pitches.push(p);
             
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "d";
-            currentSyllable.pitches.push(p);
+            currentNeume.pitches.push(p);
             
-            document.getElementById("input").innerHTML = syllableForm();
+            document.getElementById("input").innerHTML = neumeForm();
+        }
+        else if(pitchCounter == 0){
+            currentIntm = "d";
+            pitchCounter++;
+            document.getElementById("input").innerHTML = pitchForm();
+        }
+        else if(pitchCounter == 1)
+        {
+            currentIntm = "u";
+            pitchCounter++;
+            document.getElementById("input").innerHTML = pitchForm();
+        }
+        else if(pitchCounter == 2)
+        {
+            currentIntm = "none";
+            pitchCounter = 0;
+            document.getElementById("input").innerHTML = neumeForm();
+        }
+    }
+    else if(currentNeume.type == "climacus"){
+        if(pitch == "none" && pitchCounter == 0){
+            p = new Pitch(pitch, octave, comment, intm, connection, tilt);
+            p.intm = "u";
+            currentNeume.pitches.push(p);
+            
+            p = new Pitch(pitch, octave, comment, intm, connection, tilt);
+            p.intm = "d";
+            currentNeume.pitches.push(p);
+            
+            document.getElementById("input").innerHTML = neumeForm();
+        }
+        else if(pitchCounter == 0){
+            currentIntm = "d";
+            pitchCounter++;
+            document.getElementById("input").innerHTML = pitchForm();
+        }
+        else if(pitchCounter == 1)
+        {
+            currentIntm = "d";
+            pitchCounter++;
+            document.getElementById("input").innerHTML = pitchForm();
+        }
+        else if(pitchCounter == 2)
+        {
+            if(maxPitches == 4 || maxPitches == 5){
+                currentIntm = "d";
+                pitchCounter++;
+                document.getElementById("input").innerHTML = pitchForm();
+            }
+            else{
+                currentIntm = "none";
+                pitchCounter = 0;
+                document.getElementById("input").innerHTML = neumeForm();
+            }
+        }
+        else if(pitchCounter == 3)
+        {
+            if(maxPitches == 5){
+                currentIntm = "d";
+                pitchCounter++;
+                document.getElementById("input").innerHTML = pitchForm();
+            }
+            else{
+                currentIntm = "none";
+                pitchCounter = 0;
+                document.getElementById("input").innerHTML = neumeForm();
+            }
+        }
+        else if(pitchCounter == 4)
+        {
+            currentIntm = "none";
+            pitchCounter = 0;
+            document.getElementById("input").innerHTML = neumeForm(); 
+        }
+    }
+    else if(currentNeume.type == "scandicus"){
+        if(pitch == "none" && pitchCounter == 0){
+            p = new Pitch(pitch, octave, comment, intm, connection, tilt);
+            p.intm = "u";
+            currentNeume.pitches.push(p);
+            
+            p = new Pitch(pitch, octave, comment, intm, connection, tilt);
+            p.intm = "d";
+            currentNeume.pitches.push(p);
+            
+            document.getElementById("input").innerHTML = neumeForm();
         }
         else if(pitchCounter == 0){
             currentIntm = "u";
@@ -406,7 +486,7 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = syllableForm();
+            document.getElementById("input").innerHTML = neumeForm();
         }
     } 
     else{
@@ -455,12 +535,12 @@ function createVariation(){
     }
     
     if(!pushedVariations){
-        currentSyllable.pitches.push(variations);
+        currentNeume.pitches.push(variations);
         pushedVariations = true;
     }
     else{
-        currentSyllable.pitches.pop();
-        currentSyllable.pitches.push(variations);
+        currentNeume.pitches.pop();
+        currentNeume.pitches.push(variations);
     }
     
     document.getElementById("meiOutput").value = createMEIOutput();
@@ -473,6 +553,15 @@ function toSyllableFromVariations(){
     variations = new Array();
     
     document.getElementById("input").innerHTML = syllableForm();
+    document.getElementById("meiOutput").value = createMEIOutput();
+    createSVGOutput();
+}
+
+function toNeumeFromVariations(){
+    pushedVariations = false;
+    variations = new Array();
+    
+    document.getElementById("input").innerHTML = neumeForm();
     document.getElementById("meiOutput").value = createMEIOutput();
     createSVGOutput();
 }
@@ -794,10 +883,9 @@ function insertSyllable(before){
     var syllable = document.getElementById("syllabletext").value;
     var initial = document.getElementById("initial").checked;
     var color = document.getElementById("color").value;
-    var type = document.getElementById("type").value;
     var comment = document.getElementById("comment").value;
     
-    var syllable = new Syllable(page, line, staff, syllable, initial, color, type , comment);
+    var syllable = new Syllable(page, line, staff, syllable, initial, color, comment);
     if(before){
         syllables.splice(currentSyllableIndex, 0, syllable);
     }
@@ -816,6 +904,51 @@ function deleteSyllable(){
     currentSyllableIndex = 0;
     
     document.getElementById("input").innerHTML = syllableDataChangeForm();
+    document.getElementById("meiOutput").value = createMEIOutput();
+    createSVGOutput();
+}
+
+function toChangeNeumeData(){
+    currentNeumeIndex = 0;
+    document.getElementById("input").innerHTML = neumeDataChangeForm();
+}
+
+function applyNeumeDataChanges(){
+    var type = document.getElementById("type").value;
+    
+    if(type && type != "none"){
+        currentNeume.type = type;
+    }
+    
+    document.getElementById("meiOutput").value = createMEIOutput();
+    document.getElementById("input").innerHTML = neumeDataChangeForm();
+    createSVGOutput();
+}
+
+function insertNeume(before){
+    var type = document.getElementById("type").value;
+    
+    var neume = new Neume();
+    neume.type = type;
+    
+    if(before){
+        currentSyllable.neumes.splice(currentNeumeIndex, 0, neume);
+    }
+    else{
+        currentSyllable.neumes.splice(currentNeumeIndex + 1, 0, neume);
+    }
+
+    document.getElementById("meiOutput").value = createMEIOutput();
+    document.getElementById("input").innerHTML = neumeDataChangeForm();
+    createSVGOutput();
+}
+
+function deleteNeume(){
+    currentSyllable.neumes.splice(currentNeumeIndex, 1);
+    
+    currentNeumeIndex = 0;
+    
+    document.getElementById("input").innerHTML = neumeDataChangeForm();
     document.getElementById("meiOutput").value = createMEIOutput();
     createSVGOutput();
 }
@@ -867,10 +1000,10 @@ function insertPitch(before){
     var p = new Pitch(pitch, octave, comment, intm, connection, tilt);
     
     if(before){
-        currentSyllable.pitches.splice(currentPitchIndex, 0, p);
+        currentNeume.pitches.splice(currentPitchIndex, 0, p);
     }
     else{
-        currentSyllable.pitches.splice(currentPitchIndex + 1, 0, p);
+        currentNeume.pitches.splice(currentPitchIndex + 1, 0, p);
     }
     
     document.getElementById("input").innerHTML = pitchDataChangeForm();
@@ -879,7 +1012,7 @@ function insertPitch(before){
 }
 
 function deletePitch(){
-    currentSyllable.pitches.splice(currentPitchIndex, 1);
+    currentNeume.pitches.splice(currentPitchIndex, 1);
     
     currentPitchIndex = 0;
     
@@ -897,7 +1030,7 @@ function createAdditionalVariation(){
         variations.push(variation);
     }
     
-    currentSyllable.pitches.splice(currentPitchIndex, 0, variations);
+    currentNeume.pitches.splice(currentPitchIndex, 0, variations);
     
     document.getElementById("meiOutput").value = createMEIOutput();
     document.getElementById("input").innerHTML = pitchDataChangeForm();
@@ -947,10 +1080,10 @@ function insertVariationPitch(before){
     var p = new Pitch(pitch, octave, comment, intm, connection, tilt);
     
     if(before){
-        currentSyllable.pitches[currentPitchIndex][currentVarSourceIndex].additionalPitches.splice(currentVarPitchIndex, 0, p);
+        currentNeume.pitches[currentPitchIndex][currentVarSourceIndex].additionalPitches.splice(currentVarPitchIndex, 0, p);
     }
     else{
-        currentSyllable.pitches[currentPitchIndex][currentVarSourceIndex].additionalPitches.splice(currentVarPitchIndex + 1, 0, p);
+        currentNeume.pitches[currentPitchIndex][currentVarSourceIndex].additionalPitches.splice(currentVarPitchIndex + 1, 0, p);
     }
     
     document.getElementById("input").innerHTML = pitchDataChangeForm();
@@ -959,7 +1092,7 @@ function insertVariationPitch(before){
 }
 
 function deleteVariationPitch(){
-    currentSyllable.pitches[currentPitchIndex][currentVarSourceIndex].additionalPitches.splice(currentVarPitchIndex, 1);
+    currentNeume.pitches[currentPitchIndex][currentVarSourceIndex].additionalPitches.splice(currentVarPitchIndex, 1);
     
     currentVarPitchIndex = 0;
     
@@ -986,6 +1119,22 @@ function applyCurrentClef(){
 function applyCurrentSyllable(){
     currentSyllableIndex = document.getElementById("syllable").value;
     document.getElementById("input").innerHTML = syllableDataChangeForm();
+}
+
+function applyCurrentNeume(){
+    currentNeumeIndex = document.getElementById("neume").value;
+    document.getElementById("input").innerHTML = neumeDataChangeForm();
+}
+
+function applyCurrentType(){
+    currentType = document.getElementById("type").value;
+    if(currentType == "climacus"){
+        isClimacus = true;
+    }
+    else{
+        isClimacus = false;
+    }
+    document.getElementById("input").innerHTML = neumeForm();
 }
 
 function applyCurrentPitch(){

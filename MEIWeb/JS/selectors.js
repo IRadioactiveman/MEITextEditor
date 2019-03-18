@@ -1,6 +1,10 @@
-function createTypeSelector(){
+function createTypeSelector(onChange){
     var s = "";
-    s += "<select id=\"type\" width=\"200\">\n";
+    s += "<select id=\"type\" width=\"200\"";
+    if(onChange){
+        s += "onchange=\""+ onChange +"\"";
+    }
+    s += ">\n";
     for(var i = 0; i < types.length; i++){
         s += "<option value=\""+types[i]+"\"";
         if(currentType == types[i]){
@@ -113,6 +117,25 @@ function createSyllableSelector(onChange){
     return s;
 }
 
+function createNeumeSelector(onChange){
+    var s ="";
+     s += "<select id=\"neume\" width=\"200\"";
+    if(onChange){
+        s += "onchange=\""+ onChange +"\"";
+    }
+    s += ">";
+    for(var i = 0; i < currentSyllable.neumes.length; i++){
+        s += "<option value=\""+i+"\""
+        if(currentNeumeIndex == i){
+            s += " selected";
+        }
+        
+        s += ">"+currentSyllable.neumes[i].type+"</option>";
+    }
+    s += "</select>";
+    return s;
+}
+
 function createPitchSelector(onChange){
     var s ="";
      s += "<select id=\"pitc\" width=\"200\"";
@@ -120,16 +143,16 @@ function createPitchSelector(onChange){
         s += "onchange=\""+ onChange +"\"";
     }
     s += ">\n";
-    for(var i = 0; i < currentSyllable.pitches.length; i++){
+    for(var i = 0; i < currentNeume.pitches.length; i++){
         s += "<option value=\""+i+"\""
         if(currentPitchIndex == i){
             s += " selected";
         }
-        if(Array.isArray(currentSyllable.pitches[i])){
+        if(Array.isArray(currentNeume.pitches[i])){
             s += ">Variation</option>\n";
         }
         else{
-            s += ">"+ currentSyllable.pitches[i].pitch+"</option>\n";
+            s += ">"+ currentNeume.pitches[i].pitch+"</option>\n";
         }
     }
     s += "</select>\n";
@@ -143,12 +166,12 @@ function createVarPitchSelector(onChange){
         s += "onchange=\""+ onChange +"\"";
     }
     s += ">\n";
-    for(var i = 0; i < currentSyllable.pitches[currentPitchIndex][currentVarSourceIndex].additionalPitches.length; i++){
+    for(var i = 0; i < currentNeume.pitches[currentPitchIndex][currentVarSourceIndex].additionalPitches.length; i++){
         s += "<option value=\""+i+"\""
         if(currentVarPitchIndex == i){
             s += " selected";
         }
-        s += ">"+ currentSyllable.pitches[currentPitchIndex][currentVarSourceIndex].additionalPitches[i].pitch +"</option>\n";
+        s += ">"+ currentNeume.pitches[currentPitchIndex][currentVarSourceIndex].additionalPitches[i].pitch +"</option>\n";
     }
     s += "</select>\n";
     return s;
@@ -161,12 +184,12 @@ function createVarSourceSelector(onChange){
         s += "onchange=\""+ onChange +"\"";
     }
     s += ">\n";
-    for(var i = 0; i < currentSyllable.pitches[currentPitchIndex].length; i++){
+    for(var i = 0; i < currentNeume.pitches[currentPitchIndex].length; i++){
         s += "<option value=\""+i+"\"";
         if(currentVarSourceIndex == i){
             s += " selected";
         }
-        s += ">"+ currentSyllable.pitches[currentPitchIndex][i].sourceID +"</option>\n";
+        s += ">"+ currentNeume.pitches[currentPitchIndex][i].sourceID +"</option>\n";
     }
     s += "</select>\n";
     return s;

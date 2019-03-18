@@ -131,11 +131,36 @@ Text color:         <select id=\"color\">\
                                 <option value=\"blue\">Blue</option>\
                                 <option value=\"green\">Green</option>\
                                 <option value=\"yellow\">Yellow</option>\
-                            </select><br>\
-Neume type:         " + createTypeSelector();
+                    </select><br>";
 s += "Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
 <button onclick=\"createSyllable()\">save syllable</button><br><br>\
-<button onclick=\"createSyllableWithPitches()\">save syllable and add pitches</button>\
+<button onclick=\"createSyllableWithNeumes()\">save syllable and add neumes</button>\
+    </pre>\
+</form><br>";
+    
+    return s;
+}
+
+function neumeForm(){
+    var s = "";
+    s +=
+"<h4>Neume:</h4>\
+<form>\
+    <pre>\
+Neume type:         " + createTypeSelector("applyCurrentType()") + "<br>";
+    if(isClimacus){
+        s += 
+"Number of Pitches:  <select id=\"numberofpitches\">\
+                        <option value=\"3\">3</option>\
+                        <option value=\"4\">4</option>\
+                        <option value=\"5\">5</option>\
+                    </select><br><br>";
+    }
+    s +=
+"<button onclick=\"createNeume()\">save neume</button><br><br>\
+<button onclick=\"createNeumeWithPitches()\">save neume and add pitches</button><br><br>\
+<button onclick=\"toSyllable()\">add another syllable</button><br><br>\
+<button onclick=\"toChangeSyllableData()\">change syllables</button>\
     </pre>\
 </form><br>";
     
@@ -190,6 +215,7 @@ Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=
         s += " disabled";
     }
         s += ">add variation</button><br><br>\
+<button onclick=\"toNeume()\">add another neume</button><br><br>\
 <button onclick=\"toSyllable()\">add another syllable</button>\
     </pre>\
 </form><br>";
@@ -247,6 +273,7 @@ Tilt:               <select id=\"tilt\">\
 Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
 <button onclick=\"createVariation()\">save additional pitch for this source</button><br><br>\
 <button onclick=\"toPitchesFromVariations()\">add more original pitches</button><br><br>\
+<button onclick=\"toNeumeFromVariations()\">add more neumes</button><br><br>\
 <button onclick=\"toSyllableFromVariations()\">add another syllable</button>\
     </pre>\
 </form><br>";
@@ -471,7 +498,8 @@ function syllableDataChangeForm(){
     if(syllables.length < 1){
         s += "<b>You should create the data before changing it!</b><br>";
         if(staffs.length < 1){
-            s += "Also, you need to create at least one staff."
+            s += "Also, you need to create at least one staff. <br>"
+            s += "<button onclick=\"toStaffs()\">to staffs</button><br><br>";
         }
         else{
             s += syllableForm();
@@ -515,40 +543,74 @@ Text color:         <select id=\"color\">\
                                 <option value=\"green\">Green</option>\
                                 <option value=\"yellow\">Yellow</option>\
                             </select>"+ currentSyllable.color +"<br>\
-Neume type:         " + createTypeSelector() + currentSyllable.type + "<br>\
 Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea>"+ currentSyllable.comment +"<br><br>\
-Pitches:<br>";
+Neumes:<br>";
             
-        for(var i = 0; i < currentSyllable.pitches.length; i++){
-            if(Array.isArray(currentSyllable.pitches[i])){
-                s += " Variation:<br>";
-                for(var j = 0; j < currentSyllable.pitches[i].length; j++){
-                    s += "  Source: " + currentSyllable.pitches[i][j].sourceID + "<br>";
-                    for(var k = 0; k < currentSyllable.pitches[i][j].additionalPitches.length; k++){
-                        s += "    Pitch: " + currentSyllable.pitches[i][j].additionalPitches[k].pitch + "<br>";
-                    }
-                }
+        for(var i = 0; i < currentSyllable.neumes.length; i++){
+            s += "   ";
+            
+            if(currentSyllable.neumes[i].type == "none"){
+                s += "undefined neume";
             }
             else{
-                s += " Pitch: " + currentSyllable.pitches[i].pitch +"<br>";
+                s += currentSyllable.neumes[i].type
             }
+            
+            s += "<br>";
         }
         s += 
 "<button onclick=\"applySyllableDataChanges()\">apply changes</button><br><br>\
-<button onclick=\"toChangePitchData()\">change pitches</button><br>\
+<button onclick=\"toChangeNeumeData()\">change neumes</button><br>\
 <button onclick=\"insertSyllable(true)\">insert syllable before selected syllable</button><br>\
 <button onclick=\"insertSyllable(false)\">insert syllable after selected syllable</button><br>\
-<button onclick=\"deleteSyllable()\">delete syllable</button>\
+<button onclick=\"deleteSyllable()\">delete syllable</button><br><br>\
+<button onclick=\"toSyllable()\">back to adding syllables</button><br><br>\
     </pre>\
 </form><br>";
     }
-    s += "<button onclick=\"toSyllable()\">back to adding syllables</button><br><br>";
+    return s;
+}
+
+function neumeDataChangeForm(){
+    var s = "";
+    
+    if(currentSyllable.neumes.length >= 1){
+       s +=
+"<h4>Change neume:</h4>\
+<form>\
+    <pre>";
+        s += "Select neume: " + createNeumeSelector("applyCurrentNeume()") + "<br>";
+        
+        currentNeume = currentSyllable.neumes[currentNeumeIndex];
+        
+        s +=
+"Neume type:         " + createTypeSelector();
+        s += "Current neume type: " + currentNeume.type + "<br>";
+    
+    for(var i = 0; i < currentNeume.pitches.length; i++){
+        s += "  Pitch " + i + ": " + currentNeume.pitches[i].pitch + "<br>";
+    }
+    
+    s +=
+"<button onclick=\"applyNeumeDataChanges()\">apply changes</button><br><br>\
+<button onclick=\"toChangePitchData()\">change pitches</button><br><br>\
+<button onclick=\"insertNeume(true)\">insert neume before selected neume</button><br><br>\
+<button onclick=\"insertNeume(false)\">insert neume after selected neume</button><br><br>\
+<button onclick=\"deleteNeume()\">delete neume</button><br><br>\
+    </pre>\
+</form><br>";
+    }
+    else{
+        s += "<b>You have not yet created any neumes!</b><br>";
+        s += neumeForm();
+    }
+    
     return s;
 }
 
 function pitchDataChangeForm(){
     var s = "";
-    if(currentSyllable.pitches.length < 1){
+    if(currentNeume.pitches.length < 1){
         s += 
 "<h4>Create Pitch:</h4>\
 <form autocomplete=\"on\">\
@@ -607,7 +669,7 @@ Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=
     else{
         s += "<h4>Change Pitch:</h4>";
         s += "Select Pitch:     " + createPitchSelector("applyCurrentPitch()") +"<br>";
-        currentPitch = currentSyllable.pitches[currentPitchIndex];
+        currentPitch = currentNeume.pitches[currentPitchIndex];
         
         if(Array.isArray(currentPitch)){
             
