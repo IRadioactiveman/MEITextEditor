@@ -1,10 +1,52 @@
+/**
+ * A class representing a staff.
+ * @class
+ * @param {number} linecount - the number of lines
+ * @param {string} linecolor - the color of the lines
+ * @param {string} mode - the mode of then work
+ */
 function Staff(linecount, linecolor, mode){
+    
+    /**
+     * Specifies the unique XML ID of the staff.
+     * @member {string}
+     */
     this.id = createStaffID();
+    
+    /**
+     * Specifies the unique n value of the staff.
+     * @member {number}
+     */
     this.n = staffCounter;
+    
+    /**
+     * Specifies the number of lines.
+     * @member {number}
+     */
     this.linecount = linecount;
+    
+    /**
+     * Specifies the color of the lines.
+     * @member {string}
+     */
     this.linecolor = linecolor;
+    
+    /**
+     * Specifies the mode.
+     * @member {string}
+     */
     this.mode = mode;
+    
+    /**
+     * Contains the clefs of a staff.
+     * @member {Object}
+     */
     this.clefs = new Array();
+    
+    /**
+     * Creates an XML representation of a staff and appends the created element to the staffGrp element.
+     * @function
+     */
     this.create = function(){
         
         var staffDefinition = xmlDoc.createElement("staffDef");
@@ -28,7 +70,10 @@ function Staff(linecount, linecolor, mode){
         }
     }
 }
-    
+
+/**
+ * Creates a unique staff ID.
+ */
 function createStaffID(){
     var id = "staff" + staffCounter;
     staffCounter++;

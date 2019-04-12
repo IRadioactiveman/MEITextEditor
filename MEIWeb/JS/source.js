@@ -1,19 +1,116 @@
+/**
+ * A class representing a source.
+ * @class
+ * @param {string} composer - the composer of the work
+ * @param {string} title - the title of the work
+ * @param {string} location - the location
+ * @param {string} ownership - the ownership
+ * @param {string} date - release date
+ * @param {string} publicationstatus - publication status
+ * @param {string} medium - the medium
+ * @param {number} x - the width
+ * @param {number} y - the height
+ * @param {string} unit - unit of width and heigth
+ * @param {string} condition - the condition
+ * @param {string} extent - the extent
+ * @param {string} language - the language
+ * @param {string} handwriting - description of additional handwriting or style
+ */
 function Source(composer, title, location, ownership, date, publicationstatus, medium, x, y, unit, condition, extent, language, handwriting){
+    /**
+     * Specifies the unique XML ID of the source.
+     * @member {string}
+     */
     this.id = createSourceID();
+    
+     /**
+     * Specifies the composer of the source.
+     * @member {string}
+     */
     this.composer = composer;
+    
+     /**
+     * Specifies the title of the work.
+     * @member {string}
+     */
     this.title = title;
+    
+     /**
+     * Specifies the physical location.
+     * @member {string}
+     */
     this.location = location;
+    
+     /**
+     * Specifies the ownership of the work.
+     * @member {string}
+     */
     this.ownership = ownership;
+    
+     /**
+     * Specifies the release date.
+     * @member {string}
+     */
     this.date = date;
+    
+     /**
+     * Specifies the publication status.
+     * @member {string}
+     */
     this.publicationstatus = publicationstatus;
+    
+     /**
+     * Specifies the medium of the work.
+     * @member {string}
+     */
     this.medium = medium;
+    
+     /**
+     * Specifies the width.
+     * @member {number}
+     */
     this.x = x;
+    
+     /**
+     * Specifies the height.
+     * @member {number}
+     */
     this.y = y;
+    
+     /**
+     * Specifies the measuring unit for width and height.
+     * @member {string}
+     */
     this.unit = unit;
+    
+     /**
+     * Specifies the condition.
+     * @member {string}
+     */
     this.condition = condition;
+    
+     /**
+     * Specifies the extent.
+     * @member {string}
+     */
     this.extent = extent;
+    
+     /**
+     * Specifies the language.
+     * @member {string}
+     */
     this.language = language;
+    
+     /**
+     * Specifies handwriting notes and style.
+     * @member {string}
+     */
     this.handwriting = handwriting;
+    
+     /**
+     * Creates an XML representation of a source and appends the created element to the manifestationList element.
+     * @function
+     */
     this.create = function(){ 
         var manifestationList = xmlDoc.getElementsByTagName("manifestationList")[0];
         
@@ -136,127 +233,11 @@ function Source(composer, title, location, ownership, date, publicationstatus, m
     }
 }
 
+/**
+ * Creates a unique source ID.
+ */
 function createSourceID(){
     var id = "source" + sourceCounter;
     sourceCounter++;
     return id;
 }
-
-/*  
-        var s = "";
-        
-        s += indent(3);
-        s += meiManifestationAttBeg; s += meiAttID; s += "\""; s += this.id; s += "\""; s += meiClosingBracket; s += meiN;
-    
-
-        if(this.language)
-        {
-
-            s += indent(4); s += meiLangusageBeg; s += meiN;
-            s += indent(5); s += meiLanguageBeg; s += meiN;
-            s += indent(6); s += this.language; s += meiN;
-            s += indent(5); s += meiLanguageEnd;  s += meiN;
-            s += indent(4); s += meiLangusageEnd; s += meiN;
-
-        }
-
-        s += indent(4); s += meiBiblListBeg; s += meiN;
-        s += indent(5); s += meiBiblBeg; s += meiN;
-        if(this.title)
-        {
-
-            s += indent(6); s += meiTitleBeg; s += meiN;
-            s += indent(7); s += this.title; s += meiN;
-            s += indent(6); s += meiTitleEnd; s += meiN;
-        }
-        if(this.composer)
-        {
-            s += indent(6); s += meiAgentBeg; s += meiN;
-            s += indent(7); s += this.composer; s += meiN;
-            s += indent(6); s += meiAgentEnd; s += meiN;
-        }
-
-        if(this.date)
-        {
-            s += indent(6); s += meiDateBeg; s += meiN;
-            s += indent(7); s += this.date; s += meiN;
-            s += indent(6); s += meiDateEnd; s += meiN;
-        }
-        s += indent(5); s += meiBiblEnd; s += meiN;
-        s += indent(4); s += meiBiblListEnd; s += meiN;
-        
-        s += indent(4); s += meiComponentListBeg; s += meiN;
-        s += indent(5); s += meiItemBeg; s += meiN;
-        
-        if(this.publicationstatus){
-            s += indent(6); s += meiAvailabilityBeg; s += meiN;
-            s += indent(7); s += this.publicationstatus; s += meiN;
-            s += indent(6); s += meiAvailabilityEnd; s += meiN;
-        }
-
-        s += indent(6); s += meiPhysdescriptionBeg; s += meiN;
-        if(this.extent)
-        {
-            s += indent(7); s += meiExtentBeg; s += meiN;
-            s += indent(8); s += this.extent; s += meiN;
-            s += indent(7); s += meiExtentEnd; s += meiN;
-        }
-        if(this.medium)
-        {
-            s += indent(7); s += meiPhysmediumBeg; s += meiN;
-            s += indent(8); s += this.medium; s += meiN;
-            s += indent(7); s += meiPhysmediumEnd; s += meiN;
-            
-        }
-        if(this.x)
-        {
-            s += indent(7); s += meiDimensionsAttBeg; s += meiAttUnits; s += "\""; s += this.unit; s += "\""; s +=     meiClosingBracket; s += meiN;
-            s += indent(8); s += this.x; s += " x "; s += this.y; s += this.unit; s += meiN;
-            s += indent(7); s += meiDimensionsEnd; s += meiN;
-        }
-        if(this.condition)
-        {
-            s += indent(7); s += meiConditionBeg; s += meiN;
-            s += indent(8); s += this.condition; s += meiN;
-            s += indent(7); s += meiConditionEnd; s += meiN;
-        }
-        if(this.handwriting)
-        {
-            s += indent(7); s += meiHandlistBeg; s += meiN;
-            s += indent(8); s += meiHandBeg; s += meiN;
-            s += indent(9); s += meiAnnotBeg; s += meiN;
-            s += indent(10); s += this.handwriting; s += meiN;
-            s += indent(9); s += meiAnnotEnd; s += meiN;
-            s += indent(8); s += meiHandEnd; s += meiN;
-            s += indent(7); s += meiHandlistEnd; s += meiN;
-        }
-        
-        s += indent(6); s += meiPhysdescriptionEnd; s += meiN;
-        
-        if(this.location)
-        {
-            s += indent(6); s += meiPhysicallocationBeg; s += meiN;
-            s += indent(7); s += meiRepositoryBeg; s += meiN;
-            s += indent(8); s += this.location; s += meiN;
-            s += indent(7); s += meiRepositoryEnd; s += meiN;
-            s += indent(6); s += meiPhysicallocationEnd; s += meiN;
-        }
-
-        if(this.ownership)
-        {
-            s += indent(6); s += meiHistoryBeg; s += meiN;
-            s += indent(7); s += meiProvenanceBeg; s += meiN;
-            s += indent(8); s += meiCorpnameBeg; s += meiN;
-            s += indent(9); s += this.ownership; s += meiN;
-            s += indent(8); s += meiCorpnameEnd; s += meiN;
-            s += indent(7); s += meiProvenanceEnd; s += meiN;
-            s += indent(6); s += meiHistoryEnd; s += meiN;
-        }
-        
-        s += indent(5); s += meiItemEnd; s += meiN;
-        s += indent(4); s += meiComponentListEnd; s += meiN;
-        
-        s += indent(3); s += meiManifestationEnd; s += meiN;
-        
-        return s;
-*/

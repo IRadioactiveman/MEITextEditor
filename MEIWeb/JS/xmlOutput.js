@@ -1,3 +1,6 @@
+/** Everytime this function is called, it creates a new document with the mei element as the root element. Afterwards it checks for meta data, sources, staffs and syllables and calls their create functions in the needed context to create a valid mei document. Afterwards the document is translated into a string via XMLSerializer to make it accessible for presentation. The string is made more readable by using the vkbeautify library to improve readability even further. The string is then returned.
+* @returns {string} output - a readable version of the underlying xml document that is created in this function
+*/
 function createMEIOutput(){
     xmlDoc = document.implementation.createDocument("http://www.music-encoding.org/ns/mei", "mei", null);
     xmlDoc.getElementsByTagName("mei")[0].setAttribute("meiversion", "4.0.0");

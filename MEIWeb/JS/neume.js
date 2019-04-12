@@ -1,6 +1,25 @@
+/** 
+ * A class representing a neume.
+ * @class
+ */
 function Neume(){
+    /**
+     * Specifies the type of the neume.
+     * @member {string}
+     */
     this.type;
+    
+    /**
+     * An array containing the pitches of a neume.
+     * @member {Object}
+     */
     this.pitches = new Array();
+    
+    /**
+     * Creates the XML representation of a neume. The created element is appended to a syllable element.
+     * @function
+     * @param syllable - the syllable parent element that the created neume is appended to
+     */
     this.create = function(syllable){
         var neume = xmlDoc.createElement("neume");
         if(this.type != "none"){

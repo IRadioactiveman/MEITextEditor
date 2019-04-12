@@ -1,9 +1,42 @@
+/** 
+ * A class representing meta data.
+ * @class
+ * @param {string} title - the title of the song
+ * @param {string} composer - the composer of the song
+ * @param {string} author - the author of the file
+ * @param {string} availability - an availability statement
+ * @param {string} comment - an editorial comment
+ */
 function MetaData(title, composer, author, availability, comment){
+    /**
+     * Specifies the title of the work.
+     * @member {string}
+     */
     this.title = title;
+    /**
+     * Specifies the composer of the work.
+     * @member {string}
+     */
     this.composer = composer;
+    /**
+     * Specifies the author of the file.
+     * @member {string}
+     */
     this.author = author;
+    /**
+     * Specifies the availability of the file.
+     * @member {string}
+     */
     this.availability = availability;
+    /**
+     * Specifies editorial comments concerning the data and coding.
+     * @member {string}
+     */
     this.comment = comment;
+    /**
+     * Creates the xml representation of the meta data. It is automatically added to the root element "mei".
+     * @function
+     */
     this.create = function (){
         var meiHeader = xmlDoc.getElementsByTagName("meiHead")[0];
         
@@ -59,7 +92,6 @@ function MetaData(title, composer, author, availability, comment){
 
         }
         
-        
         if(this.comment){
             encodingDescription = xmlDoc.createElement("encodingDesc");
             var editorialDeclaration = xmlDoc.createElement("editorialDecl");
@@ -79,62 +111,3 @@ function MetaData(title, composer, author, availability, comment){
         }   
     }
 }
-/*
-    this.create = function (){ 
-        var s = "";
-        
-        s += indent(2); s += meiFiledescriptionBeg; s += meiN;
-        
-        if(this.title){
-            s += indent(3); s += meiTitlestmtBeg; s += meiN;
-            s += indent(4); s += meiTitleBeg; s += meiN;
-            s += indent(5); s += title; s += meiN;
-            s += indent(4); s += meiTitleEnd; s += meiN;
-            
-            if(this.composer){
-                s += indent(4); s += meiAgentBeg; s += meiN;
-                s += indent(5);  s += composer; s += meiN;
-                s += indent(4); s += meiAgentEnd; s += meiN;
-            }
-            s += indent(3); s += meiTitlestmtEnd; s += meiN;
-            
-            if(author || availability){
-                s += indent(3); s += meiPublicationBeg; s += meiN;
-                if(author){
-                    var authors = author.split(",");
-                    
-                    s += indent(4); s += meiResponsibilityBeg; s += meiN;
-                    for(var i = 0; i < authors.length; i++){
-                        s += indent(5); s += meiPersnameBeg; s += meiN;
-                        s += indent(6); s += authors[i]; s += meiN;
-                        s += indent(5); s += meiPersnameEnd; s += meiN;
-                    }
-                    s += indent(4); s += meiResponsibilityEnd; s += meiN;
-                }
-        
-                if(this.availability){
-                    s += indent(4); s += meiAvailabilityBeg; s += meiN;
-                    s += indent(5); s += meiUserestrictBeg; s += meiN;
-                    s += indent(6); s += availability; s += meiN;
-                    s += indent(5); s += meiUserestrictEnd; s += meiN;
-                    s += indent(4); s += meiAvailabilityEnd; s += meiN;
-                }
-                s += indent(3); s += meiPublicationEnd; s += meiN;
-            }
-        }
-        
-        
-        s += indent(2); s += meiFiledescriptionEnd; s += meiN;
-
-        if(this.comment){
-            s += indent(2); s += meiEncodingDescBeg; s += meiN;
-            s += indent(3); s += meiEditorialdeclarationBeg; s += meiN;
-            s += indent(4); s += meiParagraphBeg; s += meiN;
-            s += indent(5); s += comment; s += meiN;
-            s += indent(4); s += meiParagraphEnd; s += meiN;
-            s += indent(3); s += meiEditorialdeclarationEnd; s += meiN;
-            s += indent(2); s += meiEncodingDescEnd; s += meiN;
-        }
-        
-        return s;
-    }*/

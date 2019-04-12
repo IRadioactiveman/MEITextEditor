@@ -1,6 +1,25 @@
+/** 
+ * A class representing a clef.
+ * @class
+ * @param {string} line - line the clef is on
+ * @param {string} shape - shape of the clef
+ */
 function Clef(line, shape){
+    /**
+     * Specifies the line the clef is on.
+     * @member {string}
+     */
     this.line = line;
+    /**
+     * Specifies the shape of the clef.
+     * @member {string}
+     */
     this.shape = shape;
+    /**
+     * Creates the xml representation of the clef.
+     * @function
+     * @param {string} id - the id of the staff definition to append the clef to
+     */
     this.create = function(id){
         
         var staffDefinition = xmlDoc.getElementsByTagName("staffDef");

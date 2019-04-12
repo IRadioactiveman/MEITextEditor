@@ -1,12 +1,69 @@
+/**
+ * A class representing a syllable.
+ * @class
+ * @param {number} page - the page in the source
+ * @param {number} line - the line in the source
+ * @param {number} staff - the unique n of the staff used for the syllable
+ * @param {string} syllable - the textual content of the syllable
+ * @param {boolean} initial - defines whether syllable is an initial or not
+ * @param {string} color - the color of the text
+ * @param {string} comment - a comment regarding the syllable
+ */
 function Syllable(page, line, staff, syllable, initial, color, comment){
+    
+    /**
+     * Specifies the page in the source.
+     * @member{number}
+     */
     this.page = page;
+    
+    /**
+     * Specifies the line in the source.
+     * @member{number}
+     */
     this.line = line;
+    
+    /**
+     * Specifies the unique of the staff used.
+     * @member{number}
+     */
     this.staff = staff;
+    
+    /**
+     * Specifies .
+     * @member{}
+     */
     this.syllable = syllable;
+    
+    /**
+     * Specifies the textual content of the syllable.
+     * @member{string}
+     */
     this.initial = initial;
+    
+    /**
+     * Specifies the color of the text.
+     * @member{string}
+     */
     this.color = color;
+    
+    /**
+     * Contains the neumes used for the syllable.
+     * @member{Object}
+     */
     this.neumes = new Array();
+    
+    /**
+     * Specifies a comment regarding the syllable.
+     * @member{string}
+     */
     this.comment = comment;
+    
+    /**
+     * Creates an XML representation of a syllable and append the created element to a given layer element.
+     * @function
+     * @param layer - a layer element to append the created syllable element to
+     */
     this.create = function(layer){
         
         if(this.page){
@@ -53,39 +110,6 @@ function Syllable(page, line, staff, syllable, initial, color, comment){
         for(var i = 0; i < this.neumes.length; i++){
             this.neumes[i].create(s);
         }
-        /*
-        var neume = xmlDoc.createElement("neume");
-        if(this.pitches.length >= 1){
-            for(var i = 0; i < this.pitches.length; i++){
-                if(Array.isArray(this.pitches[i])){
-                    var app = xmlDoc.createElement("app");
-                    
-                    var vars = new Array();
-                    for(var h = 0; h < sources.length; h++){
-                        var x;
-                        for(var g = 0; g < this.pitches[i].length; g++){
-                            if(sources[h].id == this.pitches[i][g].sourceID){
-                                x = this.pitches[i][g];
-                                break;
-                            }
-                            else{
-                                x = new Variation(sources[h].id);  
-                            }
-                        }
-                        vars.push(x);
-                    }
-                    for(var j = 0; j < vars.length; j++){
-                        vars[j].create(app);
-                    }
-                    neume.appendChild(app);
-                }
-                else{
-                    this.pitches[i].create(neume);
-                }
-            }
-        }
-        s.appendChild(neume);
-        */
         layer.appendChild(s);
     }
 }

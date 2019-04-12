@@ -1,3 +1,9 @@
+/* In this file, all dynamically integrated html forms are stored. Some of them are implemented as functions since they contain information that is only available at runtime.*/
+
+/** 
+ * The meta data form.
+ * @var {string} metaDataForm
+ */
 var metaDataForm =
 "<h4>Meta data:</h4>\
 <form autocomplete=\"on\">\
@@ -11,6 +17,11 @@ Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\"></tex
     </pre>\
 </form><br>";
 
+/**
+ * The source data form.
+ * @function
+ * @returns {string} s - the source form as a string
+ */
 function sourceForm(){
     var s = "";
     s += 
@@ -18,7 +29,7 @@ function sourceForm(){
 <form autocomplete=\"on\">\
     <pre>\
 Author/Composer:    <input id=\"composer\" type=\"text\"><br>\
-Title:              <input id=\"title\" type=\"text\"><br>\
+Source title:       <input id=\"title\" type=\"text\"><br>\
 Location:           <input id=\"location\" type=\"text\"><br>\
 Ownership:          <input id=\"ownership\" type=\"text\"><br>\
 Date:               <input id=\"date\" type=\"text\"><br>\
@@ -43,6 +54,11 @@ Handwriting:        <textarea class=\"formArea\" id=\"handwriting\" rows=\"5\" c
     return s;
 }
 
+/**
+ * The staff data form.
+ * @function
+ * @returns {string} s - the staff form as a string
+ */
 function staffForm(){
     var s = "";
     s +=
@@ -88,6 +104,10 @@ Mode:               <select id=\"mode\">\
     return s;
 }
 
+/** 
+ * The clef data form.
+ * @var {string} clefForm
+ */
 var clefForm =
 "<h4>Clef:</h4>\
 <form autocomplete=\"on\">\
@@ -113,6 +133,11 @@ Shape:              <select id=\"shape\">\
     </pre>\
 </form><br>";
 
+/**
+ * The syllable data form.
+ * @function
+ * @returns {string} s - the syllable form as a string
+ */
 function syllableForm(){   
     var s = "";
     s +=
@@ -124,14 +149,7 @@ Line:               <input id=\"line\" type=\"text\"><br>\
 Staff:              " + createStaffSelector();
 s += "Syllable:           <input id=\"syllable\" type=\"text\"><br>\
 Initial?            <input type=\"checkbox\" id=\"initial\"><br>\
-Text color:         <select id=\"color\">\
-                                <option value=\"none\">none</option>\
-                                <option value=\"black\">Black</option>\
-                                <option value=\"red\">Red</option>\
-                                <option value=\"blue\">Blue</option>\
-                                <option value=\"green\">Green</option>\
-                                <option value=\"yellow\">Yellow</option>\
-                    </select><br>";
+Text color:         " + createColorSelector("applyCurrentColor()");
 s += "Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
 <button onclick=\"createSyllable()\">save syllable</button><br><br>\
 <button onclick=\"createSyllableWithNeumes()\">save syllable and add neumes</button>\
@@ -141,6 +159,11 @@ s += "Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\"
     return s;
 }
 
+/**
+ * The neume data form.
+ * @function
+ * @returns {string} s - the neume form as a string
+ */
 function neumeForm(){
     var s = "";
     s +=
@@ -167,6 +190,11 @@ Neume type:         " + createTypeSelector("applyCurrentType()") + "<br>";
     return s;
 }
 
+/**
+ * The pitch data form.
+ * @function
+ * @returns {string} s - the pitch form as a string
+ */
 function pitchForm(){
     var s = "";
 s += "<h4>Pitch:</h4>\
@@ -182,15 +210,8 @@ Pitch:              <select id=\"pitch\">\
                                 <option value=\"a\">A</option>\
                                 <option value=\"b\">B</option>\
                             </select><br>\
-Octacve:            <select id=\"octave\">\
-                                <option value=\"none\">none</option>\
-                                <option value=\"1\">1</option>\
-                                <option value=\"2\">2</option>\
-                                <option value=\"3\">3</option>\
-                                <option value=\"4\">4</option>\
-                                <option value=\"5\">5</option>\
-                            </select><br>\
-From previous note: "+createIntmSelector()+"<br>\
+Octave:             " + createOctaveSelector("applyCurrentOctave()");
+s += "From previous note: "+createIntmSelector()+"<br>\
 Connection:         <select id=\"connection\">\
                                 <option value=\"none\">none</option>\
                                 <option value=\"g\">gapped</option>\
@@ -207,14 +228,21 @@ Tilt:               <select id=\"tilt\">\
                                 <option value=\"ne\">northeast</option>\
                                 <option value=\"sw\">southwest</option>\
                                 <option value=\"se\">southeast</option>\
-                            </select><br>\
+                    </select><br>\
+Graphical variation:<select id=\"variation\">\
+                                <option value=\"none\">none</option>\
+                                <option value=\"quilisma\">quilisma</option>\
+                                <option value=\"oriscus\">oriscus</option>\
+                                <option value=\"liquescent\">liquescent</option>\
+                                <option value=\"strophicus\">strophicus</option>\
+                    </select><br>\
 Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
 <button onclick=\"createPitch()\">save pitch</button><br><br>\
 <button onclick=\"toVariant()\"";
     if(sources.length <= 1){
         s += " disabled";
     }
-        s += ">add variation</button><br><br>\
+        s += ">add variant</button><br><br>\
 <button onclick=\"toNeume()\">add another neume</button><br><br>\
 <button onclick=\"toSyllable()\">add another syllable</button>\
     </pre>\
@@ -222,10 +250,15 @@ Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=
     return s;
 }
 
+/**
+ * The variant data form.
+ * @function
+ * @returns {string} s - the variant form as a string
+ */
 function variationForm(){
     var s = "";
     s +=
-"<h4>Pitch variation</h4>\
+"<h4>Pitch variant</h4>\
 <form autocomplete=\"on\">\
     <pre>\
 Source:             "+createSourceSelector();
@@ -281,6 +314,11 @@ Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=
     return s;
 }
 
+/**
+ * The form for changing values.
+ * @function
+ * @returns {string} s - the form for changing vaalues as a string
+ */
 function changeValueForm(){
     var s ="";
     
@@ -292,6 +330,11 @@ function changeValueForm(){
     return s;
 }    
 
+/**
+ * The meta data change form.
+ * @function
+ * @returns {string} s - the form for changing meta data as a string
+ */
 function metaDataChangeForm(){
     var s = "";
     if(!metaData){
@@ -317,6 +360,11 @@ Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\"></tex
     return s;
 }
 
+/**
+ * The source data change form.
+ * @function
+ * @returns {string} s - the form for changing sources as a string
+ */
 function sourceDataChangeForm(){
     var s = "";
     if(sources.length < 1){
@@ -337,7 +385,7 @@ Select source:      "+ createSourceSelector("applyCurrentSource()") + "<br>";
     <pre>\
                                             Current:<br>\
 Author/Composer:    <input id=\"composer\" type=\"text\">"+ currentSource.composer +"<br>\
-Title:              <input id=\"title\" type=\"text\">"+ currentSource.title +"<br>\
+Source title:       <input id=\"title\" type=\"text\">"+ currentSource.title +"<br>\
 Location:           <input id=\"location\" type=\"text\">"+ currentSource.location +"<br>\
 Ownership:          <input id=\"ownership\" type=\"text\">"+ currentSource.ownership +"<br>\
 Date:               <input id=\"date\" type=\"text\">"+ currentSource.date +"<br>\
@@ -361,6 +409,11 @@ Handwriting:        <textarea class=\"formArea\" id=\"handwriting\" rows=\"5\" c
     return s;
 }
 
+/**
+ * The staff data change form.
+ * @function
+ * @returns {string} s - the form for changing staffs as a string
+ */
 function staffDataChangeForm(){
     var s = "";
     if(staffs.length < 1){
@@ -432,6 +485,11 @@ Clefs:<br>";
     return s;
 }
 
+/**
+ * The clef data change form.
+ * @function
+ * @returns {string} s - the form for changing clefs as a string
+ */
 function clefDataChangeForm(){
     var s = "";
 
@@ -493,6 +551,11 @@ Shape:              <select id=\"shape\">\
     return s;
 }
 
+/**
+ * The syllable data change form.
+ * @function
+ * @returns {string} s - the form for changing syllables as a string
+ */
 function syllableDataChangeForm(){
     var s = "";
     if(syllables.length < 1){
@@ -571,6 +634,11 @@ Neumes:<br>";
     return s;
 }
 
+/**
+ * The neume data change form.
+ * @function
+ * @returns {string} s - the form for changing neumes as a string
+ */
 function neumeDataChangeForm(){
     var s = "";
     
@@ -608,6 +676,11 @@ function neumeDataChangeForm(){
     return s;
 }
 
+/**
+ * The pitch data change form. It is applied for changing pitches in both neumes and variants.
+ * @function
+ * @returns {string} s - the form for changing pitches as a string
+ */
 function pitchDataChangeForm(){
     var s = "";
     if(currentNeume.pitches.length < 1){
@@ -656,13 +729,20 @@ Tilt:               <select id=\"tilt\">\
                                 <option value=\"sw\">southwest</option>\
                                 <option value=\"se\">southeast</option>\
                             </select><br>\
+Graphical variation:<select id=\"variation\">\
+                                <option value=\"none\">none</option>\
+                                <option value=\"quilisma\">quilisma</option>\
+                                <option value=\"oriscus\">oriscus</option>\
+                                <option value=\"liquescent\">liquescent</option>\
+                                <option value=\"strophicus\">strophicus</option>\
+                    </select><br>\
 Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
 <button onclick=\"insertPitch(true)\">create pitch</button><br><br>\
 <button onclick=\"createAdditionalVariation()\"";
         if(sources.length <= 1){
             s += " disabled";
         }
-        s += ">add variation before selected pitch</button><br><br>\
+        s += ">add variant before selected pitch</button><br><br>\
     </pre>\
 </form><br>";
     }
@@ -676,9 +756,9 @@ Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=
             s +=
 "<form autocomplete=\"on\">\
     <pre>";
-            s += "Select Source of Variation:" + createVarSourceSelector("applyCurrentVarSource()");
+            s += "Select Source of Variant:" + createVarSourceSelector("applyCurrentVarSource()");
             
-            s += "Select Pitch in Variation: " + createVarPitchSelector("applyCurrentVariation()") + "<br>";
+            s += "Select Pitch in Variant: " + createVarPitchSelector("applyCurrentVariation()") + "<br>";
             
             currentVarPitch = currentPitch[currentVarSourceIndex].additionalPitches[currentVarPitchIndex];
             
@@ -759,6 +839,18 @@ Tilt:               <select id=\"tilt\">\
             }
             s +=            
 "<br>\
+Graphical variation:<select id=\"variation\">\
+                                <option value=\"none\">none</option>\
+                                <option value=\"quilisma\">quilisma</option>\
+                                <option value=\"oriscus\">oriscus</option>\
+                                <option value=\"liquescent\">liquescent</option>\
+                                <option value=\"strophicus\">strophicus</option>\
+                    </select>";
+            if(currentVarPitch){
+                s += currentVarPitch.variation;
+            }
+            s +=
+"<br>\
 Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea>";
             if(currentVarPitch){
                 s += currentVarPitch.comment;
@@ -770,7 +862,7 @@ Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=
 <button onclick=\"insertVariationPitch(true)\">insert pitch before selected pitch</button><br><br>\
 <button onclick=\"insertVariationPitch(false)\">insert pitch after selected pitch</button><br><br>\
 <button onclick=\"deleteVariationPitch()\">delete pitch</button><br>\
-<button onclick=\"deletePitch()\">delete whole variation</button><br><br>\
+<button onclick=\"deletePitch()\">delete whole variant</button><br><br>\
     </pre>\
 </form><br>";
             }
@@ -778,7 +870,7 @@ Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=
                 s +=
 "<br><br>\
 <button onclick=\"insertVariationPitch(true)\">create pitch</button><br>\
-<button onclick=\"deletePitch()\">delete whole variation</button><br><br>\
+<button onclick=\"deletePitch()\">delete whole variant</button><br><br>\
     </pre>\
 </form><br>";
             }
@@ -829,6 +921,13 @@ Tilt:               <select id=\"tilt\">\
                                 <option value=\"sw\">southwest</option>\
                                 <option value=\"se\">southeast</option>\
                             </select>"+ currentPitch.tilt +"<br>\
+Graphical variation:<select id=\"variation\">\
+                                <option value=\"none\">none</option>\
+                                <option value=\"quilisma\">quilisma</option>\
+                                <option value=\"oriscus\">oriscus</option>\
+                                <option value=\"liquescent\">liquescent</option>\
+                                <option value=\"strophicus\">strophicus</option>\
+                    </select>"+ currentPitch.variation +"<br>\
 Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
 <button onclick=\"applyPitchDataChanges()\">apply changes</button><br><br>\
 <button onclick=\"insertPitch(true)\">insert new pitch before selected pitch</button><br><br>\
@@ -838,7 +937,7 @@ Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=
         if(sources.length <= 1){
             s += " disabled";
         }
-        s += ">add variation before selected pitch</button><br><br>\
+        s += ">add variant before selected pitch</button><br><br>\
     </pre>\
 </form><br>";
         }

@@ -1,9 +1,13 @@
+/* In this file, all possible actions that can be triggered by a button with the onclick attribute will be implemented.*/
+
+/** This function represents the starting point of the program, leading straight to entering meta data and initializes the SVG output.*/
 function start(){
     var p = document.getElementById("input");
     p.innerHTML = metaDataForm;
     createSVGOutput();
 }
 
+/** Reads the data entered in the meta data form and saves it, leading to the source form afterwards.*/
 function createMetaData(){
     var title = document.getElementById("title").value;
     var composer = document.getElementById("composer").value;
@@ -17,10 +21,12 @@ function createMetaData(){
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
+/** Navigational, leads to sources form.*/
 function toSources(){
     document.getElementById("input").innerHTML = sourceForm();
 }
 
+/** Reads the data entered in the source form and saves it, leading to the staff form afterwards.*/
 function createSource(){
     var composer = document.getElementById("composer").value;
     var title = document.getElementById("title").value;
@@ -45,10 +51,12 @@ function createSource(){
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
+/** Navigational, leads to staff form.*/
 function toStaffs(){
     document.getElementById("input").innerHTML = staffForm();
 }
 
+/** Reads the data entered in the staff form and saves it.*/
 function createStaff(){
     var linecount = document.getElementById("linecount").value;
     var linecolor = document.getElementById("linecolor").value;
@@ -64,6 +72,7 @@ function createStaff(){
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
+/** Reads the data entered in the staff form and saves it, leading to the clef form afterwards.*/
 function createStaffWithClefs(){
     var linecount = document.getElementById("linecount").value;
     var linecolor = document.getElementById("linecolor").value;
@@ -77,6 +86,7 @@ function createStaffWithClefs(){
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
+/** Reads the data entered in the clef form and saves it.*/
 function createClef(){
     var line = document.getElementById("line").value;
     var shape = document.getElementById("shape").value;
@@ -88,22 +98,26 @@ function createClef(){
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
+/** Navigational, leads to staff form.*/
 function createNewStaff(){
     document.getElementById("input").innerHTML = staffForm();
     
     document.getElementsByClassName("staffdependant")[0].disabled = false;
 }
 
+/** Navigational, leads to syllable form.*/
 function toSyllable(){
     document.getElementById("input").innerHTML = syllableForm();
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
+/** Navigational, leads to neume form.*/
 function toNeume(){
     document.getElementById("input").innerHTML = neumeForm();
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
+/** Reads the data entered in the syllable form and saves it.*/
 function createSyllable(){
     var page = document.getElementById("page").value;
     var line = document.getElementById("line").value;
@@ -123,6 +137,7 @@ function createSyllable(){
     
 }
 
+/** Reads the data entered in the syllable form and saves it, leading to the neume form afterwards.*/
 function createSyllableWithNeumes(){
     
     var page = document.getElementById("page").value;
@@ -142,6 +157,7 @@ function createSyllableWithNeumes(){
     createSVGOutput();
 }
 
+/** Reads the data entered in the neume form and saves it. If no pitch is given and the neume type is virga, punctum, pes, clivis, torculus, porrectus, scandicus or climacus, all needed pitches will be automatically added.*/
 function createNeume(){
     var type = document.getElementById("type").value;
     
@@ -275,6 +291,7 @@ function createNeume(){
     createSVGOutput();
 }
 
+/** Reads the data entered in the neume form and saves it, leading to the pitch form afterwards.*/
 function createNeumeWithPitches(){
     var type = document.getElementById("type").value;
     
@@ -291,6 +308,7 @@ function createNeumeWithPitches(){
     createSVGOutput();
 }
 
+/** Reads the data entered in the neume form and saves it. Thereby the function controls the length and intervals for neumes of the types virga, punctum, pes, clivis, torculus, porrectus, scandicus and climacus. Also if the first pitch is not specified for the previously mentioned types, the function will automatically generate the rest of the neume.*/
 function createPitch(){
     var pitch = document.getElementById("pitch").value;
     var octave = document.getElementById("octave").value;
@@ -298,8 +316,9 @@ function createPitch(){
     var intm = document.getElementById("intm").value;
     var connection = document.getElementById("connection").value;
     var tilt = document.getElementById("tilt").value;
+    var variation = document.getElementById("variation").value;
     
-    var p = new Pitch(pitch, octave, comment, intm, connection, tilt);
+    var p = new Pitch(pitch, octave, comment, intm, connection, tilt, variation);
     currentNeume.pitches.push(p);
     
     if(currentNeume.type == "virga" || currentNeume.type == "punctum"){
@@ -497,11 +516,13 @@ function createPitch(){
     createSVGOutput();
 }
 
+/** Navigational, leads to variant form.*/
 function toVariant(){
     document.getElementById("input").innerHTML = variationForm();
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
+/** Reads the data entered in the variant form and saves it.*/
 function createVariation(){
     var sourceID = document.getElementById("source").value;
     var pitch = document.getElementById("pitch").value;
@@ -548,6 +569,7 @@ function createVariation(){
     createSVGOutput();
 }
 
+/** Navigational, leads to variation form and resets variations.*/
 function toSyllableFromVariations(){
     pushedVariations = false;
     variations = new Array();
@@ -557,6 +579,7 @@ function toSyllableFromVariations(){
     createSVGOutput();
 }
 
+/** Navigational, leads to neume form and resets variations.*/
 function toNeumeFromVariations(){
     pushedVariations = false;
     variations = new Array();
@@ -566,6 +589,7 @@ function toNeumeFromVariations(){
     createSVGOutput();
 }
 
+/** Navigational, leads to pitch form and resets variations.*/
 function toPitchesFromVariations(){
     pushedVariations = false;
     variations = new Array();
@@ -575,14 +599,17 @@ function toPitchesFromVariations(){
     createSVGOutput();
 }
 
+/** Navigational, leads to change values form.*/
 function toChangeValues(){
     document.getElementById("input").innerHTML = changeValueForm();
 }
 
+/** Navigational, leads to meta data change form.*/
 function toChangeMetaData(){
     document.getElementById("input").innerHTML = metaDataChangeForm();
 }
 
+/** Applies changes made to meta data*/
 function applyMetaDataChanges(){
     var title = document.getElementById("title").value;
     var composer = document.getElementById("composer").value;
@@ -610,6 +637,7 @@ function applyMetaDataChanges(){
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
+/** Navigational, leads to change sources form.*/
 function toChangeSourceData(){
     if(sources.length > 0){
        currentSID = sources[0].id;
@@ -617,6 +645,7 @@ function toChangeSourceData(){
     document.getElementById("input").innerHTML = sourceDataChangeForm();
 }
 
+/** Applies cahnges made to a specified source.*/
 function applySourceDataChanges(){
     var composer = document.getElementById("composer").value;
     var title = document.getElementById("title").value;
@@ -681,6 +710,7 @@ function applySourceDataChanges(){
     createSVGOutput();
 }
 
+/** Deletes the selected source and adjusts variations.*/
 function deleteSource(id){
     var i;
     for(i = 0; i < sources.length; i++){
@@ -703,11 +733,13 @@ function deleteSource(id){
         }
     }
     for(i = 0; i < syllables.length; i++){
-        for(var j = 0; j < syllables[i].pitches.length; j++){
-            if(Array.isArray(syllables[i].pitches[j])){
-                for(var k = 0; k < syllables[i].pitches[j].length; k++){
-                    if(syllables[i].pitches[j][k].sourceID == id){
-                        syllables[i].pitches[j].splice(k, 1);
+        for(var j = 0; j < syllables[i].neumes.length; j++){
+            for(var l = 0; l < syllables[i].neumes[j].pitches.length; l++){
+                if(Array.isArray(syllables[i].neumes[j].pitches[l])){
+                    for(var k = 0; k < syllables[i].neumes[j].pitches[l].length; k++){
+                        if(syllables[i].neumes[j].pitches[l][k].sourceID == id){
+                            syllables[i].neumes[j].pitches[l].splice(k, 1);
+                        }
                     }
                 }
             }
@@ -718,6 +750,7 @@ function deleteSource(id){
     createSVGOutput();
 }
 
+/** Navigational, leads to change staff data form, setting the current staff to the first of all staffs.*/
 function toChangeStaffData(){
     if(staffs.length > 0){
        currentN = staffs[0].n;
@@ -725,6 +758,7 @@ function toChangeStaffData(){
     document.getElementById("input").innerHTML = staffDataChangeForm();
 }
 
+/** Applies changes made to a specific staff.*/
 function applyStaffDataChanges(){
     var linecount = document.getElementById("linecount").value;
     var linecolor = document.getElementById("linecolor").value;
@@ -744,6 +778,7 @@ function applyStaffDataChanges(){
     createSVGOutput();
 }
 
+/** Deletes the selected staff and the syllables using that staff.*/
 function deleteStaff(n){
     var i;
     for(i = 0; i < staffs.length; i++){
@@ -776,11 +811,13 @@ function deleteStaff(n){
     createSVGOutput();
 }
 
+/** Navigational, leads to the change clef form.*/
 function toChangeClefData(){
     currentClefIndex = 0;
     document.getElementById("input").innerHTML = clefDataChangeForm();
 }
 
+/** Applies changes made to a certain clef.*/
 function applyClefDataChanges(){
     var line = document.getElementById("line").value;
     var shape = document.getElementById("shape").value;
@@ -797,6 +834,9 @@ function applyClefDataChanges(){
     createSVGOutput();
 }
 
+/** Reads clef data, creates a clef and inserts the new clef  before or after the selected clef.
+  * @param {boolean} before - declares whether the element should be inserted before
+  */
 function insertClef(before){
     var line = document.getElementById("line").value;
     var shape = document.getElementById("shape").value;
@@ -814,6 +854,7 @@ function insertClef(before){
     createSVGOutput();
 }
 
+/** Deletes a clef.*/
 function deleteClef(){
     currentStaff.clefs.splice(currentClefIndex, 1);
     
@@ -824,6 +865,7 @@ function deleteClef(){
     createSVGOutput();
 }
 
+/** Navigational, leads to syllable change form.*/
 function toChangeSyllableData(){
     if(syllables.length > 0){
         currentType = syllables[0].type;
@@ -832,6 +874,7 @@ function toChangeSyllableData(){
     document.getElementById("input").innerHTML = syllableDataChangeForm();
 }
 
+/** Applies changes made to the selected syllable.*/
 function applySyllableDataChanges(){
     var page = document.getElementById("page").value;
     var line = document.getElementById("line").value;
@@ -876,6 +919,9 @@ function applySyllableDataChanges(){
     createSVGOutput();
 }
 
+/** Reads the data from the change syllable form, creates a new syllable and inserts it before or after the selected syllable.
+  * @param {boolean} before - declares whether the element should be inserted before
+  */
 function insertSyllable(before){
     var page = document.getElementById("page").value;
     var line = document.getElementById("line").value;
@@ -898,6 +944,7 @@ function insertSyllable(before){
     createSVGOutput();
 }
 
+/** Deletes currently selected syllable.*/
 function deleteSyllable(){
     syllables.splice(currentSyllableIndex, 1);
     
@@ -908,11 +955,13 @@ function deleteSyllable(){
     createSVGOutput();
 }
 
+/** Navigational, leads to neume change form.*/
 function toChangeNeumeData(){
     currentNeumeIndex = 0;
     document.getElementById("input").innerHTML = neumeDataChangeForm();
 }
 
+/** Applies changes made to the selected neume.*/
 function applyNeumeDataChanges(){
     var type = document.getElementById("type").value;
     
@@ -925,6 +974,9 @@ function applyNeumeDataChanges(){
     createSVGOutput();
 }
 
+/** Reads data from the neume form, creates a neume and inserts it before or after the selected neume.
+  * @param {boolean} before - declares whether the element should be inserted before
+  */
 function insertNeume(before){
     var type = document.getElementById("type").value;
     
@@ -943,6 +995,7 @@ function insertNeume(before){
     createSVGOutput();
 }
 
+/** Deletes the elcted neume.*/
 function deleteNeume(){
     currentSyllable.neumes.splice(currentNeumeIndex, 1);
     
@@ -953,10 +1006,12 @@ function deleteNeume(){
     createSVGOutput();
 }
 
+/** Navigational, leads to pitch change form.*/
 function toChangePitchData(){
     document.getElementById("input").innerHTML = pitchDataChangeForm();
 }
 
+/** Applies changes made to the selected pitch.*/
 function applyPitchDataChanges(){
     var pitch = document.getElementById("pitch").value;
     var octave = document.getElementById("octave").value;
@@ -964,6 +1019,7 @@ function applyPitchDataChanges(){
     var intm = document.getElementById("intm").value;
     var connection = document.getElementById("connection").value;
     var tilt = document.getElementById("tilt").value;
+    var variation = document.getElementById("variation").value;
     
     if(pitch && pitch != "none"){
         currentPitch.pitch = pitch;
@@ -983,12 +1039,18 @@ function applyPitchDataChanges(){
     if(tilt && tilt != "none"){
         currentPitch.tilt = tilt;
     }
+    if(variation && variation != "none"){
+        currentPitch.variation = variation;
+    }
     
     document.getElementById("input").innerHTML = pitchDataChangeForm();
     document.getElementById("meiOutput").value = createMEIOutput();
     createSVGOutput();
 }
 
+/** Reads the data from the pitch change form, creates a new pitch and inserts it before or after the selected pitch.
+  * @param {boolean} before - declares whether the element should be inserted before
+  */
 function insertPitch(before){
     var pitch = document.getElementById("pitch").value;
     var octave = document.getElementById("octave").value;
@@ -1011,6 +1073,7 @@ function insertPitch(before){
     createSVGOutput();
 }
 
+/** Deletes the currently selected pitch.*/
 function deletePitch(){
     currentNeume.pitches.splice(currentPitchIndex, 1);
     
@@ -1021,6 +1084,7 @@ function deletePitch(){
     createSVGOutput();
 }
 
+/** Creates a new variation which can later be tweaked by the user.*/
 function createAdditionalVariation(){
     
     variations = new Array();
@@ -1037,6 +1101,7 @@ function createAdditionalVariation(){
     createSVGOutput();
 }
 
+/** Applies changes made in the variation change form.*/
 function applyVariationDataChanges(){
     var pitch = document.getElementById("pitch").value;
     var octave = document.getElementById("octave").value;
@@ -1069,6 +1134,9 @@ function applyVariationDataChanges(){
     createSVGOutput();
 }
 
+/** Reads data from the pitch form, creates the pitch and inserts it into a variation before or after the selected pitch.
+  * @param {boolean} before - declares whether the element should be inserted before
+  */
 function insertVariationPitch(before){
     var pitch = document.getElementById("pitch").value;
     var octave = document.getElementById("octave").value;
@@ -1091,6 +1159,7 @@ function insertVariationPitch(before){
     createSVGOutput();
 }
 
+/** Deletes the pitch of a variation.*/
 function deleteVariationPitch(){
     currentNeume.pitches[currentPitchIndex][currentVarSourceIndex].additionalPitches.splice(currentVarPitchIndex, 1);
     
@@ -1101,31 +1170,37 @@ function deleteVariationPitch(){
     createSVGOutput();
 }
 
+/** Set the selected source ID to be current source ID according to the form and reload it.*/
 function applyCurrentSource(){
     currentSID = document.getElementById("source").value;
     document.getElementById("input").innerHTML = sourceDataChangeForm();
 }
 
+/** Set the selected staff to be current staff according to the form and reload it.*/
 function applyCurrentStaff(){
     currentN = document.getElementById("staff").value;
     document.getElementById("input").innerHTML = staffDataChangeForm();
 }
 
+/** Set the selected clef to be current clef according to the form and reload it.*/
 function applyCurrentClef(){
     currentClefIndex = document.getElementById("clef").value;
     document.getElementById("input").innerHTML = clefDataChangeForm();
 }
 
+/** Set the selected syllable to be current syllable according to the form and reload it.*/
 function applyCurrentSyllable(){
     currentSyllableIndex = document.getElementById("syllable").value;
     document.getElementById("input").innerHTML = syllableDataChangeForm();
 }
 
+/** Set the selected neume to be current neume according to the form and reload it.*/
 function applyCurrentNeume(){
     currentNeumeIndex = document.getElementById("neume").value;
     document.getElementById("input").innerHTML = neumeDataChangeForm();
 }
 
+/** Set the selected neume type to be current current neume according to the form and reload it.*/
 function applyCurrentType(){
     currentType = document.getElementById("type").value;
     if(currentType == "climacus"){
@@ -1137,17 +1212,32 @@ function applyCurrentType(){
     document.getElementById("input").innerHTML = neumeForm();
 }
 
+/** Set the selected pitch index to be current pitch index according to the form and reload it.*/
 function applyCurrentPitch(){
     currentPitchIndex = document.getElementById("pitc").value;
     document.getElementById("input").innerHTML = pitchDataChangeForm();
 }
 
+/** Set the selected variation source to be current variation source according to the form and reload it.*/
 function applyCurrentVarSource(){
     currentVarSourceIndex = document.getElementById("varsource").value;
     document.getElementById("input").innerHTML = pitchDataChangeForm();
 }
 
+/** Set the selected variant to be current variation according to the form and reload it.*/
 function applyCurrentVariation(){
     currentVarPitchIndex = document.getElementById("varpitch").value;
     document.getElementById("input").innerHTML = pitchDataChangeForm();
+}
+
+/** Set the selected octave to be current octave according to the form and reload it.*/
+function applyCurrentOctave(){
+    currentOctave = document.getElementById("octave").value;
+    document.getElementById("input").innerHTML = pitchForm();
+}
+
+/** Set the selected color to be current color according to the form and reload it.*/
+function applyCurrentColor(){
+    currentColor = document.getElementById("color").value;
+    document.getElementById("input").innerHTML = syllableForm();
 }
