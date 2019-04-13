@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: graphicOutput.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: graphicOutput.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * This string contains the namespace of SVG.
+ * @var {string} svgNS
+ */
+var svgNS = "http://www.w3.org/2000/svg";
+
+/**
+ * This element is the root element for the SVG output.
+ * @var svg
+ */
+var svg = document.createElementNS(svgNS, "svg");
+
+/**
+ * This boolean represents if any SVG has been added before.
+ * @var {boolean} svgAdded
+ */
+var svgAdded = false;
+
+/**
+ * This function seeks the svgout element - the element used for graphical output - in the underlying html document (index.html).
+ * Afterwards it iterates over the syllables and draws them by creating html elements and adding children. After that the function
+ * then iterates over the neumes with the according pitches and draws them on lines, considering differences between variations and
+ * usual pitches.
+ * @function
+ */
+function createSVGOutput(){
+    
+    var canvas = document.getElementById("svgout");
+    
+    if(svgAdded){
+        canvas.removeChild(svg);
+    }
+    
+    svgAdded = true;
+    
+    svg = document.createElementNS(svgNS, "svg");
+    svg.setAttribute("width", window.innerWidth);
+    svg.setAttribute("height", "200");
+    
+    var x = 0; 
+    var y = startY;
+    var stride = 15;
+    
+    if(syllables.length >= 1){
+        for(var i = 0; i &lt; syllables.length; i++){
+            var color;
+            if(syllables[i].color == "none"){
+                color = "black";
+            }
+            else{
+                color = syllables[i].color;
+            }
+            text(x, y + 65, syllables[i].syllable, color, svg);
+            var textLength = syllables[i].syllable.length * 11;
+            var notesLength = 0;
+            var previousValue = startY+10;
+            
+            for(var j = 0; j &lt; syllables[i].neumes.length; j++){
+                
+                for(var k = 0; k &lt; syllables[i].neumes[j].pitches.length; k++){
+                    
+                    if(Array.isArray(syllables[i].neumes[j].pitches[k])){
+                        
+                        for(var l = 0; l &lt; syllables[i].neumes[j].pitches[k].length; l++){
+                            
+                            for(var m = 0; m &lt; syllables[i].neumes[j].pitches[k][l].additionalPitches.length; m++){
+                                
+                                if(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].pitch != "none"){
+                                    lines(x, y, stride, svg);
+                                
+                                    var value = translateNoteValue(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].pitch);
+                                    ellipse(x+6,y+value,"blue", svg);
+                                
+                                    previousValue = y + value;
+                                }
+                                else if(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].intm){
+                                    lines(x, y, stride, svg);
+                                    if(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].intm == "d"){
+                                        ellipse(x+6,previousValue+10,"purple",svg);
+                                    
+                                        previousValue += 10;
+                                    }
+                                    if(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].intm == "u"){
+                                        ellipse(x+6,previousValue-10,"purple",svg);
+                                        previousValue -= 10;
+                                    }
+                                    else{
+                                        ellipse(x+6,previousValue,"purple",svg);
+                                    }
+                                }
+                                else{
+                                    lines(x, y, stride,svg);
+                                    ellipse(x+6,y+10,"purple",svg);
+                                
+                                    previousValue = y+10;
+                                }
+                                x += stride;
+                                if(x >= (window.innerWidth - 100)){
+                                    x = 0;
+                                    y += 85;
+                                }
+                            }
+                        }
+                    }
+                    else{
+                        if(syllables[i].neumes[j].pitches[k].pitch != "none"){
+                            lines(x, y, stride,svg);
+                        
+                            var valu = translateNoteValue(syllables[i].neumes[j].pitches[k].pitch);
+                            ellipse(x+6,y+valu,"black",svg);
+                        
+                            previousValue = y + valu;
+                        }
+                        else if(syllables[i].neumes[j].pitches[k].intm){
+                            lines(x, y, stride,svg);
+                            if(syllables[i].neumes[j].pitches[k].intm == "d"){
+                                ellipse(x+6,previousValue+10,"red",svg);
+                            
+                                previousValue += 10;
+                            }
+                            if(syllables[i].neumes[j].pitches[k].intm == "u"){
+                                ellipse(x+6,previousValue-10,"red",svg);
+                                previousValue -= 10;
+                            }
+                            else{
+                                ellipse(x+6,previousValue,"red",svg);
+                            }
+                        }
+                        else{
+                            lines(x, y, stride,svg);
+                        
+                            ellipse(x+6,y+10,"red",svg);
+                        
+                            previousValue = y + 10;
+                        }
+                        x += stride;
+                        if(x >= 1000){
+                            x = 0;
+                            y += 85;
+                            previousValue += 85;
+                        }
+                    }
+                    notesLength += stride;
+                }
+                if(textLength > notesLength){
+                    var diff = textLength - notesLength;
+                    lines(x, y, diff,svg);
+                    x += diff;
+                }
+            }
+        }
+    }
+    canvas.appendChild(svg);
+}
+
+/**
+ * A function for creating five line elements (the staff), assigning them a specific starting place and length, and appending
+ * the lines to a root element.
+ * @function
+ * @param {number} x - the x coordinate to start to draw
+ * @param {number} y - the y coordinate to start to draw
+ * @param {number} stride - the length to draw the lines
+ * @param {object} svg - the root element to append the line elements to
+ */
+function lines(x, y, stride, svg){    
+    for(var i = 0; i &lt; 5; i++){
+        var line = document.createElementNS(svgNS, "line");
+        line.setAttribute("x1", x);
+        line.setAttribute("x2", (x + stride));
+        line.setAttribute("y1", (y+10*i));
+        line.setAttribute("y2", (y+10*i));
+        line.setAttribute("style", "stroke: black;");
+        svg.appendChild(line);
+    }
+}
+
+/**
+ * A function for creating an ellipse element (the note), assigning it a specific starting place and length, a color, and appending
+ * the ellipse to a root element.
+ * @function
+ * @param {number} x - the x coordinate to start to draw
+ * @param {number} y - the y coordinate to start to draw
+ * @param {string} color - the color of the ellipse
+ * @param {object} svg - the root element to append the ellipse element to
+ */
+function ellipse(x, y, color, svg){
+    
+    var ellipse = document.createElementNS(svgNS, "ellipse");
+    ellipse.setAttribute("cx", x);
+    ellipse.setAttribute("cy", y);
+    ellipse.setAttribute("rx", 6);
+    ellipse.setAttribute("ry", 5);
+    ellipse.setAttribute("style", "strike:" + color + ";");
+    ellipse.setAttribute("fill", color);
+    svg.appendChild(ellipse);
+}
+
+/**
+ * A function for creating a text element (the syllable), assigning it a specific starting place and length, the text itself and a 
+ * color, and appending the lines to a root element.
+ * @function
+ * @param {number} x - the x coordinate to start to draw
+ * @param {number} y - the y coordinate to start to draw
+ * @param {string} text - the text to draw
+ * @param {string} color - the color of the text
+ * @param {object} svg - the root element to append the text element to
+ */
+function text(x, y, text, color, svg){
+    
+    var textElem = document.createElementNS(svgNS, "text");
+    textElem.setAttribute("x", x);
+    textElem.setAttribute("y", y);
+    textElem.setAttribute("font-size", 12);
+    textElem.setAttribute("fill", color);
+    
+    var textNode = document.createTextNode(text);
+    textElem.appendChild(textNode);
+    
+    svg.appendChild(textElem);
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Clef.html">Clef</a></li><li><a href="MetaData.html">MetaData</a></li><li><a href="Neume.html">Neume</a></li><li><a href="Pitch.html">Pitch</a></li><li><a href="Source.html">Source</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Syllable.html">Syllable</a></li><li><a href="Variation.html">Variation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#applyClefDataChanges">applyClefDataChanges</a></li><li><a href="global.html#applyCurrentClef">applyCurrentClef</a></li><li><a href="global.html#applyCurrentColor">applyCurrentColor</a></li><li><a href="global.html#applyCurrentNeume">applyCurrentNeume</a></li><li><a href="global.html#applyCurrentOctave">applyCurrentOctave</a></li><li><a href="global.html#applyCurrentPitch">applyCurrentPitch</a></li><li><a href="global.html#applyCurrentSource">applyCurrentSource</a></li><li><a href="global.html#applyCurrentStaff">applyCurrentStaff</a></li><li><a href="global.html#applyCurrentSyllable">applyCurrentSyllable</a></li><li><a href="global.html#applyCurrentType">applyCurrentType</a></li><li><a href="global.html#applyCurrentVariation">applyCurrentVariation</a></li><li><a href="global.html#applyCurrentVarSource">applyCurrentVarSource</a></li><li><a href="global.html#applyMetaDataChanges">applyMetaDataChanges</a></li><li><a href="global.html#applyNeumeDataChanges">applyNeumeDataChanges</a></li><li><a href="global.html#applyPitchDataChanges">applyPitchDataChanges</a></li><li><a href="global.html#applySourceDataChanges">applySourceDataChanges</a></li><li><a href="global.html#applyStaffDataChanges">applyStaffDataChanges</a></li><li><a href="global.html#applySyllableDataChanges">applySyllableDataChanges</a></li><li><a href="global.html#applyVariationDataChanges">applyVariationDataChanges</a></li><li><a href="global.html#changeValueForm">changeValueForm</a></li><li><a href="global.html#clefDataChangeForm">clefDataChangeForm</a></li><li><a href="global.html#clefForm">clefForm</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#createAdditionalVariation">createAdditionalVariation</a></li><li><a href="global.html#createClef">createClef</a></li><li><a href="global.html#createClefSelector">createClefSelector</a></li><li><a href="global.html#createColorSelector">createColorSelector</a></li><li><a href="global.html#createIntmSelector">createIntmSelector</a></li><li><a href="global.html#createMEIOutput">createMEIOutput</a></li><li><a href="global.html#createMetaData">createMetaData</a></li><li><a href="global.html#createNeume">createNeume</a></li><li><a href="global.html#createNeumeSelector">createNeumeSelector</a></li><li><a href="global.html#createNeumeWithPitches">createNeumeWithPitches</a></li><li><a href="global.html#createNewStaff">createNewStaff</a></li><li><a href="global.html#createOctaveSelector">createOctaveSelector</a></li><li><a href="global.html#createPitch">createPitch</a></li><li><a href="global.html#createPitchSelector">createPitchSelector</a></li><li><a href="global.html#createSource">createSource</a></li><li><a href="global.html#createSourceID">createSourceID</a></li><li><a href="global.html#createSourceSelector">createSourceSelector</a></li><li><a href="global.html#createStaff">createStaff</a></li><li><a href="global.html#createStaffID">createStaffID</a></li><li><a href="global.html#createStaffSelector">createStaffSelector</a></li><li><a href="global.html#createStaffWithClefs">createStaffWithClefs</a></li><li><a href="global.html#createSuppliedSourceSelector">createSuppliedSourceSelector</a></li><li><a href="global.html#createSVGOutput">createSVGOutput</a></li><li><a href="global.html#createSyllable">createSyllable</a></li><li><a href="global.html#createSyllableSelector">createSyllableSelector</a></li><li><a href="global.html#createSyllableWithNeumes">createSyllableWithNeumes</a></li><li><a href="global.html#createTypeSelector">createTypeSelector</a></li><li><a href="global.html#createVariation">createVariation</a></li><li><a href="global.html#createVarPitchSelector">createVarPitchSelector</a></li><li><a href="global.html#createVarSourceSelector">createVarSourceSelector</a></li><li><a href="global.html#currentClef">currentClef</a></li><li><a href="global.html#currentClefIndex">currentClefIndex</a></li><li><a href="global.html#currentColor">currentColor</a></li><li><a href="global.html#currentIntm">currentIntm</a></li><li><a href="global.html#currentN">currentN</a></li><li><a href="global.html#currentNeume">currentNeume</a></li><li><a href="global.html#currentNeumeIndex">currentNeumeIndex</a></li><li><a href="global.html#currentOctave">currentOctave</a></li><li><a href="global.html#currentPitch">currentPitch</a></li><li><a href="global.html#currentPitchIndex">currentPitchIndex</a></li><li><a href="global.html#currentSID">currentSID</a></li><li><a href="global.html#currentSource">currentSource</a></li><li><a href="global.html#currentStaff">currentStaff</a></li><li><a href="global.html#currentSyllable">currentSyllable</a></li><li><a href="global.html#currentSyllableIndex">currentSyllableIndex</a></li><li><a href="global.html#currentType">currentType</a></li><li><a href="global.html#currentVarPitch">currentVarPitch</a></li><li><a href="global.html#currentVarSourceIndex">currentVarSourceIndex</a></li><li><a href="global.html#d">d</a></li><li><a href="global.html#deleteClef">deleteClef</a></li><li><a href="global.html#deleteNeume">deleteNeume</a></li><li><a href="global.html#deletePitch">deletePitch</a></li><li><a href="global.html#deleteSource">deleteSource</a></li><li><a href="global.html#deleteStaff">deleteStaff</a></li><li><a href="global.html#deleteSyllable">deleteSyllable</a></li><li><a href="global.html#deleteVariationPitch">deleteVariationPitch</a></li><li><a href="global.html#downloadFile">downloadFile</a></li><li><a href="global.html#ellipse">ellipse</a></li><li><a href="global.html#indent">indent</a></li><li><a href="global.html#insertClef">insertClef</a></li><li><a href="global.html#insertNeume">insertNeume</a></li><li><a href="global.html#insertPitch">insertPitch</a></li><li><a href="global.html#insertSyllable">insertSyllable</a></li><li><a href="global.html#insertVariationPitch">insertVariationPitch</a></li><li><a href="global.html#intms">intms</a></li><li><a href="global.html#lines">lines</a></li><li><a href="global.html#metaData">metaData</a></li><li><a href="global.html#metaDataChangeForm">metaDataChangeForm</a></li><li><a href="global.html#metaDataForm">metaDataForm</a></li><li><a href="global.html#neumeDataChangeForm">neumeDataChangeForm</a></li><li><a href="global.html#neumeForm">neumeForm</a></li><li><a href="global.html#octaves">octaves</a></li><li><a href="global.html#output">output</a></li><li><a href="global.html#pitchCounter">pitchCounter</a></li><li><a href="global.html#pitchDataChangeForm">pitchDataChangeForm</a></li><li><a href="global.html#pitchForm">pitchForm</a></li><li><a href="global.html#pushedVariations">pushedVariations</a></li><li><a href="global.html#scrollDown">scrollDown</a></li><li><a href="global.html#scrollUp">scrollUp</a></li><li><a href="global.html#sourceCounter">sourceCounter</a></li><li><a href="global.html#sourceDataChangeForm">sourceDataChangeForm</a></li><li><a href="global.html#sourceForm">sourceForm</a></li><li><a href="global.html#sources">sources</a></li><li><a href="global.html#staffCounter">staffCounter</a></li><li><a href="global.html#staffDataChangeForm">staffDataChangeForm</a></li><li><a href="global.html#staffForm">staffForm</a></li><li><a href="global.html#staffs">staffs</a></li><li><a href="global.html#start">start</a></li><li><a href="global.html#startY">startY</a></li><li><a href="global.html#svg">svg</a></li><li><a href="global.html#svgAdded">svgAdded</a></li><li><a href="global.html#svgNS">svgNS</a></li><li><a href="global.html#syllableDataChangeForm">syllableDataChangeForm</a></li><li><a href="global.html#syllableForm">syllableForm</a></li><li><a href="global.html#syllables">syllables</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#toChangeClefData">toChangeClefData</a></li><li><a href="global.html#toChangeMetaData">toChangeMetaData</a></li><li><a href="global.html#toChangeNeumeData">toChangeNeumeData</a></li><li><a href="global.html#toChangePitchData">toChangePitchData</a></li><li><a href="global.html#toChangeSourceData">toChangeSourceData</a></li><li><a href="global.html#toChangeStaffData">toChangeStaffData</a></li><li><a href="global.html#toChangeSyllableData">toChangeSyllableData</a></li><li><a href="global.html#toChangeValues">toChangeValues</a></li><li><a href="global.html#toNeume">toNeume</a></li><li><a href="global.html#toNeumeFromVariations">toNeumeFromVariations</a></li><li><a href="global.html#toPitchesFromVariations">toPitchesFromVariations</a></li><li><a href="global.html#toSources">toSources</a></li><li><a href="global.html#toStaffs">toStaffs</a></li><li><a href="global.html#toSyllable">toSyllable</a></li><li><a href="global.html#toSyllableFromVariations">toSyllableFromVariations</a></li><li><a href="global.html#toVariant">toVariant</a></li><li><a href="global.html#translateNoteValue">translateNoteValue</a></li><li><a href="global.html#types">types</a></li><li><a href="global.html#variationForm">variationForm</a></li><li><a href="global.html#variations">variations</a></li><li><a href="global.html#xmlDoc">xmlDoc</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 12:12:29 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

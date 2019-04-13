@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: forms.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: forms.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* In this file, all dynamically integrated html forms are stored. Some of them are implemented as functions since they contain information that is only available at runtime.*/
+
+/** 
+ * The meta data form.
+ * @var {string} metaDataForm
+ */
+var metaDataForm =
+"&lt;h4>Meta data:&lt;/h4>\
+&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+Title:              &lt;input id=\"title\" type=\"text\">&lt;br>\
+Composer:           &lt;input id=\"composer\" type=\"text\">&lt;br>\
+Author:             &lt;input id=\"author\" type=\"text\">&lt;br>\
+Availability:       &lt;input id=\"availability\" type=\"text\">&lt;br>\
+Comments:           &lt;textarea class=\"formArea\" id=\"comment\" rows=\"5\">&lt;/textarea>&lt;br>&lt;br>\
+&lt;button onclick=\"createMetaData()\">save/continue to sources&lt;/button>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+
+/**
+ * The source data form.
+ * @function
+ * @returns {string} s - the source form as a string
+ */
+function sourceForm(){
+    var s = "";
+    s += 
+"&lt;h4>Source:&lt;/h4>\
+&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+Author/Composer:    &lt;input id=\"composer\" type=\"text\">&lt;br>\
+Source title:       &lt;input id=\"title\" type=\"text\">&lt;br>\
+Location:           &lt;input id=\"location\" type=\"text\">&lt;br>\
+Ownership:          &lt;input id=\"ownership\" type=\"text\">&lt;br>\
+Date:               &lt;input id=\"date\" type=\"text\">&lt;br>\
+Publication status: &lt;input id=\"publicationstatus\" type=\"text\">&lt;br>\
+Medium:             &lt;input id=\"medium\" type=\"text\">&lt;br>\
+Dimensions:&lt;br>\
+  Width:            &lt;input id=\"x\" type=\"text\">&lt;br>\
+  Height:           &lt;input id=\"y\" type=\"text\">&lt;br>\
+  Unit:             &lt;input id=\"unit\" type=\"text\">&lt;br>\
+Condition:          &lt;input id=\"condition\" type=\"text\">&lt;br>\
+Extent:             &lt;input id=\"extent\" type=\"text\">&lt;br>\
+Language:           &lt;input id=\"language\" type=\"text\">&lt;br>\
+Handwriting:        &lt;textarea class=\"formArea\" id=\"handwriting\" rows=\"5\" cols=\"20\">&lt;/textarea>&lt;br>&lt;br>\
+&lt;button onclick=\"createSource()\">save source&lt;/button>&lt;br>&lt;br>\
+&lt;button class=\"sourcedependant\" onclick=\"toStaffs()\"";
+    if(sources.length &lt; 1){
+        s += " disabled";
+    }
+    s += ">continue to staffs&lt;/button>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    return s;
+}
+
+/**
+ * The staff data form.
+ * @function
+ * @returns {string} s - the staff form as a string
+ */
+function staffForm(){
+    var s = "";
+    s +=
+"&lt;h4>Staff:&lt;/h4>\
+&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+Line count:         &lt;select id=\"linecount\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"1\">1&lt;/option>\
+                                &lt;option value=\"2\">2&lt;/option>\
+                                &lt;option value=\"3\">3&lt;/option>\
+                                &lt;option value=\"4\">4&lt;/option>\
+                                &lt;option value=\"5\">5&lt;/option>\
+                            &lt;/select>&lt;br>\
+Line color:         &lt;select id=\"linecolor\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"black\">black&lt;/option>\
+                                &lt;option value=\"red\">red&lt;/option>\
+                                &lt;option value=\"yellow\">yellow&lt;/option>\
+                                &lt;option value=\"brown\">brown&lt;/option>\
+                                &lt;option value=\"grey\">grey&lt;/option>\
+                            &lt;/select>&lt;br>\
+Mode:               &lt;select id=\"mode\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"major\">major&lt;/option>\
+                                &lt;option value=\"minor\">minor&lt;/option>\
+                                &lt;option value=\"dorian\">dorian&lt;/option>\
+                                &lt;option value=\"phrygian\">phrygian&lt;/option>\
+                                &lt;option value=\"lydian\">lydian&lt;/option>\
+                                &lt;option value=\"mixolydian\">mixolydian&lt;/option>\
+                                &lt;option value=\"aeolian\">aeolian&lt;/option>\
+                                &lt;option value=\"locrian\">locrian&lt;/option>\
+                            &lt;/select>&lt;br>&lt;br>\
+&lt;button onclick=\"createStaff()\">save staff without clefs&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"createStaffWithClefs()\">save staff and add clefs&lt;/button>&lt;br>&lt;br>\
+&lt;button class=\"staffdependant\" onclick=\"toSyllable()\"";
+    if(staffs.length &lt; 1){
+        s += " disabled";
+    }
+    s +=  ">continue to syllables&lt;/button>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    return s;
+}
+
+/** 
+ * The clef data form.
+ * @var {string} clefForm
+ */
+var clefForm =
+"&lt;h4>Clef:&lt;/h4>\
+&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+Line:               &lt;select id=\"line\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"1\">1&lt;/option>\
+                                &lt;option value=\"2\">2&lt;/option>\
+                                &lt;option value=\"3\">3&lt;/option>\
+                                &lt;option value=\"4\">4&lt;/option>\
+                                &lt;option value=\"5\">5&lt;/option>\
+                            &lt;/select>&lt;br>\
+Shape:              &lt;select id=\"shape\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"C\">C&lt;/option>\
+                                &lt;option value=\"F\">F&lt;/option>\
+                                &lt;option value=\"G\">G&lt;/option>\
+                                &lt;option value=\"GG\">GG&lt;/option>\
+                            &lt;/select>&lt;br>&lt;br>\
+&lt;button onclick=\"createClef()\">save clef&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"createNewStaff()\">create another staff&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toSyllable()\">continue to syllables&lt;/button>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+
+/**
+ * The syllable data form.
+ * @function
+ * @returns {string} s - the syllable form as a string
+ */
+function syllableForm(){   
+    var s = "";
+    s +=
+"&lt;h4>Syllable:&lt;/h4>\
+&lt;form autocomplete=\"on\">\
+        &lt;pre>\
+Page:               &lt;input id=\"page\" type=\"text\">&lt;br>\
+Line:               &lt;input id=\"line\" type=\"text\">&lt;br>\
+Staff:              " + createStaffSelector();
+s += "Syllable:           &lt;input id=\"syllable\" type=\"text\">&lt;br>\
+Initial?            &lt;input type=\"checkbox\" id=\"initial\">&lt;br>\
+Text color:         " + createColorSelector("applyCurrentColor()");
+s += "Comments:           &lt;textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\">&lt;/textarea>&lt;br>&lt;br>\
+&lt;button onclick=\"createSyllable()\">save syllable&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"createSyllableWithNeumes()\">save syllable and add neumes&lt;/button>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    
+    return s;
+}
+
+/**
+ * The neume data form.
+ * @function
+ * @returns {string} s - the neume form as a string
+ */
+function neumeForm(){
+    var s = "";
+    s +=
+"&lt;h4>Neume:&lt;/h4>\
+&lt;form>\
+    &lt;pre>\
+Neume type:         " + createTypeSelector("applyCurrentType()") + "&lt;br>";
+    if(isClimacus){
+        s += 
+"Number of Pitches:  &lt;select id=\"numberofpitches\">\
+                        &lt;option value=\"3\">3&lt;/option>\
+                        &lt;option value=\"4\">4&lt;/option>\
+                        &lt;option value=\"5\">5&lt;/option>\
+                    &lt;/select>&lt;br>&lt;br>";
+    }
+    s +=
+"&lt;button onclick=\"createNeume()\">save neume&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"createNeumeWithPitches()\">save neume and add pitches&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toSyllable()\">add another syllable&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toChangeSyllableData()\">change syllables&lt;/button>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    
+    return s;
+}
+
+/**
+ * The pitch data form.
+ * @function
+ * @returns {string} s - the pitch form as a string
+ */
+function pitchForm(){
+    var s = "";
+s += "&lt;h4>Pitch:&lt;/h4>\
+&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+Pitch:              &lt;select id=\"pitch\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"c\">C&lt;/option>\
+                                &lt;option value=\"d\">D&lt;/option>\
+                                &lt;option value=\"e\">E&lt;/option>\
+                                &lt;option value=\"f\">F&lt;/option>\
+                                &lt;option value=\"g\">G&lt;/option>\
+                                &lt;option value=\"a\">A&lt;/option>\
+                                &lt;option value=\"b\">B&lt;/option>\
+                            &lt;/select>&lt;br>\
+Octave:             " + createOctaveSelector("applyCurrentOctave()");
+s += "From previous note: "+createIntmSelector()+"&lt;br>\
+Connection:         &lt;select id=\"connection\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"g\">gapped&lt;/option>\
+                                &lt;option value=\"l\">loop&lt;/option>\
+                                &lt;option value=\"e\">extended&lt;/option>\
+                            &lt;/select>&lt;br>\
+Tilt:               &lt;select id=\"tilt\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"n\">north&lt;/option>\
+                                &lt;option value=\"s\">south&lt;/option>\
+                                &lt;option value=\"w\">west&lt;/option>\
+                                &lt;option value=\"e\">east&lt;/option>\
+                                &lt;option value=\"nw\">northwest&lt;/option>\
+                                &lt;option value=\"ne\">northeast&lt;/option>\
+                                &lt;option value=\"sw\">southwest&lt;/option>\
+                                &lt;option value=\"se\">southeast&lt;/option>\
+                    &lt;/select>&lt;br>\
+Graphical variation:&lt;select id=\"variation\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"quilisma\">quilisma&lt;/option>\
+                                &lt;option value=\"oriscus\">oriscus&lt;/option>\
+                                &lt;option value=\"liquescent\">liquescent&lt;/option>\
+                                &lt;option value=\"strophicus\">strophicus&lt;/option>\
+                    &lt;/select>&lt;br>\
+Supplied?        By " + createSuppliedSourceSelector() + "&lt;br>\
+Comments:           &lt;textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\">&lt;/textarea>&lt;br>&lt;br>\
+&lt;button onclick=\"createPitch()\">save pitch&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toVariant()\"";
+    if(sources.length &lt;= 1){
+        s += " disabled";
+    }
+        s += ">add variant&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toNeume()\">add another neume&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toSyllable()\">add another syllable&lt;/button>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    return s;
+}
+
+/**
+ * The variant data form.
+ * @function
+ * @returns {string} s - the variant form as a string
+ */
+function variationForm(){
+    var s = "";
+    s +=
+"&lt;h4>Pitch variant&lt;/h4>\
+&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+Source:             "+createSourceSelector();
+s += "Pitch:              &lt;select id=\"pitch\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"c\">C&lt;/option>\
+                                &lt;option value=\"d\">D&lt;/option>\
+                                &lt;option value=\"e\">E&lt;/option>\
+                                &lt;option value=\"f\">F&lt;/option>\
+                                &lt;option value=\"g\">G&lt;/option>\
+                                &lt;option value=\"a\">A&lt;/option>\
+                                &lt;option value=\"b\">B&lt;/option>\
+                            &lt;/select>&lt;br>\
+Octacve:            " + createOctaveSelector("applyCurrentOctave()");
+s += "\
+From previous note: &lt;select id=\"intm\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"s\">same&lt;/option>\
+                                &lt;option value=\"d\">went down&lt;/option>\
+                                &lt;option value=\"u\">went up&lt;/option>\
+                            &lt;/select>&lt;br>\
+Connection:         &lt;select id=\"connection\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"g\">gapped&lt;/option>\
+                                &lt;option value=\"l\">loop&lt;/option>\
+                                &lt;option value=\"e\">extended&lt;/option>\
+                            &lt;/select>&lt;br>\
+Tilt:               &lt;select id=\"tilt\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"n\">north&lt;/option>\
+                                &lt;option value=\"s\">south&lt;/option>\
+                                &lt;option value=\"w\">west&lt;/option>\
+                                &lt;option value=\"e\">east&lt;/option>\
+                                &lt;option value=\"nw\">northwest&lt;/option>\
+                                &lt;option value=\"ne\">northeast&lt;/option>\
+                                &lt;option value=\"sw\">southwest&lt;/option>\
+                                &lt;option value=\"se\">southeast&lt;/option>\
+                            &lt;/select>&lt;br>\
+Graphical variation:&lt;select id=\"variation\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"quilisma\">quilisma&lt;/option>\
+                                &lt;option value=\"oriscus\">oriscus&lt;/option>\
+                                &lt;option value=\"liquescent\">liquescent&lt;/option>\
+                                &lt;option value=\"strophicus\">strophicus&lt;/option>\
+                    &lt;/select>&lt;br>\
+Supplied?        By " + createSuppliedSourceSelector() + "&lt;br>\
+Comments:           &lt;textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\">&lt;/textarea>&lt;br>&lt;br>\
+&lt;button onclick=\"createVariation()\">save additional pitch for this source&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toPitchesFromVariations()\">add more original pitches&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toNeumeFromVariations()\">add more neumes&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toSyllableFromVariations()\">add another syllable&lt;/button>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    
+    return s;
+}
+
+/**
+ * The form for changing values.
+ * @function
+ * @returns {string} s - the form for changing vaalues as a string
+ */
+function changeValueForm(){
+    var s ="";
+    
+    s +="&lt;button onclick=\"toChangeMetaData()\">change meta data&lt;/button>&lt;br>&lt;br>\
+    &lt;button onclick=\"toChangeSourceData()\">change source data&lt;/button>&lt;br>&lt;br>\
+    &lt;button onclick=\"toChangeStaffData()\">change staff data&lt;/button>&lt;br>&lt;br>\
+    &lt;button onclick=\"toChangeSyllableData()\">change syllable data&lt;/button>&lt;br>&lt;br>";
+    
+    return s;
+}    
+
+/**
+ * The meta data change form.
+ * @function
+ * @returns {string} s - the form for changing meta data as a string
+ */
+function metaDataChangeForm(){
+    var s = "";
+    if(!metaData){
+        s += "&lt;b>You should create the data before changing it!&lt;/b>&lt;br>";
+        s += metaDataForm;
+    }
+    else{
+        s += 
+"&lt;h4>Change meta data:&lt;/h4>\
+&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+                                            Current:&lt;br>\
+Title:              &lt;input id=\"title\" type=\"text\">"+ metaData.title +"&lt;br>\
+Composer:           &lt;input id=\"composer\" type=\"text\">"+ metaData.composer +"&lt;br>\
+Author:             &lt;input id=\"author\" type=\"text\">"+ metaData.author +"&lt;br>\
+Availability:       &lt;input id=\"availability\" type=\"text\">"+ metaData.availability +"&lt;br>\
+Comments:           &lt;textarea class=\"formArea\" id=\"comment\" rows=\"5\">&lt;/textarea>"+ metaData.comment +"&lt;br>&lt;br>\
+&lt;button onclick=\"applyMetaDataChanges()\">save changes&lt;/button>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    }
+    s += "&lt;button onclick=\"toSources()\">add more sources&lt;/button>&lt;br>&lt;br>";
+    return s;
+}
+
+/**
+ * The source data change form.
+ * @function
+ * @returns {string} s - the form for changing sources as a string
+ */
+function sourceDataChangeForm(){
+    var s = "";
+    if(sources.length &lt; 1){
+        s += "&lt;b>You should create the data before changing it!&lt;/b>&lt;br>";
+        s += sourceForm();
+    }
+    else{
+        s += 
+"&lt;h4>Change Source:&lt;/h4>\
+Select source:      "+ createSourceSelector("applyCurrentSource()") + "&lt;br>";
+        for(var i = 0; i &lt; sources.length; i++){
+            if(currentSID == sources[i].id){
+                currentSource = sources[i];
+            }
+        }
+        s += 
+"&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+                                            Current:&lt;br>\
+Author/Composer:    &lt;input id=\"composer\" type=\"text\">"+ currentSource.composer +"&lt;br>\
+Source title:       &lt;input id=\"title\" type=\"text\">"+ currentSource.title +"&lt;br>\
+Location:           &lt;input id=\"location\" type=\"text\">"+ currentSource.location +"&lt;br>\
+Ownership:          &lt;input id=\"ownership\" type=\"text\">"+ currentSource.ownership +"&lt;br>\
+Date:               &lt;input id=\"date\" type=\"text\">"+ currentSource.date +"&lt;br>\
+Publication status: &lt;input id=\"publicationstatus\" type=\"text\">"+ currentSource.publicationstatus +"&lt;br>\
+Medium:             &lt;input id=\"medium\" type=\"text\">"+ currentSource.medium +"&lt;br>\
+Dimensions:&lt;br>\
+  Width:            &lt;input id=\"x\" type=\"text\">"+ currentSource.x +"&lt;br>\
+  Height:           &lt;input id=\"y\" type=\"text\">"+ currentSource.y +"&lt;br>\
+  Unit:             &lt;input id=\"unit\" type=\"text\">"+ currentSource.unit +"&lt;br>\
+Condition:          &lt;input id=\"condition\" type=\"text\">"+ currentSource.condition +"&lt;br>\
+Extent:             &lt;input id=\"extent\" type=\"text\">"+ currentSource.extent +"&lt;br>\
+Language:           &lt;input id=\"language\" type=\"text\">"+ currentSource.language +"&lt;br>\
+Handwriting:        &lt;textarea class=\"formArea\" id=\"handwriting\" rows=\"5\" cols=\"20\">&lt;/textarea>"+ currentSource.handwriting +"&lt;br>&lt;br>\
+&lt;button onclick=\"applySourceDataChanges()\">apply changes&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toSources()\">create new source&lt;/button>&lt;br>\
+&lt;button onclick=\"deleteSource(currentSID)\">delete selected source&lt;/button>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    }
+    s += "&lt;button onclick=\"toSources()\">back to adding sources&lt;/button>&lt;br>&lt;br>";
+    return s;
+}
+
+/**
+ * The staff data change form.
+ * @function
+ * @returns {string} s - the form for changing staffs as a string
+ */
+function staffDataChangeForm(){
+    var s = "";
+    if(staffs.length &lt; 1){
+        s += "&lt;b>You should create the data before changing it!&lt;/b>&lt;br>";
+        s += staffForm();
+    }
+    else{
+        var i;
+        s +=
+"&lt;h4>Change Staff:&lt;/h4>\
+Select source:      "+ createStaffSelector("applyCurrentStaff()") + "&lt;br>";
+        for(i = 0; i &lt; staffs.length; i++){
+            if(currentN == staffs[i].n){
+                currentStaff = staffs[i];
+            }
+        }
+        s +=
+"&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+                                            Current:&lt;br>\
+Line count:         &lt;select id=\"linecount\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"1\">1&lt;/option>\
+                                &lt;option value=\"2\">2&lt;/option>\
+                                &lt;option value=\"3\">3&lt;/option>\
+                                &lt;option value=\"4\">4&lt;/option>\
+                                &lt;option value=\"5\">5&lt;/option>\
+                            &lt;/select>"+ currentStaff.linecount +"&lt;br>\
+Line color:         &lt;select id=\"linecolor\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"black\">black&lt;/option>\
+                                &lt;option value=\"red\">red&lt;/option>\
+                                &lt;option value=\"yellow\">yellow&lt;/option>\
+                                &lt;option value=\"brown\">brown&lt;/option>\
+                                &lt;option value=\"grey\">grey&lt;/option>\
+                            &lt;/select>"+ currentStaff.linecolor +"&lt;br>\
+Mode:               &lt;select id=\"mode\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"major\">major&lt;/option>\
+                                &lt;option value=\"minor\">minor&lt;/option>\
+                                &lt;option value=\"dorian\">dorian&lt;/option>\
+                                &lt;option value=\"phrygian\">phrygian&lt;/option>\
+                                &lt;option value=\"lydian\">lydian&lt;/option>\
+                                &lt;option value=\"mixolydian\">mixolydian&lt;/option>\
+                                &lt;option value=\"aeolian\">aeolian&lt;/option>\
+                                &lt;option value=\"locrian\">locrian&lt;/option>\
+                            &lt;/select>"+ currentStaff.mode +"&lt;br>&lt;br>\
+Clefs:&lt;br>";
+        for(i = 0; i &lt; currentStaff.clefs.length; i++){
+            s += "Clef "+ (i+1)
+            if(currentStaff.clefs[i].line){
+               s += ": line: "+ currentStaff.clefs[i].line;
+            }
+            if(currentStaff.clefs[i].shape){
+               s += "; shape:" +currentStaff.clefs[i].shape + ";";
+            }
+            s += "&lt;br>";
+        }
+        
+        s +=
+"&lt;button onclick=\"applyStaffDataChanges()\">apply changes&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toChangeClefData()\">change clefs&lt;/button>&lt;br>\
+&lt;button onclick=\"toStaffs()\">create new staff&lt;/button>&lt;br>\
+&lt;button onclick=\"deleteStaff(currentN)\">delete selected staff&lt;/button>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    }
+    s += "&lt;button onclick=\"toStaffs()\">back to adding staffs&lt;/button>&lt;br>&lt;br>";
+    return s;
+}
+
+/**
+ * The clef data change form.
+ * @function
+ * @returns {string} s - the form for changing clefs as a string
+ */
+function clefDataChangeForm(){
+    var s = "";
+
+    if(currentStaff.clefs.length >= 1){
+        s += "&lt;h4>Change Clef:&lt;/h4>";
+        s += "Select Clef: " + createClefSelector(currentStaff, "applyCurrentClef()");
+        currentClef = currentStaff.clefs[currentClefIndex];
+        s +=
+"&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+                                            Current:&lt;br>\
+Line:               &lt;select id=\"line\">\
+                                &lt;option value=\"none\">None&lt;/option>\
+                                &lt;option value=\"1\">1&lt;/option>\
+                                &lt;option value=\"2\">2&lt;/option>\
+                                &lt;option value=\"3\">3&lt;/option>\
+                                &lt;option value=\"4\">4&lt;/option>\
+                                &lt;option value=\"5\">5&lt;/option>\
+                            &lt;/select>"+ currentClef.line +"&lt;br>\
+Shape:              &lt;select id=\"shape\">\
+                                &lt;option value=\"none\">None&lt;/option>\
+                                &lt;option value=\"C\">C&lt;/option>\
+                                &lt;option value=\"F\">F&lt;/option>\
+                                &lt;option value=\"G\">G&lt;/option>\
+                                &lt;option value=\"GG\">GG&lt;/option>\
+                            &lt;/select>"+ currentClef.shape +"&lt;br>&lt;br>\
+&lt;button onclick=\"applyClefDataChanges()\">apply change&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"insertClef(true)\">insert clef before selected clef&lt;/button>&lt;br>\
+&lt;button onclick=\"insertClef(false)\">insert clef after selected clef&lt;/button>&lt;br>\
+&lt;button onclick=\"deleteClef()\">delete clef&lt;/button>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    }
+    else{
+        s += 
+"&lt;h4>Create Clef:&lt;/h4>\
+&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+Line:               &lt;select id=\"line\">\
+                                &lt;option value=\"none\">None&lt;/option>\
+                                &lt;option value=\"1\">1&lt;/option>\
+                                &lt;option value=\"2\">2&lt;/option>\
+                                &lt;option value=\"3\">3&lt;/option>\
+                                &lt;option value=\"4\">4&lt;/option>\
+                                &lt;option value=\"5\">5&lt;/option>\
+                            &lt;/select>&lt;br>\
+Shape:              &lt;select id=\"shape\">\
+                                &lt;option value=\"none\">None&lt;/option>\
+                                &lt;option value=\"C\">C&lt;/option>\
+                                &lt;option value=\"F\">F&lt;/option>\
+                                &lt;option value=\"G\">G&lt;/option>\
+                                &lt;option value=\"GG\">GG&lt;/option>\
+                            &lt;/select>&lt;br>&lt;br>\
+&lt;button onclick=\"insertClef(true)\">save clef&lt;/button>&lt;br>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    }
+    s += "&lt;button onclick=\"toStaffs()\">back to adding staffs&lt;/button>&lt;br>&lt;br>";
+    return s;
+}
+
+/**
+ * The syllable data change form.
+ * @function
+ * @returns {string} s - the form for changing syllables as a string
+ */
+function syllableDataChangeForm(){
+    var s = "";
+    if(syllables.length &lt; 1){
+        s += "&lt;b>You should create the data before changing it!&lt;/b>&lt;br>";
+        if(staffs.length &lt; 1){
+            s += "Also, you need to create at least one staff. &lt;br>"
+            s += "&lt;button onclick=\"toStaffs()\">to staffs&lt;/button>&lt;br>&lt;br>";
+        }
+        else{
+            s += syllableForm();
+        }
+    }
+    else{
+        s +=
+"&lt;h4>Syllable:&lt;/h4>\
+Select syllable:      "+ createSyllableSelector("applyCurrentSyllable()") + "&lt;br>";
+        currentSyllable = syllables[currentSyllableIndex];
+        currentType = currentSyllable.type;
+        currentN = currentSyllable.staff;
+        s +=
+"&lt;form autocomplete=\"on\">\
+        &lt;pre>\
+                                            Current:&lt;br>\
+Page:               &lt;input id=\"page\" type=\"text\">"+ currentSyllable.page +"&lt;br>\
+Line:               &lt;input id=\"line\" type=\"text\">"+ currentSyllable.line +"&lt;br>\
+Staff:              " + createStaffSelector();
+        var staffID;
+        for(var i = 0; i &lt; staffs.length; i++){
+            if(currentSyllable.staff == staffs[i].n){
+                staffID = staffs[i].id;
+            }
+        }
+        s += staffID + "&lt;br>";
+        s += 
+"Syllable:           &lt;input id=\"syllabletext\" type=\"text\">"+ currentSyllable.syllable +"&lt;br>\
+Initial?            &lt;input type=\"checkbox\" id=\"initial\"";
+        
+        if(currentSyllable.initial){
+            s += " checked";
+        }
+        
+        s += ">&lt;br>\
+Text color:         &lt;select id=\"color\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"black\">Black&lt;/option>\
+                                &lt;option value=\"red\">Red&lt;/option>\
+                                &lt;option value=\"blue\">Blue&lt;/option>\
+                                &lt;option value=\"green\">Green&lt;/option>\
+                                &lt;option value=\"yellow\">Yellow&lt;/option>\
+                            &lt;/select>"+ currentSyllable.color +"&lt;br>\
+Comments:           &lt;textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\">&lt;/textarea>"+ currentSyllable.comment +"&lt;br>&lt;br>\
+Neumes:&lt;br>";
+            
+        for(var i = 0; i &lt; currentSyllable.neumes.length; i++){
+            s += "   ";
+            
+            if(currentSyllable.neumes[i].type == "none"){
+                s += "undefined neume";
+            }
+            else{
+                s += currentSyllable.neumes[i].type
+            }
+            
+            s += "&lt;br>";
+        }
+        s += 
+"&lt;button onclick=\"applySyllableDataChanges()\">apply changes&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toChangeNeumeData()\">change neumes&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"insertSyllable(true)\">insert syllable before selected syllable&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"insertSyllable(false)\">insert syllable after selected syllable&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"deleteSyllable()\">delete syllable&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toSyllable()\">back to adding syllables&lt;/button>&lt;br>&lt;br>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    }
+    return s;
+}
+
+/**
+ * The neume data change form.
+ * @function
+ * @returns {string} s - the form for changing neumes as a string
+ */
+function neumeDataChangeForm(){
+    var s = "";
+    
+    if(currentSyllable.neumes.length >= 1){
+       s +=
+"&lt;h4>Change neume:&lt;/h4>\
+&lt;form>\
+    &lt;pre>";
+        s += "Select neume:       " + createNeumeSelector("applyCurrentNeume()") + "&lt;br>";
+        
+        currentNeume = currentSyllable.neumes[currentNeumeIndex];
+        
+        s +=
+"Neume type:         " + createTypeSelector();
+        s += "Current neume type: " + currentNeume.type + "&lt;br>";
+    
+    for(var i = 0; i &lt; currentNeume.pitches.length; i++){
+        
+        s += "  Pitch " + i + ": ";
+        if(currentNeume.pitches[i].pitch){
+            s += currentNeume.pitches[i].pitch + "&lt;br>";
+        }
+        else{
+            s += "Variant&lt;br>";
+        }
+    }
+    
+    s +=
+"&lt;button onclick=\"applyNeumeDataChanges()\">apply changes&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"toChangePitchData()\">change pitches&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"insertNeume(true)\">insert neume before selected neume&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"insertNeume(false)\">insert neume after selected neume&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"deleteNeume()\">delete neume&lt;/button>&lt;br>&lt;br>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    }
+    else{
+        s += "&lt;b>You have not yet created any neumes!&lt;/b>&lt;br>";
+        s += neumeForm();
+    }
+    
+    return s;
+}
+
+/**
+ * The pitch data change form. It is applied for changing pitches in both neumes and variants.
+ * @function
+ * @returns {string} s - the form for changing pitches as a string
+ */
+function pitchDataChangeForm(){
+    var s = "";
+    if(currentNeume.pitches.length &lt; 1){
+        s += 
+"&lt;h4>Create Pitch:&lt;/h4>\
+&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+Pitch:              &lt;select id=\"pitch\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"c\">C&lt;/option>\
+                                &lt;option value=\"d\">D&lt;/option>\
+                                &lt;option value=\"e\">E&lt;/option>\
+                                &lt;option value=\"f\">F&lt;/option>\
+                                &lt;option value=\"g\">G&lt;/option>\
+                                &lt;option value=\"a\">A&lt;/option>\
+                                &lt;option value=\"b\">B&lt;/option>\
+                            &lt;/select>&lt;br>\
+Octacve:            &lt;select id=\"octave\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"1\">1&lt;/option>\
+                                &lt;option value=\"2\">2&lt;/option>\
+                                &lt;option value=\"3\">3&lt;/option>\
+                                &lt;option value=\"4\">4&lt;/option>\
+                                &lt;option value=\"5\">5&lt;/option>\
+                            &lt;/select>&lt;br>\
+From previous note: &lt;select id=\"intm\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"s\">same&lt;/option>\
+                                &lt;option value=\"d\">went down&lt;/option>\
+                                &lt;option value=\"u\">went up&lt;/option>\
+                            &lt;/select>&lt;br>\
+Connection:         &lt;select id=\"connection\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"g\">gapped&lt;/option>\
+                                &lt;option value=\"l\">loop&lt;/option>\
+                                &lt;option value=\"e\">extended&lt;/option>\
+                            &lt;/select>&lt;br>\
+Tilt:               &lt;select id=\"tilt\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"n\">north&lt;/option>\
+                                &lt;option value=\"s\">south&lt;/option>\
+                                &lt;option value=\"w\">west&lt;/option>\
+                                &lt;option value=\"e\">east&lt;/option>\
+                                &lt;option value=\"nw\">northwest&lt;/option>\
+                                &lt;option value=\"ne\">northeast&lt;/option>\
+                                &lt;option value=\"sw\">southwest&lt;/option>\
+                                &lt;option value=\"se\">southeast&lt;/option>\
+                            &lt;/select>&lt;br>\
+Graphical variation:&lt;select id=\"variation\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"quilisma\">quilisma&lt;/option>\
+                                &lt;option value=\"oriscus\">oriscus&lt;/option>\
+                                &lt;option value=\"liquescent\">liquescent&lt;/option>\
+                                &lt;option value=\"strophicus\">strophicus&lt;/option>\
+                    &lt;/select>&lt;br>\
+Supplied?        By " + createSuppliedSourceSelector() + "&lt;br>\
+Comments:           &lt;textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\">&lt;/textarea>&lt;br>&lt;br>\
+&lt;button onclick=\"insertPitch(true)\">create pitch&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"createAdditionalVariation()\"";
+        if(sources.length &lt;= 1){
+            s += " disabled";
+        }
+        s += ">add variant before selected pitch&lt;/button>&lt;br>&lt;br>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+    }
+    else{
+        s += "&lt;h4>Change Pitch:&lt;/h4>";
+        s += "Select Pitch:     " + createPitchSelector("applyCurrentPitch()") +"&lt;br>";
+        currentPitch = currentNeume.pitches[currentPitchIndex];
+        
+        if(Array.isArray(currentPitch)){
+            
+            s +=
+"&lt;form autocomplete=\"on\">\
+    &lt;pre>";
+            s += "Select Source of Variant:" + createVarSourceSelector("applyCurrentVarSource()");
+            
+            s += "Select Pitch in Variant: " + createVarPitchSelector("applyCurrentVariation()") + "&lt;br>";
+            
+            currentVarPitch = currentPitch[currentVarSourceIndex].additionalPitches[currentVarPitchIndex];
+            
+            if(currentVarPitch){
+                s +=
+"&lt;br>                                            Current:&lt;br>";
+            }
+            else{
+                s += 
+"No pitch has been created yet for this source, create a new one or take another selection!&lt;br>&lt;br>"
+            }
+            
+            s +=
+"Pitch:              &lt;select id=\"pitch\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"c\">C&lt;/option>\
+                                &lt;option value=\"d\">D&lt;/option>\
+                                &lt;option value=\"e\">E&lt;/option>\
+                                &lt;option value=\"f\">F&lt;/option>\
+                                &lt;option value=\"g\">G&lt;/option>\
+                                &lt;option value=\"a\">A&lt;/option>\
+                                &lt;option value=\"b\">B&lt;/option>\
+                            &lt;/select>";
+            if(currentVarPitch){
+                s += currentVarPitch.pitch;
+            }
+             
+            s += 
+"&lt;br>\
+Octacve:            &lt;select id=\"octave\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"1\">1&lt;/option>\
+                                &lt;option value=\"2\">2&lt;/option>\
+                                &lt;option value=\"3\">3&lt;/option>\
+                                &lt;option value=\"4\">4&lt;/option>\
+                                &lt;option value=\"5\">5&lt;/option>\
+                            &lt;/select>";
+            if(currentVarPitch){
+                s += currentVarPitch.octave;
+            } 
+            s +=
+"&lt;br>\
+From previous note: &lt;select id=\"intm\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"s\">same&lt;/option>\
+                                &lt;option value=\"d\">went down&lt;/option>\
+                                &lt;option value=\"u\">went up&lt;/option>\
+                            &lt;/select>";
+            if(currentVarPitch){
+                s += currentVarPitch.intm;
+            }
+            s +=                                
+"&lt;br>\
+Connection:         &lt;select id=\"connection\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"g\">gapped&lt;/option>\
+                                &lt;option value=\"l\">loop&lt;/option>\
+                                &lt;option value=\"e\">extended&lt;/option>\
+                            &lt;/select>";
+            if(currentVarPitch){
+                s += currentVarPitch.connection;
+            }
+            s +=
+"&lt;br>\
+Tilt:               &lt;select id=\"tilt\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"n\">north&lt;/option>\
+                                &lt;option value=\"s\">south&lt;/option>\
+                                &lt;option value=\"w\">west&lt;/option>\
+                                &lt;option value=\"e\">east&lt;/option>\
+                                &lt;option value=\"nw\">northwest&lt;/option>\
+                                &lt;option value=\"ne\">northeast&lt;/option>\
+                                &lt;option value=\"sw\">southwest&lt;/option>\
+                                &lt;option value=\"se\">southeast&lt;/option>\
+                            &lt;/select>";
+            if(currentVarPitch){
+                s += currentVarPitch.tilt;
+            }
+            s +=            
+"&lt;br>\
+Graphical variation:&lt;select id=\"variation\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"quilisma\">quilisma&lt;/option>\
+                                &lt;option value=\"oriscus\">oriscus&lt;/option>\
+                                &lt;option value=\"liquescent\">liquescent&lt;/option>\
+                                &lt;option value=\"strophicus\">strophicus&lt;/option>\
+                    &lt;/select>";
+            if(currentVarPitch){
+                s += currentVarPitch.variation;
+            }
+            s +=
+"&lt;br>\
+Supplied?        By " + createSuppliedSourceSelector();
+            if(currentVarPitch){
+                s += currentVarPitch.supplied;
+            }
+            s +=
+"&lt;br>Comments:           &lt;textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\">&lt;/textarea>";
+            if(currentVarPitch){
+                s += currentVarPitch.comment;
+            }
+            if(currentVarPitch){
+                s +=
+"&lt;br>&lt;br>\
+&lt;button onclick=\"applyVariationDataChanges()\">apply changes&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"insertVariationPitch(true)\">insert pitch before selected pitch&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"insertVariationPitch(false)\">insert pitch after selected pitch&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"deleteVariationPitch()\">delete pitch&lt;/button>&lt;br>\
+&lt;button onclick=\"deletePitch()\">delete whole variant&lt;/button>&lt;br>&lt;br>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+            }
+            else{
+                s +=
+"&lt;br>&lt;br>\
+&lt;button onclick=\"insertVariationPitch(true)\">create pitch&lt;/button>&lt;br>\
+&lt;button onclick=\"deletePitch()\">delete whole variant&lt;/button>&lt;br>&lt;br>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+            }
+
+        }
+        
+        else{
+            s += "&lt;form autocomplete=\"on\">\
+    &lt;pre>\
+Pitch:              &lt;select id=\"pitch\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"c\">C&lt;/option>\
+                                &lt;option value=\"d\">D&lt;/option>\
+                                &lt;option value=\"e\">E&lt;/option>\
+                                &lt;option value=\"f\">F&lt;/option>\
+                                &lt;option value=\"g\">G&lt;/option>\
+                                &lt;option value=\"a\">A&lt;/option>\
+                                &lt;option value=\"b\">B&lt;/option>\
+                            &lt;/select>"+ currentPitch.pitch +"&lt;br>\
+Octacve:            &lt;select id=\"octave\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"1\">1&lt;/option>\
+                                &lt;option value=\"2\">2&lt;/option>\
+                                &lt;option value=\"3\">3&lt;/option>\
+                                &lt;option value=\"4\">4&lt;/option>\
+                                &lt;option value=\"5\">5&lt;/option>\
+                            &lt;/select>"+ currentPitch.octave +"&lt;br>\
+From previous note: &lt;select id=\"intm\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"s\">same&lt;/option>\
+                                &lt;option value=\"d\">went down&lt;/option>\
+                                &lt;option value=\"u\">went up&lt;/option>\
+                            &lt;/select>"+ currentPitch.intm +"&lt;br>\
+Connection:         &lt;select id=\"connection\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"g\">gapped&lt;/option>\
+                                &lt;option value=\"l\">loop&lt;/option>\
+                                &lt;option value=\"e\">extended&lt;/option>\
+                            &lt;/select>"+ currentPitch.connection +"&lt;br>\
+Tilt:               &lt;select id=\"tilt\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"n\">north&lt;/option>\
+                                &lt;option value=\"s\">south&lt;/option>\
+                                &lt;option value=\"w\">west&lt;/option>\
+                                &lt;option value=\"e\">east&lt;/option>\
+                                &lt;option value=\"nw\">northwest&lt;/option>\
+                                &lt;option value=\"ne\">northeast&lt;/option>\
+                                &lt;option value=\"sw\">southwest&lt;/option>\
+                                &lt;option value=\"se\">southeast&lt;/option>\
+                            &lt;/select>"+ currentPitch.tilt +"&lt;br>\
+Graphical variation:&lt;select id=\"variation\">\
+                                &lt;option value=\"none\">none&lt;/option>\
+                                &lt;option value=\"quilisma\">quilisma&lt;/option>\
+                                &lt;option value=\"oriscus\">oriscus&lt;/option>\
+                                &lt;option value=\"liquescent\">liquescent&lt;/option>\
+                                &lt;option value=\"strophicus\">strophicus&lt;/option>\
+                    &lt;/select>"+ currentPitch.variation +"&lt;br>\
+Supplied?        By " + createSuppliedSourceSelector() + currentPitch.supplied + "&lt;br>\
+Comments:           &lt;textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\">&lt;/textarea>&lt;br>&lt;br>\
+&lt;button onclick=\"applyPitchDataChanges()\">apply changes&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"insertPitch(true)\">insert new pitch before selected pitch&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"insertPitch(false)\">insert new pitch after selected pitch&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"deletePitch()\">delete pitch&lt;/button>&lt;br>&lt;br>\
+&lt;button onclick=\"createAdditionalVariation()\"";
+        if(sources.length &lt;= 1){
+            s += " disabled";
+        }
+        s += ">add variant before selected pitch&lt;/button>&lt;br>&lt;br>\
+    &lt;/pre>\
+&lt;/form>&lt;br>";
+        }
+
+    }
+    s += "&lt;button onclick=\"toSyllable()\">back to adding syllables&lt;/button>&lt;br>&lt;br>";
+    return s;
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Clef.html">Clef</a></li><li><a href="MetaData.html">MetaData</a></li><li><a href="Neume.html">Neume</a></li><li><a href="Pitch.html">Pitch</a></li><li><a href="Source.html">Source</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Syllable.html">Syllable</a></li><li><a href="Variation.html">Variation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#applyClefDataChanges">applyClefDataChanges</a></li><li><a href="global.html#applyCurrentClef">applyCurrentClef</a></li><li><a href="global.html#applyCurrentColor">applyCurrentColor</a></li><li><a href="global.html#applyCurrentNeume">applyCurrentNeume</a></li><li><a href="global.html#applyCurrentOctave">applyCurrentOctave</a></li><li><a href="global.html#applyCurrentPitch">applyCurrentPitch</a></li><li><a href="global.html#applyCurrentSource">applyCurrentSource</a></li><li><a href="global.html#applyCurrentStaff">applyCurrentStaff</a></li><li><a href="global.html#applyCurrentSyllable">applyCurrentSyllable</a></li><li><a href="global.html#applyCurrentType">applyCurrentType</a></li><li><a href="global.html#applyCurrentVariation">applyCurrentVariation</a></li><li><a href="global.html#applyCurrentVarSource">applyCurrentVarSource</a></li><li><a href="global.html#applyMetaDataChanges">applyMetaDataChanges</a></li><li><a href="global.html#applyNeumeDataChanges">applyNeumeDataChanges</a></li><li><a href="global.html#applyPitchDataChanges">applyPitchDataChanges</a></li><li><a href="global.html#applySourceDataChanges">applySourceDataChanges</a></li><li><a href="global.html#applyStaffDataChanges">applyStaffDataChanges</a></li><li><a href="global.html#applySyllableDataChanges">applySyllableDataChanges</a></li><li><a href="global.html#applyVariationDataChanges">applyVariationDataChanges</a></li><li><a href="global.html#changeValueForm">changeValueForm</a></li><li><a href="global.html#clefDataChangeForm">clefDataChangeForm</a></li><li><a href="global.html#clefForm">clefForm</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#createAdditionalVariation">createAdditionalVariation</a></li><li><a href="global.html#createClef">createClef</a></li><li><a href="global.html#createClefSelector">createClefSelector</a></li><li><a href="global.html#createColorSelector">createColorSelector</a></li><li><a href="global.html#createIntmSelector">createIntmSelector</a></li><li><a href="global.html#createMEIOutput">createMEIOutput</a></li><li><a href="global.html#createMetaData">createMetaData</a></li><li><a href="global.html#createNeume">createNeume</a></li><li><a href="global.html#createNeumeSelector">createNeumeSelector</a></li><li><a href="global.html#createNeumeWithPitches">createNeumeWithPitches</a></li><li><a href="global.html#createNewStaff">createNewStaff</a></li><li><a href="global.html#createOctaveSelector">createOctaveSelector</a></li><li><a href="global.html#createPitch">createPitch</a></li><li><a href="global.html#createPitchSelector">createPitchSelector</a></li><li><a href="global.html#createSource">createSource</a></li><li><a href="global.html#createSourceID">createSourceID</a></li><li><a href="global.html#createSourceSelector">createSourceSelector</a></li><li><a href="global.html#createStaff">createStaff</a></li><li><a href="global.html#createStaffID">createStaffID</a></li><li><a href="global.html#createStaffSelector">createStaffSelector</a></li><li><a href="global.html#createStaffWithClefs">createStaffWithClefs</a></li><li><a href="global.html#createSuppliedSourceSelector">createSuppliedSourceSelector</a></li><li><a href="global.html#createSVGOutput">createSVGOutput</a></li><li><a href="global.html#createSyllable">createSyllable</a></li><li><a href="global.html#createSyllableSelector">createSyllableSelector</a></li><li><a href="global.html#createSyllableWithNeumes">createSyllableWithNeumes</a></li><li><a href="global.html#createTypeSelector">createTypeSelector</a></li><li><a href="global.html#createVariation">createVariation</a></li><li><a href="global.html#createVarPitchSelector">createVarPitchSelector</a></li><li><a href="global.html#createVarSourceSelector">createVarSourceSelector</a></li><li><a href="global.html#currentClef">currentClef</a></li><li><a href="global.html#currentClefIndex">currentClefIndex</a></li><li><a href="global.html#currentColor">currentColor</a></li><li><a href="global.html#currentIntm">currentIntm</a></li><li><a href="global.html#currentN">currentN</a></li><li><a href="global.html#currentNeume">currentNeume</a></li><li><a href="global.html#currentNeumeIndex">currentNeumeIndex</a></li><li><a href="global.html#currentOctave">currentOctave</a></li><li><a href="global.html#currentPitch">currentPitch</a></li><li><a href="global.html#currentPitchIndex">currentPitchIndex</a></li><li><a href="global.html#currentSID">currentSID</a></li><li><a href="global.html#currentSource">currentSource</a></li><li><a href="global.html#currentStaff">currentStaff</a></li><li><a href="global.html#currentSyllable">currentSyllable</a></li><li><a href="global.html#currentSyllableIndex">currentSyllableIndex</a></li><li><a href="global.html#currentType">currentType</a></li><li><a href="global.html#currentVarPitch">currentVarPitch</a></li><li><a href="global.html#currentVarSourceIndex">currentVarSourceIndex</a></li><li><a href="global.html#d">d</a></li><li><a href="global.html#deleteClef">deleteClef</a></li><li><a href="global.html#deleteNeume">deleteNeume</a></li><li><a href="global.html#deletePitch">deletePitch</a></li><li><a href="global.html#deleteSource">deleteSource</a></li><li><a href="global.html#deleteStaff">deleteStaff</a></li><li><a href="global.html#deleteSyllable">deleteSyllable</a></li><li><a href="global.html#deleteVariationPitch">deleteVariationPitch</a></li><li><a href="global.html#downloadFile">downloadFile</a></li><li><a href="global.html#ellipse">ellipse</a></li><li><a href="global.html#indent">indent</a></li><li><a href="global.html#insertClef">insertClef</a></li><li><a href="global.html#insertNeume">insertNeume</a></li><li><a href="global.html#insertPitch">insertPitch</a></li><li><a href="global.html#insertSyllable">insertSyllable</a></li><li><a href="global.html#insertVariationPitch">insertVariationPitch</a></li><li><a href="global.html#intms">intms</a></li><li><a href="global.html#lines">lines</a></li><li><a href="global.html#metaData">metaData</a></li><li><a href="global.html#metaDataChangeForm">metaDataChangeForm</a></li><li><a href="global.html#metaDataForm">metaDataForm</a></li><li><a href="global.html#neumeDataChangeForm">neumeDataChangeForm</a></li><li><a href="global.html#neumeForm">neumeForm</a></li><li><a href="global.html#octaves">octaves</a></li><li><a href="global.html#output">output</a></li><li><a href="global.html#pitchCounter">pitchCounter</a></li><li><a href="global.html#pitchDataChangeForm">pitchDataChangeForm</a></li><li><a href="global.html#pitchForm">pitchForm</a></li><li><a href="global.html#pushedVariations">pushedVariations</a></li><li><a href="global.html#scrollDown">scrollDown</a></li><li><a href="global.html#scrollUp">scrollUp</a></li><li><a href="global.html#sourceCounter">sourceCounter</a></li><li><a href="global.html#sourceDataChangeForm">sourceDataChangeForm</a></li><li><a href="global.html#sourceForm">sourceForm</a></li><li><a href="global.html#sources">sources</a></li><li><a href="global.html#staffCounter">staffCounter</a></li><li><a href="global.html#staffDataChangeForm">staffDataChangeForm</a></li><li><a href="global.html#staffForm">staffForm</a></li><li><a href="global.html#staffs">staffs</a></li><li><a href="global.html#start">start</a></li><li><a href="global.html#startY">startY</a></li><li><a href="global.html#svg">svg</a></li><li><a href="global.html#svgAdded">svgAdded</a></li><li><a href="global.html#svgNS">svgNS</a></li><li><a href="global.html#syllableDataChangeForm">syllableDataChangeForm</a></li><li><a href="global.html#syllableForm">syllableForm</a></li><li><a href="global.html#syllables">syllables</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#toChangeClefData">toChangeClefData</a></li><li><a href="global.html#toChangeMetaData">toChangeMetaData</a></li><li><a href="global.html#toChangeNeumeData">toChangeNeumeData</a></li><li><a href="global.html#toChangePitchData">toChangePitchData</a></li><li><a href="global.html#toChangeSourceData">toChangeSourceData</a></li><li><a href="global.html#toChangeStaffData">toChangeStaffData</a></li><li><a href="global.html#toChangeSyllableData">toChangeSyllableData</a></li><li><a href="global.html#toChangeValues">toChangeValues</a></li><li><a href="global.html#toNeume">toNeume</a></li><li><a href="global.html#toNeumeFromVariations">toNeumeFromVariations</a></li><li><a href="global.html#toPitchesFromVariations">toPitchesFromVariations</a></li><li><a href="global.html#toSources">toSources</a></li><li><a href="global.html#toStaffs">toStaffs</a></li><li><a href="global.html#toSyllable">toSyllable</a></li><li><a href="global.html#toSyllableFromVariations">toSyllableFromVariations</a></li><li><a href="global.html#toVariant">toVariant</a></li><li><a href="global.html#translateNoteValue">translateNoteValue</a></li><li><a href="global.html#types">types</a></li><li><a href="global.html#variationForm">variationForm</a></li><li><a href="global.html#variations">variations</a></li><li><a href="global.html#xmlDoc">xmlDoc</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 12:12:29 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -8,8 +8,9 @@
  * @param {string} connection - descreibes the connection between pitches
  * @param {string} tilt - describes the tilt of a pitch
  * @param {string} variation - describes a graphical variation
+ * @param {string} supplied - describes the source a pitch is supplied by
  */
-function Pitch(pitch, octave, comment, intm, connection, tilt, variation){
+function Pitch(pitch, octave, comment, intm, connection, tilt, variation, supplied){
     /**
      * Specifies the actual pitch or note.
      * @member {string}
@@ -53,6 +54,12 @@ function Pitch(pitch, octave, comment, intm, connection, tilt, variation){
     this.variation = variation;
     
     /**
+     * In case the pitch is supplied by another source: Specifies the source the pitch is supplied by.
+     * @member {string}
+     */
+    this.supplied = supplied;
+    
+    /**
      * Creates the XML representation of the pitch. The created element id then appended to a neume element.
      * @function
      * @param neume - a neume element to which the created pitch element is appended to
@@ -84,10 +91,19 @@ function Pitch(pitch, octave, comment, intm, connection, tilt, variation){
         if(this.tilt && this.tilt != "none"){
             nc.setAttribute("tilt", this.tilt);
         }
-        if(this.variation != "none"){
-            var variationElement = xmlDoc.createElement(variation);
+        if(this.variation && this.variation != "none"){
+            var variationElement = xmlDoc.createElement(this.variation);
             nc.appendChild(variationElement);
         }
-        neume.appendChild(nc);
+        
+        if(this.supplied && this.supplied != "none"){
+            var suppliedElement = xmlDoc.createElement("supplied");
+            suppliedElement.setAttribute("source", this.supplied);
+            suppliedElement.appendChild(nc);
+            neume.appendChild(suppliedElement);
+        }
+        else{
+            neume.appendChild(nc);
+        }
     }
 }

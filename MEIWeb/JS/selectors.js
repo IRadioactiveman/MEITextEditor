@@ -149,6 +149,26 @@ function createSourceSelector(onChange){
 }
 
 /**
+ * This function creates a selector for supplied sources.
+ * @param {string} onChange - a string representing a function that executes on change of an option
+ * @returns {string} s - a string conatining the html select element with the specified options
+ */
+function createSuppliedSourceSelector(onChange){ 
+    var s = "";
+    s += "<select id=\"supplied\" width=\"200\"";
+    if(onChange){
+        s += "onchange=\""+ onChange +"\"";
+    }
+    s += ">\n";
+    s += "<option value=\"none\">none</option>\n";
+    for(var i = 0; i < sources.length; i++){
+        s += "<option value=\""+sources[i].id+"\">"+sources[i].id+"</option>\n";
+    }
+    s += "</select>";
+    return s;
+}
+
+/**
  * This function creates a selector for clefs.
  * @param {string} onChange - a string representing a function that executes on change of an option
  * @returns {string} s - a string conatining the html select element with the specified options

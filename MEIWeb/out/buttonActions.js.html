@@ -1,4 +1,32 @@
-/* In this file, all possible actions that can be triggered by a button with the onclick attribute will be implemented.*/
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: buttonActions.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: buttonActions.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* In this file, all possible actions that can be triggered by a button with the onclick attribute will be implemented.*/
 
 /** This function represents the starting point of the program, leading straight to entering meta data and initializes the SVG output.*/
 function start(){
@@ -326,7 +354,7 @@ function createPitch(){
         document.getElementById("input").innerHTML = neumeForm();
     }
     else if(currentNeume.type == "pes"){
-        if(pitch == "none" && pitchCounter == 0){
+        if(pitch == "none" &amp;&amp; pitchCounter == 0){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "u";
             currentNeume.pitches.push(p);
@@ -345,7 +373,7 @@ function createPitch(){
         }
     }
     else if(currentNeume.type == "clivis"){
-        if(pitch == "none" && pitchCounter == 0){
+        if(pitch == "none" &amp;&amp; pitchCounter == 0){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "d";
             currentNeume.pitches.push(p);
@@ -364,7 +392,7 @@ function createPitch(){
         }
     }
     else if(currentNeume.type == "torculus"){
-        if(pitch == "none" && pitchCounter == 0){
+        if(pitch == "none" &amp;&amp; pitchCounter == 0){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "u";
             currentNeume.pitches.push(p);
@@ -394,7 +422,7 @@ function createPitch(){
         }
     }
     else if(currentNeume.type == "porrectus"){
-        if(pitch == "none" && pitchCounter == 0){
+        if(pitch == "none" &amp;&amp; pitchCounter == 0){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "u";
             currentNeume.pitches.push(p);
@@ -424,7 +452,7 @@ function createPitch(){
         }
     }
     else if(currentNeume.type == "climacus"){
-        if(pitch == "none" && pitchCounter == 0){
+        if(pitch == "none" &amp;&amp; pitchCounter == 0){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "u";
             currentNeume.pitches.push(p);
@@ -480,7 +508,7 @@ function createPitch(){
         }
     }
     else if(currentNeume.type == "scandicus"){
-        if(pitch == "none" && pitchCounter == 0){
+        if(pitch == "none" &amp;&amp; pitchCounter == 0){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "u";
             currentNeume.pitches.push(p);
@@ -543,14 +571,14 @@ function createVariation(){
     
     var i;
     
-    if(variations.length < 1){
-        for(i = 0; i < sources.length; i++){
+    if(variations.length &lt; 1){
+        for(i = 0; i &lt; sources.length; i++){
             var variation = new Variation(sources[i].id);
             variations.push(variation);
         }
     }
     
-    for(i = 0; i < variations.length; i++){
+    for(i = 0; i &lt; variations.length; i++){
         if(variations[i].sourceID == sourceID){
             variations[i].additionalPitches.push(p);
             variationAvailable = true;
@@ -716,7 +744,7 @@ function applySourceDataChanges(){
 /** Deletes the selected source and adjusts variations.*/
 function deleteSource(id){
     var i;
-    for(i = 0; i < sources.length; i++){
+    for(i = 0; i &lt; sources.length; i++){
         if(sources[i].id == id){
             if(sources.length == 1){
                 document.getElementById("input").innerHTML = sourceForm();
@@ -735,11 +763,11 @@ function deleteSource(id){
             sources.splice(i, 1);
         }
     }
-    for(i = 0; i < syllables.length; i++){
-        for(var j = 0; j < syllables[i].neumes.length; j++){
-            for(var l = 0; l < syllables[i].neumes[j].pitches.length; l++){
+    for(i = 0; i &lt; syllables.length; i++){
+        for(var j = 0; j &lt; syllables[i].neumes.length; j++){
+            for(var l = 0; l &lt; syllables[i].neumes[j].pitches.length; l++){
                 if(Array.isArray(syllables[i].neumes[j].pitches[l])){
-                    for(var k = 0; k < syllables[i].neumes[j].pitches[l].length; k++){
+                    for(var k = 0; k &lt; syllables[i].neumes[j].pitches[l].length; k++){
                         if(syllables[i].neumes[j].pitches[l][k].sourceID == id){
                             syllables[i].neumes[j].pitches[l].splice(k, 1);
                         }
@@ -767,13 +795,13 @@ function applyStaffDataChanges(){
     var linecolor = document.getElementById("linecolor").value;
     var mode = document.getElementById("mode").value;
     
-    if(linecount && linecount != "none"){
+    if(linecount &amp;&amp; linecount != "none"){
         currentStaff.linecount = linecount;
     }
-    if(linecolor && linecolor != "none"){
+    if(linecolor &amp;&amp; linecolor != "none"){
         currentStaff.linecolor = linecolor;
     }
-    if(mode && mode != "none"){
+    if(mode &amp;&amp; mode != "none"){
         currentStaff.mode = mode;
     }
     document.getElementById("input").innerHTML = staffDataChangeForm();
@@ -784,7 +812,7 @@ function applyStaffDataChanges(){
 /** Deletes the selected staff and the syllables using that staff.*/
 function deleteStaff(n){
     var i;
-    for(i = 0; i < staffs.length; i++){
+    for(i = 0; i &lt; staffs.length; i++){
         if(staffs[i].n == n){
             if(staffs.length == 1){
                 document.getElementById("input").innerHTML = staffForm();
@@ -803,7 +831,7 @@ function deleteStaff(n){
             staffs.splice(i, 1);
         }
     }
-    for(i = 0; i < syllables.length; i++){
+    for(i = 0; i &lt; syllables.length; i++){
         if(syllables[i].staff.n == n){
             syllables.splice(i, 1);
         }
@@ -825,10 +853,10 @@ function applyClefDataChanges(){
     var line = document.getElementById("line").value;
     var shape = document.getElementById("shape").value;
     
-    if(line && line != "none"){
+    if(line &amp;&amp; line != "none"){
         currentStaff.clefs[currentClefIndex].line = line;
     }
-    if(shape && shape != "none"){
+    if(shape &amp;&amp; shape != "none"){
         currentStaffs.clefs[currentClefIndex].shape = shape;
     }
     
@@ -905,7 +933,7 @@ function applySyllableDataChanges(){
     
     currentSyllable.initial = initial;
     
-    if(color && color != "none"){
+    if(color &amp;&amp; color != "none"){
         currentSyllable.color = color;
     }
     
@@ -968,7 +996,7 @@ function toChangeNeumeData(){
 function applyNeumeDataChanges(){
     var type = document.getElementById("type").value;
     
-    if(type && type != "none"){
+    if(type &amp;&amp; type != "none"){
         currentNeume.type = type;
     }
     
@@ -1025,28 +1053,28 @@ function applyPitchDataChanges(){
     var variation = document.getElementById("variation").value;
     var supplied = document.getElementById("supplied").value;
     
-    if(pitch && pitch != "none"){
+    if(pitch &amp;&amp; pitch != "none"){
         currentPitch.pitch = pitch;
     }
-    if(octave && octave != "none"){
+    if(octave &amp;&amp; octave != "none"){
         currentPitch.octave = octave;
     }
-    if(comment && comment != "none"){
+    if(comment &amp;&amp; comment != "none"){
         currentPitch.comment = comment;
     }
-    if(intm && intm != "none"){
+    if(intm &amp;&amp; intm != "none"){
         currentPitch.intm = intm;
     }
-    if(connection && connection != "none"){
+    if(connection &amp;&amp; connection != "none"){
         currentPitch.connection = connection;
     }
-    if(tilt && tilt != "none"){
+    if(tilt &amp;&amp; tilt != "none"){
         currentPitch.tilt = tilt;
     }
-    if(variation && variation != "none"){
+    if(variation &amp;&amp; variation != "none"){
         currentPitch.variation = variation;
     }
-    if(supplied && supplied != "none"){
+    if(supplied &amp;&amp; supplied != "none"){
         currentPitch.supplied = supplied;
     }
     
@@ -1098,7 +1126,7 @@ function createAdditionalVariation(){
     
     variations = new Array();
     
-    for(i = 0; i < sources.length; i++){
+    for(i = 0; i &lt; sources.length; i++){
         var variation = new Variation(sources[i].id);
         variations.push(variation);
     }
@@ -1121,28 +1149,28 @@ function applyVariationDataChanges(){
     var graphicalVariation = document.getElementById("variation").value;
     var supplied = document.getElementById("supplied").value;
     
-    if(pitch && pitch != "none"){
+    if(pitch &amp;&amp; pitch != "none"){
         currentVarPitch.pitch = pitch;
     }
-    if(octave && octave != "none"){
+    if(octave &amp;&amp; octave != "none"){
         currentVarPitch.octave = octave;
     }
-    if(comment && comment != "none"){
+    if(comment &amp;&amp; comment != "none"){
         currentPitch.comment = comment;
     }
-    if(intm && intm != "none"){
+    if(intm &amp;&amp; intm != "none"){
         currentVarPitch.intm = intm;
     }
-    if(connection && connection != "none"){
+    if(connection &amp;&amp; connection != "none"){
         currentPitch.connection = connection;
     }
-    if(tilt && tilt != "none"){
+    if(tilt &amp;&amp; tilt != "none"){
         currentVarPitch.tilt = tilt;
     }
-    if(graphicalVariation && graphicalVariation != "none"){
+    if(graphicalVariation &amp;&amp; graphicalVariation != "none"){
         currentVarPitch.variation = graphicalVariation;
     }
-    if(supplied && supplied != "none"){
+    if(supplied &amp;&amp; supplied != "none"){
         currentPitch.supplied = supplied;
     }
     
@@ -1259,4 +1287,26 @@ function applyCurrentOctave(){
 function applyCurrentColor(){
     currentColor = document.getElementById("color").value;
     document.getElementById("input").innerHTML = syllableForm();
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Clef.html">Clef</a></li><li><a href="MetaData.html">MetaData</a></li><li><a href="Neume.html">Neume</a></li><li><a href="Pitch.html">Pitch</a></li><li><a href="Source.html">Source</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Syllable.html">Syllable</a></li><li><a href="Variation.html">Variation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#applyClefDataChanges">applyClefDataChanges</a></li><li><a href="global.html#applyCurrentClef">applyCurrentClef</a></li><li><a href="global.html#applyCurrentColor">applyCurrentColor</a></li><li><a href="global.html#applyCurrentNeume">applyCurrentNeume</a></li><li><a href="global.html#applyCurrentOctave">applyCurrentOctave</a></li><li><a href="global.html#applyCurrentPitch">applyCurrentPitch</a></li><li><a href="global.html#applyCurrentSource">applyCurrentSource</a></li><li><a href="global.html#applyCurrentStaff">applyCurrentStaff</a></li><li><a href="global.html#applyCurrentSyllable">applyCurrentSyllable</a></li><li><a href="global.html#applyCurrentType">applyCurrentType</a></li><li><a href="global.html#applyCurrentVariation">applyCurrentVariation</a></li><li><a href="global.html#applyCurrentVarSource">applyCurrentVarSource</a></li><li><a href="global.html#applyMetaDataChanges">applyMetaDataChanges</a></li><li><a href="global.html#applyNeumeDataChanges">applyNeumeDataChanges</a></li><li><a href="global.html#applyPitchDataChanges">applyPitchDataChanges</a></li><li><a href="global.html#applySourceDataChanges">applySourceDataChanges</a></li><li><a href="global.html#applyStaffDataChanges">applyStaffDataChanges</a></li><li><a href="global.html#applySyllableDataChanges">applySyllableDataChanges</a></li><li><a href="global.html#applyVariationDataChanges">applyVariationDataChanges</a></li><li><a href="global.html#changeValueForm">changeValueForm</a></li><li><a href="global.html#clefDataChangeForm">clefDataChangeForm</a></li><li><a href="global.html#clefForm">clefForm</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#createAdditionalVariation">createAdditionalVariation</a></li><li><a href="global.html#createClef">createClef</a></li><li><a href="global.html#createClefSelector">createClefSelector</a></li><li><a href="global.html#createColorSelector">createColorSelector</a></li><li><a href="global.html#createIntmSelector">createIntmSelector</a></li><li><a href="global.html#createMEIOutput">createMEIOutput</a></li><li><a href="global.html#createMetaData">createMetaData</a></li><li><a href="global.html#createNeume">createNeume</a></li><li><a href="global.html#createNeumeSelector">createNeumeSelector</a></li><li><a href="global.html#createNeumeWithPitches">createNeumeWithPitches</a></li><li><a href="global.html#createNewStaff">createNewStaff</a></li><li><a href="global.html#createOctaveSelector">createOctaveSelector</a></li><li><a href="global.html#createPitch">createPitch</a></li><li><a href="global.html#createPitchSelector">createPitchSelector</a></li><li><a href="global.html#createSource">createSource</a></li><li><a href="global.html#createSourceID">createSourceID</a></li><li><a href="global.html#createSourceSelector">createSourceSelector</a></li><li><a href="global.html#createStaff">createStaff</a></li><li><a href="global.html#createStaffID">createStaffID</a></li><li><a href="global.html#createStaffSelector">createStaffSelector</a></li><li><a href="global.html#createStaffWithClefs">createStaffWithClefs</a></li><li><a href="global.html#createSuppliedSourceSelector">createSuppliedSourceSelector</a></li><li><a href="global.html#createSVGOutput">createSVGOutput</a></li><li><a href="global.html#createSyllable">createSyllable</a></li><li><a href="global.html#createSyllableSelector">createSyllableSelector</a></li><li><a href="global.html#createSyllableWithNeumes">createSyllableWithNeumes</a></li><li><a href="global.html#createTypeSelector">createTypeSelector</a></li><li><a href="global.html#createVariation">createVariation</a></li><li><a href="global.html#createVarPitchSelector">createVarPitchSelector</a></li><li><a href="global.html#createVarSourceSelector">createVarSourceSelector</a></li><li><a href="global.html#currentClef">currentClef</a></li><li><a href="global.html#currentClefIndex">currentClefIndex</a></li><li><a href="global.html#currentColor">currentColor</a></li><li><a href="global.html#currentIntm">currentIntm</a></li><li><a href="global.html#currentN">currentN</a></li><li><a href="global.html#currentNeume">currentNeume</a></li><li><a href="global.html#currentNeumeIndex">currentNeumeIndex</a></li><li><a href="global.html#currentOctave">currentOctave</a></li><li><a href="global.html#currentPitch">currentPitch</a></li><li><a href="global.html#currentPitchIndex">currentPitchIndex</a></li><li><a href="global.html#currentSID">currentSID</a></li><li><a href="global.html#currentSource">currentSource</a></li><li><a href="global.html#currentStaff">currentStaff</a></li><li><a href="global.html#currentSyllable">currentSyllable</a></li><li><a href="global.html#currentSyllableIndex">currentSyllableIndex</a></li><li><a href="global.html#currentType">currentType</a></li><li><a href="global.html#currentVarPitch">currentVarPitch</a></li><li><a href="global.html#currentVarSourceIndex">currentVarSourceIndex</a></li><li><a href="global.html#d">d</a></li><li><a href="global.html#deleteClef">deleteClef</a></li><li><a href="global.html#deleteNeume">deleteNeume</a></li><li><a href="global.html#deletePitch">deletePitch</a></li><li><a href="global.html#deleteSource">deleteSource</a></li><li><a href="global.html#deleteStaff">deleteStaff</a></li><li><a href="global.html#deleteSyllable">deleteSyllable</a></li><li><a href="global.html#deleteVariationPitch">deleteVariationPitch</a></li><li><a href="global.html#downloadFile">downloadFile</a></li><li><a href="global.html#ellipse">ellipse</a></li><li><a href="global.html#indent">indent</a></li><li><a href="global.html#insertClef">insertClef</a></li><li><a href="global.html#insertNeume">insertNeume</a></li><li><a href="global.html#insertPitch">insertPitch</a></li><li><a href="global.html#insertSyllable">insertSyllable</a></li><li><a href="global.html#insertVariationPitch">insertVariationPitch</a></li><li><a href="global.html#intms">intms</a></li><li><a href="global.html#lines">lines</a></li><li><a href="global.html#metaData">metaData</a></li><li><a href="global.html#metaDataChangeForm">metaDataChangeForm</a></li><li><a href="global.html#metaDataForm">metaDataForm</a></li><li><a href="global.html#neumeDataChangeForm">neumeDataChangeForm</a></li><li><a href="global.html#neumeForm">neumeForm</a></li><li><a href="global.html#octaves">octaves</a></li><li><a href="global.html#output">output</a></li><li><a href="global.html#pitchCounter">pitchCounter</a></li><li><a href="global.html#pitchDataChangeForm">pitchDataChangeForm</a></li><li><a href="global.html#pitchForm">pitchForm</a></li><li><a href="global.html#pushedVariations">pushedVariations</a></li><li><a href="global.html#scrollDown">scrollDown</a></li><li><a href="global.html#scrollUp">scrollUp</a></li><li><a href="global.html#sourceCounter">sourceCounter</a></li><li><a href="global.html#sourceDataChangeForm">sourceDataChangeForm</a></li><li><a href="global.html#sourceForm">sourceForm</a></li><li><a href="global.html#sources">sources</a></li><li><a href="global.html#staffCounter">staffCounter</a></li><li><a href="global.html#staffDataChangeForm">staffDataChangeForm</a></li><li><a href="global.html#staffForm">staffForm</a></li><li><a href="global.html#staffs">staffs</a></li><li><a href="global.html#start">start</a></li><li><a href="global.html#startY">startY</a></li><li><a href="global.html#svg">svg</a></li><li><a href="global.html#svgAdded">svgAdded</a></li><li><a href="global.html#svgNS">svgNS</a></li><li><a href="global.html#syllableDataChangeForm">syllableDataChangeForm</a></li><li><a href="global.html#syllableForm">syllableForm</a></li><li><a href="global.html#syllables">syllables</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#toChangeClefData">toChangeClefData</a></li><li><a href="global.html#toChangeMetaData">toChangeMetaData</a></li><li><a href="global.html#toChangeNeumeData">toChangeNeumeData</a></li><li><a href="global.html#toChangePitchData">toChangePitchData</a></li><li><a href="global.html#toChangeSourceData">toChangeSourceData</a></li><li><a href="global.html#toChangeStaffData">toChangeStaffData</a></li><li><a href="global.html#toChangeSyllableData">toChangeSyllableData</a></li><li><a href="global.html#toChangeValues">toChangeValues</a></li><li><a href="global.html#toNeume">toNeume</a></li><li><a href="global.html#toNeumeFromVariations">toNeumeFromVariations</a></li><li><a href="global.html#toPitchesFromVariations">toPitchesFromVariations</a></li><li><a href="global.html#toSources">toSources</a></li><li><a href="global.html#toStaffs">toStaffs</a></li><li><a href="global.html#toSyllable">toSyllable</a></li><li><a href="global.html#toSyllableFromVariations">toSyllableFromVariations</a></li><li><a href="global.html#toVariant">toVariant</a></li><li><a href="global.html#translateNoteValue">translateNoteValue</a></li><li><a href="global.html#types">types</a></li><li><a href="global.html#variationForm">variationForm</a></li><li><a href="global.html#variations">variations</a></li><li><a href="global.html#xmlDoc">xmlDoc</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 12:12:29 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

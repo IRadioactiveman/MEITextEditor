@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: setup.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: setup.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * This variable holds the XML document for the MEI file.
+ * @var {Object} xmlDoc
+ */
+var xmlDoc;
+
+/**
+ * This variable holds the meta data element.
+ * @var {Object} metaData
+ */
+var metaData;
+
+/**
+ * This array contains all the sources.
+ * @var {Object} sources
+ */
+var sources = new Array();
+
+/**
+ * This array contains all the staffs.
+ * @var {Object} staffs
+ */
+var staffs = new Array();
+
+/**
+ * This array contains all the syllables.
+ * @var {Object} syllables
+ */
+var syllables = new Array();
+
+/**
+ * This number gets incremented with each source added for XML ID creation.
+ * @var {number} sourceCounter
+ */
+var sourceCounter = 0;
+
+/**
+ * This number gets incremented with each staff added for XML ID creation.
+ * @var {number} staffCounter
+ */
+var staffCounter = 0;
+
+/**
+ * This object holds the currently worked on staff.
+ * @var {Object} currentStaff
+ */
+var currentStaff;
+
+/**
+ * This object holds the currently worked on clef.
+ * @var {Object} currentClef
+ */
+var currentClef;
+
+/**
+ * This variable holds the index of the current clef.
+ * @var {number} currentClefIndex
+ */
+var currentClefIndex = 0;
+
+/**
+ * This object holds the currently worked on source.
+ * @var {Object} currentSource
+ */
+var currentSource;
+
+/**
+ * This object holds the currently worked on syllable.
+ * @var {Object} currentSyllable
+ */
+var currentSyllable;
+
+/**
+ * This variable holds the index of the current syllable.
+ * @var {number} currentSyllableIndex
+ */
+var currentSyllableIndex = 0;
+
+/**
+ * This variable holds the n value of the currently worked on staff.
+ * @var {number} currentN
+ */
+var currentN;
+
+/**
+ * This string contains the ID of the currently worked on source.
+ * @var {string} currentSID
+ */
+var currentSID;
+
+/**
+ * This string contains the type of the currently worked on neume.
+ * @var {string} currentType
+ */
+var currentType;
+
+/**
+ * This string contains the color of the currently worked on syllable, initialized with "none".
+ * @var {string} currentColor
+ */
+var currentColor = "none";
+
+/**
+ * This object holds the currently worked on neume.
+ * @var {Object} currentNeume
+ */
+var currentNeume;
+
+/**
+ * This object holds the currently worked on pitch.
+ * @var {Object} currentPitch
+ */
+var currentPitch;
+
+/**
+ * This object holds the currently worked on pitch of a variant.
+ * @var {Object} currentVarPitch
+ */
+var currentVarPitch;
+
+/**
+ * This variable holds the index of the currently worked on neume.
+ * @var {number} currentNeumeIndex
+ */
+var currentNeumeIndex = 0;
+
+/**
+ * This variable holds the index of the currently worked on pitch.
+ * @var {number} currentPitchIndex
+ */
+var currentPitchIndex = 0;
+
+/**
+ * This variable holds the index of the currently worked on source in a variant.
+ * @var {number} currentVarSourceIndex
+ */
+var currentVarSourceIndex = 0;
+
+/**
+ * This variable holds the index of the currently worked on pitch in a variant.
+ * @var {number} currentNeumeIndex
+ */
+var currentVarPitchIndex = 0;
+
+/**
+ * This string contains the octave of the currently worked on pitch, initialized with "none".
+ * @var {string} currentOctave
+ */
+var currentOctave = "none";
+
+/**
+ * This array contains the types a neume can have.
+ * @var {Object} types
+ */
+var types = new Array();
+
+
+types.push("none");
+types.push("apostropha");
+types.push("bistropha");
+types.push("climacus");
+types.push("clivis");
+types.push("oriscus");
+types.push("pes");
+types.push("pessubpuctis");
+types.push("porrectus");
+types.push("porrectusflexus");
+types.push("pressusmaior");
+types.push("pressusminor");
+types.push("punctum");
+types.push("quilisma");
+types.push("scandicus");
+types.push("strophicus");
+types.push("torculus");
+types.push("torculusresupinos");
+types.push("tristopha");
+types.push("virga");
+types.push("virgastrata");
+
+/**
+ * This array contains the relational directions a pitch can have.
+ * @var {Object} intms
+ */
+var intms = new Array();
+
+
+intms.push("none");
+intms.push("u");
+intms.push("d");
+intms.push("s");
+
+/**
+ * This array contains the octaves a pitch can have.
+ * @var {Object} octaves
+ */
+var octaves = new Array();
+
+
+octaves.push("none");
+octaves.push("1");
+octaves.push("2");
+octaves.push("3");
+octaves.push("4");
+octaves.push("5");
+
+/**
+ * This array contains the colors a text or staff can have.
+ * @var {Object} colors
+ */
+var colors = new Array();
+
+
+colors.push("none");
+colors.push("black");
+colors.push("red");
+colors.push("yellow");
+colors.push("blue");
+colors.push("green");
+
+/**
+ * This array contains variations for each source. It serves as a temporary buffer.
+ * @var {Object} variations
+ */
+var variations = new Array();
+
+/**
+ * This variable indicates whether the variations were pushed into an array of pitches.
+ * @var {boolean} pushedVariations
+ */
+var pushedVariations = false;
+
+/**
+ * This variable is the starting Y coordinate of the graphical output.
+ * @var {number} startY
+ */
+var startY = 10;
+
+/**
+ * This variable holds the MEI XML output.
+ * @var {string} output
+ */
+var output;
+
+/**
+ * This number counts the pitches added for control.
+ * @var {number} pitchCounter
+ */
+var pitchCounter = 0;
+
+/**
+ * This string contains the currently selected relational direction of a pitch.
+ * @var {string} currentIntm
+ */
+var currentIntm = "none";
+
+/**
+ * This value indicates whether the current type is a climacus for the climacus can have a variable number of pitches. Initially set to false.
+ * @var {boolean} svgNS
+ */
+var isClimacus = false;
+
+/**
+ * This number indicates the maximum number of pitches a neume can have.
+ * @var {number} svgNS
+ */
+var maxPitches;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Clef.html">Clef</a></li><li><a href="MetaData.html">MetaData</a></li><li><a href="Neume.html">Neume</a></li><li><a href="Pitch.html">Pitch</a></li><li><a href="Source.html">Source</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Syllable.html">Syllable</a></li><li><a href="Variation.html">Variation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#applyClefDataChanges">applyClefDataChanges</a></li><li><a href="global.html#applyCurrentClef">applyCurrentClef</a></li><li><a href="global.html#applyCurrentColor">applyCurrentColor</a></li><li><a href="global.html#applyCurrentNeume">applyCurrentNeume</a></li><li><a href="global.html#applyCurrentOctave">applyCurrentOctave</a></li><li><a href="global.html#applyCurrentPitch">applyCurrentPitch</a></li><li><a href="global.html#applyCurrentSource">applyCurrentSource</a></li><li><a href="global.html#applyCurrentStaff">applyCurrentStaff</a></li><li><a href="global.html#applyCurrentSyllable">applyCurrentSyllable</a></li><li><a href="global.html#applyCurrentType">applyCurrentType</a></li><li><a href="global.html#applyCurrentVariation">applyCurrentVariation</a></li><li><a href="global.html#applyCurrentVarSource">applyCurrentVarSource</a></li><li><a href="global.html#applyMetaDataChanges">applyMetaDataChanges</a></li><li><a href="global.html#applyNeumeDataChanges">applyNeumeDataChanges</a></li><li><a href="global.html#applyPitchDataChanges">applyPitchDataChanges</a></li><li><a href="global.html#applySourceDataChanges">applySourceDataChanges</a></li><li><a href="global.html#applyStaffDataChanges">applyStaffDataChanges</a></li><li><a href="global.html#applySyllableDataChanges">applySyllableDataChanges</a></li><li><a href="global.html#applyVariationDataChanges">applyVariationDataChanges</a></li><li><a href="global.html#changeValueForm">changeValueForm</a></li><li><a href="global.html#clefDataChangeForm">clefDataChangeForm</a></li><li><a href="global.html#clefForm">clefForm</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#createAdditionalVariation">createAdditionalVariation</a></li><li><a href="global.html#createClef">createClef</a></li><li><a href="global.html#createClefSelector">createClefSelector</a></li><li><a href="global.html#createColorSelector">createColorSelector</a></li><li><a href="global.html#createIntmSelector">createIntmSelector</a></li><li><a href="global.html#createMEIOutput">createMEIOutput</a></li><li><a href="global.html#createMetaData">createMetaData</a></li><li><a href="global.html#createNeume">createNeume</a></li><li><a href="global.html#createNeumeSelector">createNeumeSelector</a></li><li><a href="global.html#createNeumeWithPitches">createNeumeWithPitches</a></li><li><a href="global.html#createNewStaff">createNewStaff</a></li><li><a href="global.html#createOctaveSelector">createOctaveSelector</a></li><li><a href="global.html#createPitch">createPitch</a></li><li><a href="global.html#createPitchSelector">createPitchSelector</a></li><li><a href="global.html#createSource">createSource</a></li><li><a href="global.html#createSourceID">createSourceID</a></li><li><a href="global.html#createSourceSelector">createSourceSelector</a></li><li><a href="global.html#createStaff">createStaff</a></li><li><a href="global.html#createStaffID">createStaffID</a></li><li><a href="global.html#createStaffSelector">createStaffSelector</a></li><li><a href="global.html#createStaffWithClefs">createStaffWithClefs</a></li><li><a href="global.html#createSuppliedSourceSelector">createSuppliedSourceSelector</a></li><li><a href="global.html#createSVGOutput">createSVGOutput</a></li><li><a href="global.html#createSyllable">createSyllable</a></li><li><a href="global.html#createSyllableSelector">createSyllableSelector</a></li><li><a href="global.html#createSyllableWithNeumes">createSyllableWithNeumes</a></li><li><a href="global.html#createTypeSelector">createTypeSelector</a></li><li><a href="global.html#createVariation">createVariation</a></li><li><a href="global.html#createVarPitchSelector">createVarPitchSelector</a></li><li><a href="global.html#createVarSourceSelector">createVarSourceSelector</a></li><li><a href="global.html#currentClef">currentClef</a></li><li><a href="global.html#currentClefIndex">currentClefIndex</a></li><li><a href="global.html#currentColor">currentColor</a></li><li><a href="global.html#currentIntm">currentIntm</a></li><li><a href="global.html#currentN">currentN</a></li><li><a href="global.html#currentNeume">currentNeume</a></li><li><a href="global.html#currentNeumeIndex">currentNeumeIndex</a></li><li><a href="global.html#currentOctave">currentOctave</a></li><li><a href="global.html#currentPitch">currentPitch</a></li><li><a href="global.html#currentPitchIndex">currentPitchIndex</a></li><li><a href="global.html#currentSID">currentSID</a></li><li><a href="global.html#currentSource">currentSource</a></li><li><a href="global.html#currentStaff">currentStaff</a></li><li><a href="global.html#currentSyllable">currentSyllable</a></li><li><a href="global.html#currentSyllableIndex">currentSyllableIndex</a></li><li><a href="global.html#currentType">currentType</a></li><li><a href="global.html#currentVarPitch">currentVarPitch</a></li><li><a href="global.html#currentVarSourceIndex">currentVarSourceIndex</a></li><li><a href="global.html#d">d</a></li><li><a href="global.html#deleteClef">deleteClef</a></li><li><a href="global.html#deleteNeume">deleteNeume</a></li><li><a href="global.html#deletePitch">deletePitch</a></li><li><a href="global.html#deleteSource">deleteSource</a></li><li><a href="global.html#deleteStaff">deleteStaff</a></li><li><a href="global.html#deleteSyllable">deleteSyllable</a></li><li><a href="global.html#deleteVariationPitch">deleteVariationPitch</a></li><li><a href="global.html#downloadFile">downloadFile</a></li><li><a href="global.html#ellipse">ellipse</a></li><li><a href="global.html#indent">indent</a></li><li><a href="global.html#insertClef">insertClef</a></li><li><a href="global.html#insertNeume">insertNeume</a></li><li><a href="global.html#insertPitch">insertPitch</a></li><li><a href="global.html#insertSyllable">insertSyllable</a></li><li><a href="global.html#insertVariationPitch">insertVariationPitch</a></li><li><a href="global.html#intms">intms</a></li><li><a href="global.html#lines">lines</a></li><li><a href="global.html#metaData">metaData</a></li><li><a href="global.html#metaDataChangeForm">metaDataChangeForm</a></li><li><a href="global.html#metaDataForm">metaDataForm</a></li><li><a href="global.html#neumeDataChangeForm">neumeDataChangeForm</a></li><li><a href="global.html#neumeForm">neumeForm</a></li><li><a href="global.html#octaves">octaves</a></li><li><a href="global.html#output">output</a></li><li><a href="global.html#pitchCounter">pitchCounter</a></li><li><a href="global.html#pitchDataChangeForm">pitchDataChangeForm</a></li><li><a href="global.html#pitchForm">pitchForm</a></li><li><a href="global.html#pushedVariations">pushedVariations</a></li><li><a href="global.html#scrollDown">scrollDown</a></li><li><a href="global.html#scrollUp">scrollUp</a></li><li><a href="global.html#sourceCounter">sourceCounter</a></li><li><a href="global.html#sourceDataChangeForm">sourceDataChangeForm</a></li><li><a href="global.html#sourceForm">sourceForm</a></li><li><a href="global.html#sources">sources</a></li><li><a href="global.html#staffCounter">staffCounter</a></li><li><a href="global.html#staffDataChangeForm">staffDataChangeForm</a></li><li><a href="global.html#staffForm">staffForm</a></li><li><a href="global.html#staffs">staffs</a></li><li><a href="global.html#start">start</a></li><li><a href="global.html#startY">startY</a></li><li><a href="global.html#svg">svg</a></li><li><a href="global.html#svgAdded">svgAdded</a></li><li><a href="global.html#svgNS">svgNS</a></li><li><a href="global.html#syllableDataChangeForm">syllableDataChangeForm</a></li><li><a href="global.html#syllableForm">syllableForm</a></li><li><a href="global.html#syllables">syllables</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#toChangeClefData">toChangeClefData</a></li><li><a href="global.html#toChangeMetaData">toChangeMetaData</a></li><li><a href="global.html#toChangeNeumeData">toChangeNeumeData</a></li><li><a href="global.html#toChangePitchData">toChangePitchData</a></li><li><a href="global.html#toChangeSourceData">toChangeSourceData</a></li><li><a href="global.html#toChangeStaffData">toChangeStaffData</a></li><li><a href="global.html#toChangeSyllableData">toChangeSyllableData</a></li><li><a href="global.html#toChangeValues">toChangeValues</a></li><li><a href="global.html#toNeume">toNeume</a></li><li><a href="global.html#toNeumeFromVariations">toNeumeFromVariations</a></li><li><a href="global.html#toPitchesFromVariations">toPitchesFromVariations</a></li><li><a href="global.html#toSources">toSources</a></li><li><a href="global.html#toStaffs">toStaffs</a></li><li><a href="global.html#toSyllable">toSyllable</a></li><li><a href="global.html#toSyllableFromVariations">toSyllableFromVariations</a></li><li><a href="global.html#toVariant">toVariant</a></li><li><a href="global.html#translateNoteValue">translateNoteValue</a></li><li><a href="global.html#types">types</a></li><li><a href="global.html#variationForm">variationForm</a></li><li><a href="global.html#variations">variations</a></li><li><a href="global.html#xmlDoc">xmlDoc</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 12:12:29 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

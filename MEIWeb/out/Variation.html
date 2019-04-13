@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: Variation</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: Variation</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>Variation<span class="signature">(id)</span><span class="type-signature"></span></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    
+    <h4 class="name" id="Variation"><span class="type-signature"></span>new Variation<span class="signature">(id)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    A class representing a variant.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the id of the source that contains the variant</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="variation.js.html">variation.js</a>, <a href="variation.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="additionalPitches"><span class="type-signature"></span>additionalPitches<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    Contains additional pitches as specified in the source.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="variation.js.html">variation.js</a>, <a href="variation.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="sourceID"><span class="type-signature"></span>sourceID<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    Specifies the ID of the source containing the variant.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="variation.js.html">variation.js</a>, <a href="variation.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="create"><span class="type-signature"></span>create<span class="signature">(app)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Creates an XML representation of a variant and append it to a specified app element.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>app</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">an app element to append the created element to</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="variation.js.html">variation.js</a>, <a href="variation.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Clef.html">Clef</a></li><li><a href="MetaData.html">MetaData</a></li><li><a href="Neume.html">Neume</a></li><li><a href="Pitch.html">Pitch</a></li><li><a href="Source.html">Source</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Syllable.html">Syllable</a></li><li><a href="Variation.html">Variation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#applyClefDataChanges">applyClefDataChanges</a></li><li><a href="global.html#applyCurrentClef">applyCurrentClef</a></li><li><a href="global.html#applyCurrentColor">applyCurrentColor</a></li><li><a href="global.html#applyCurrentNeume">applyCurrentNeume</a></li><li><a href="global.html#applyCurrentOctave">applyCurrentOctave</a></li><li><a href="global.html#applyCurrentPitch">applyCurrentPitch</a></li><li><a href="global.html#applyCurrentSource">applyCurrentSource</a></li><li><a href="global.html#applyCurrentStaff">applyCurrentStaff</a></li><li><a href="global.html#applyCurrentSyllable">applyCurrentSyllable</a></li><li><a href="global.html#applyCurrentType">applyCurrentType</a></li><li><a href="global.html#applyCurrentVariation">applyCurrentVariation</a></li><li><a href="global.html#applyCurrentVarSource">applyCurrentVarSource</a></li><li><a href="global.html#applyMetaDataChanges">applyMetaDataChanges</a></li><li><a href="global.html#applyNeumeDataChanges">applyNeumeDataChanges</a></li><li><a href="global.html#applyPitchDataChanges">applyPitchDataChanges</a></li><li><a href="global.html#applySourceDataChanges">applySourceDataChanges</a></li><li><a href="global.html#applyStaffDataChanges">applyStaffDataChanges</a></li><li><a href="global.html#applySyllableDataChanges">applySyllableDataChanges</a></li><li><a href="global.html#applyVariationDataChanges">applyVariationDataChanges</a></li><li><a href="global.html#changeValueForm">changeValueForm</a></li><li><a href="global.html#clefDataChangeForm">clefDataChangeForm</a></li><li><a href="global.html#clefForm">clefForm</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#createAdditionalVariation">createAdditionalVariation</a></li><li><a href="global.html#createClef">createClef</a></li><li><a href="global.html#createClefSelector">createClefSelector</a></li><li><a href="global.html#createColorSelector">createColorSelector</a></li><li><a href="global.html#createIntmSelector">createIntmSelector</a></li><li><a href="global.html#createMEIOutput">createMEIOutput</a></li><li><a href="global.html#createMetaData">createMetaData</a></li><li><a href="global.html#createNeume">createNeume</a></li><li><a href="global.html#createNeumeSelector">createNeumeSelector</a></li><li><a href="global.html#createNeumeWithPitches">createNeumeWithPitches</a></li><li><a href="global.html#createNewStaff">createNewStaff</a></li><li><a href="global.html#createOctaveSelector">createOctaveSelector</a></li><li><a href="global.html#createPitch">createPitch</a></li><li><a href="global.html#createPitchSelector">createPitchSelector</a></li><li><a href="global.html#createSource">createSource</a></li><li><a href="global.html#createSourceID">createSourceID</a></li><li><a href="global.html#createSourceSelector">createSourceSelector</a></li><li><a href="global.html#createStaff">createStaff</a></li><li><a href="global.html#createStaffID">createStaffID</a></li><li><a href="global.html#createStaffSelector">createStaffSelector</a></li><li><a href="global.html#createStaffWithClefs">createStaffWithClefs</a></li><li><a href="global.html#createSuppliedSourceSelector">createSuppliedSourceSelector</a></li><li><a href="global.html#createSVGOutput">createSVGOutput</a></li><li><a href="global.html#createSyllable">createSyllable</a></li><li><a href="global.html#createSyllableSelector">createSyllableSelector</a></li><li><a href="global.html#createSyllableWithNeumes">createSyllableWithNeumes</a></li><li><a href="global.html#createTypeSelector">createTypeSelector</a></li><li><a href="global.html#createVariation">createVariation</a></li><li><a href="global.html#createVarPitchSelector">createVarPitchSelector</a></li><li><a href="global.html#createVarSourceSelector">createVarSourceSelector</a></li><li><a href="global.html#currentClef">currentClef</a></li><li><a href="global.html#currentClefIndex">currentClefIndex</a></li><li><a href="global.html#currentColor">currentColor</a></li><li><a href="global.html#currentIntm">currentIntm</a></li><li><a href="global.html#currentN">currentN</a></li><li><a href="global.html#currentNeume">currentNeume</a></li><li><a href="global.html#currentNeumeIndex">currentNeumeIndex</a></li><li><a href="global.html#currentOctave">currentOctave</a></li><li><a href="global.html#currentPitch">currentPitch</a></li><li><a href="global.html#currentPitchIndex">currentPitchIndex</a></li><li><a href="global.html#currentSID">currentSID</a></li><li><a href="global.html#currentSource">currentSource</a></li><li><a href="global.html#currentStaff">currentStaff</a></li><li><a href="global.html#currentSyllable">currentSyllable</a></li><li><a href="global.html#currentSyllableIndex">currentSyllableIndex</a></li><li><a href="global.html#currentType">currentType</a></li><li><a href="global.html#currentVarPitch">currentVarPitch</a></li><li><a href="global.html#currentVarSourceIndex">currentVarSourceIndex</a></li><li><a href="global.html#d">d</a></li><li><a href="global.html#deleteClef">deleteClef</a></li><li><a href="global.html#deleteNeume">deleteNeume</a></li><li><a href="global.html#deletePitch">deletePitch</a></li><li><a href="global.html#deleteSource">deleteSource</a></li><li><a href="global.html#deleteStaff">deleteStaff</a></li><li><a href="global.html#deleteSyllable">deleteSyllable</a></li><li><a href="global.html#deleteVariationPitch">deleteVariationPitch</a></li><li><a href="global.html#downloadFile">downloadFile</a></li><li><a href="global.html#ellipse">ellipse</a></li><li><a href="global.html#indent">indent</a></li><li><a href="global.html#insertClef">insertClef</a></li><li><a href="global.html#insertNeume">insertNeume</a></li><li><a href="global.html#insertPitch">insertPitch</a></li><li><a href="global.html#insertSyllable">insertSyllable</a></li><li><a href="global.html#insertVariationPitch">insertVariationPitch</a></li><li><a href="global.html#intms">intms</a></li><li><a href="global.html#lines">lines</a></li><li><a href="global.html#metaData">metaData</a></li><li><a href="global.html#metaDataChangeForm">metaDataChangeForm</a></li><li><a href="global.html#metaDataForm">metaDataForm</a></li><li><a href="global.html#neumeDataChangeForm">neumeDataChangeForm</a></li><li><a href="global.html#neumeForm">neumeForm</a></li><li><a href="global.html#octaves">octaves</a></li><li><a href="global.html#output">output</a></li><li><a href="global.html#pitchCounter">pitchCounter</a></li><li><a href="global.html#pitchDataChangeForm">pitchDataChangeForm</a></li><li><a href="global.html#pitchForm">pitchForm</a></li><li><a href="global.html#pushedVariations">pushedVariations</a></li><li><a href="global.html#scrollDown">scrollDown</a></li><li><a href="global.html#scrollUp">scrollUp</a></li><li><a href="global.html#sourceCounter">sourceCounter</a></li><li><a href="global.html#sourceDataChangeForm">sourceDataChangeForm</a></li><li><a href="global.html#sourceForm">sourceForm</a></li><li><a href="global.html#sources">sources</a></li><li><a href="global.html#staffCounter">staffCounter</a></li><li><a href="global.html#staffDataChangeForm">staffDataChangeForm</a></li><li><a href="global.html#staffForm">staffForm</a></li><li><a href="global.html#staffs">staffs</a></li><li><a href="global.html#start">start</a></li><li><a href="global.html#startY">startY</a></li><li><a href="global.html#svg">svg</a></li><li><a href="global.html#svgAdded">svgAdded</a></li><li><a href="global.html#svgNS">svgNS</a></li><li><a href="global.html#syllableDataChangeForm">syllableDataChangeForm</a></li><li><a href="global.html#syllableForm">syllableForm</a></li><li><a href="global.html#syllables">syllables</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#toChangeClefData">toChangeClefData</a></li><li><a href="global.html#toChangeMetaData">toChangeMetaData</a></li><li><a href="global.html#toChangeNeumeData">toChangeNeumeData</a></li><li><a href="global.html#toChangePitchData">toChangePitchData</a></li><li><a href="global.html#toChangeSourceData">toChangeSourceData</a></li><li><a href="global.html#toChangeStaffData">toChangeStaffData</a></li><li><a href="global.html#toChangeSyllableData">toChangeSyllableData</a></li><li><a href="global.html#toChangeValues">toChangeValues</a></li><li><a href="global.html#toNeume">toNeume</a></li><li><a href="global.html#toNeumeFromVariations">toNeumeFromVariations</a></li><li><a href="global.html#toPitchesFromVariations">toPitchesFromVariations</a></li><li><a href="global.html#toSources">toSources</a></li><li><a href="global.html#toStaffs">toStaffs</a></li><li><a href="global.html#toSyllable">toSyllable</a></li><li><a href="global.html#toSyllableFromVariations">toSyllableFromVariations</a></li><li><a href="global.html#toVariant">toVariant</a></li><li><a href="global.html#translateNoteValue">translateNoteValue</a></li><li><a href="global.html#types">types</a></li><li><a href="global.html#variationForm">variationForm</a></li><li><a href="global.html#variations">variations</a></li><li><a href="global.html#xmlDoc">xmlDoc</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 12:12:30 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

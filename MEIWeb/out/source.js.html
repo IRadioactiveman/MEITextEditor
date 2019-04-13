@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: source.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: source.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * A class representing a source.
+ * @class
+ * @param {string} composer - the composer of the work
+ * @param {string} title - the title of the work
+ * @param {string} location - the location
+ * @param {string} ownership - the ownership
+ * @param {string} date - release date
+ * @param {string} publicationstatus - publication status
+ * @param {string} medium - the medium
+ * @param {number} x - the width
+ * @param {number} y - the height
+ * @param {string} unit - unit of width and heigth
+ * @param {string} condition - the condition
+ * @param {string} extent - the extent
+ * @param {string} language - the language
+ * @param {string} handwriting - description of additional handwriting or style
+ */
+function Source(composer, title, location, ownership, date, publicationstatus, medium, x, y, unit, condition, extent, language, handwriting){
+    /**
+     * Specifies the unique XML ID of the source.
+     * @member {string}
+     */
+    this.id = createSourceID();
+    
+     /**
+     * Specifies the composer of the source.
+     * @member {string}
+     */
+    this.composer = composer;
+    
+     /**
+     * Specifies the title of the work.
+     * @member {string}
+     */
+    this.title = title;
+    
+     /**
+     * Specifies the physical location.
+     * @member {string}
+     */
+    this.location = location;
+    
+     /**
+     * Specifies the ownership of the work.
+     * @member {string}
+     */
+    this.ownership = ownership;
+    
+     /**
+     * Specifies the release date.
+     * @member {string}
+     */
+    this.date = date;
+    
+     /**
+     * Specifies the publication status.
+     * @member {string}
+     */
+    this.publicationstatus = publicationstatus;
+    
+     /**
+     * Specifies the medium of the work.
+     * @member {string}
+     */
+    this.medium = medium;
+    
+     /**
+     * Specifies the width.
+     * @member {number}
+     */
+    this.x = x;
+    
+     /**
+     * Specifies the height.
+     * @member {number}
+     */
+    this.y = y;
+    
+     /**
+     * Specifies the measuring unit for width and height.
+     * @member {string}
+     */
+    this.unit = unit;
+    
+     /**
+     * Specifies the condition.
+     * @member {string}
+     */
+    this.condition = condition;
+    
+     /**
+     * Specifies the extent.
+     * @member {string}
+     */
+    this.extent = extent;
+    
+     /**
+     * Specifies the language.
+     * @member {string}
+     */
+    this.language = language;
+    
+     /**
+     * Specifies handwriting notes and style.
+     * @member {string}
+     */
+    this.handwriting = handwriting;
+    
+     /**
+     * Creates an XML representation of a source and appends the created element to the manifestationList element.
+     * @function
+     */
+    this.create = function(){ 
+        var manifestationList = xmlDoc.getElementsByTagName("manifestationList")[0];
+        
+        var manifestation = xmlDoc.createElement("manifestation");
+        manifestation.setAttribute("xml:id", this.id);
+        
+        if(this.language)
+        {
+            var langUsage = xmlDoc.createElement("langUsage");
+            var l = xmlDoc.createElement("language");
+            var languageString = xmlDoc.createTextNode(this.language);
+            l.appendChild(languageString);
+            langUsage.appendChild(l);
+
+            manifestation.appendChild(langUsage);
+        }
+
+        if(this.title || this.composer || this.date){
+            var biblList = xmlDoc.createElement("biblList");
+            var bibl = xmlDoc.createElement("bibl");
+            
+            if(this.title){
+                var t = xmlDoc.createElement("title");
+                var titleString = xmlDoc.createTextNode(this.title);
+                t.appendChild(titleString);
+                bibl.appendChild(t);
+            }
+            if(this.composer){
+                var c = xmlDoc.createElement("composer");
+                var composerString = xmlDoc.createTextNode(this.composer);
+                c.appendChild(composerString);
+                bibl.appendChild(c);                
+            }
+            if(this.date){
+                var d = xmlDoc.createElement("date");
+                var dateString = xmlDoc.createTextNode(this.date);
+                d.appendChild(dateString);
+                bibl.appendChild(d);
+            }
+            biblList.appendChild(bibl);
+            manifestation.appendChild(biblList);
+        }
+        
+        if(this.publicationstatus || this.extent || this.medium || this.x || this.condition || this.handwriting || this.location || this.ownership){
+            
+            var componentList = xmlDoc.createElement("componentList");
+            var item = xmlDoc.createElement("item");
+
+            if(this.publicationstatus){
+                var a = xmlDoc.createElement("availability");
+                var availabilityString = xmlDoc.createTextNode(this.publicationstatus);
+                a.appendChild(availabilityString);
+                item.appendChild(a);
+            }
+            if(this.extent || this.medium || this.x ||  this.condition || this.handwriting){
+                var physicalDescription = xmlDoc.createElement("physDesc");
+                if(this.extent){
+                    var e = xmlDoc.createElement("extent");
+                    var eString = xmlDoc.createTextNode(this.extent);
+                    e.appendChild(eString);
+                    physicalDescription.appendChild(e);
+                }
+                if(this.medium){
+                    var m = xmlDoc.createElement("physMedium");
+                    var mString = xmlDoc.createTextNode(this.medium);
+                    m.appendChild(mString);
+                    physicalDescription.appendChild(m);
+                }
+                if(this.x){
+                    var d = xmlDoc.createElement("dimensions");
+                    d.setAttribute("unit", this.unit);
+                    var dString = xmlDoc.createTextNode(this.x + " x " + this.y + this.unit);
+                    d.appendChild(dString);
+                    physicalDescription.append(d);
+                }
+                if(this.condition){
+                    var c = xmlDoc.createElement("condition");
+                    var cString = xmlDoc.createTextNode(this.condition);
+                    c.appendChild(cString);
+                    physicalDescription.appendChild(c);
+                }
+                if(this.handwriting){
+                    var handList = xmlDoc.createElement("handList");
+                    var hand = xmlDoc.createElement("hand");
+                    var annot = xmlDoc.createElement("annot");
+                    var h = xmlDoc.createTextNode(this.handwriting);
+                    annot.appendChild(h);
+                    hand.appendChild(annot);
+                    handList.appendChild(hand);
+                    physicalDescription.appendChild(handList);
+                }
+        
+                item.appendChild(physicalDescription);
+            }
+            
+            if(this.location){
+                var physicalLocation = xmlDoc.createElement("physLoc");
+                var repository = xmlDoc.createElement("repository");
+                var l = xmlDoc.createTextNode(this.location);
+                repository.appendChild(l);
+                physicalLocation.appendChild(repository);
+                
+                item.appendChild(physicalLocation);
+            }
+            if(this.ownership){
+                var history = xmlDoc.createElement("history");
+                var provenance = xmlDoc.createElement("provenance");
+                var corpName = xmlDoc.createElement("corpName");
+                var o = xmlDoc.createTextNode(this.ownership);
+                corpName.appendChild(o);
+                provenance.appendChild(corpName);
+                history.appendChild(provenance);
+                item.appendChild(history);
+            } 
+            componentList.appendChild(item);
+            manifestation.appendChild(componentList);
+        }
+        
+        manifestationList.appendChild(manifestation);
+    }
+}
+
+/**
+ * Creates a unique source ID.
+ */
+function createSourceID(){
+    var id = "source" + sourceCounter;
+    sourceCounter++;
+    return id;
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Clef.html">Clef</a></li><li><a href="MetaData.html">MetaData</a></li><li><a href="Neume.html">Neume</a></li><li><a href="Pitch.html">Pitch</a></li><li><a href="Source.html">Source</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Syllable.html">Syllable</a></li><li><a href="Variation.html">Variation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#applyClefDataChanges">applyClefDataChanges</a></li><li><a href="global.html#applyCurrentClef">applyCurrentClef</a></li><li><a href="global.html#applyCurrentColor">applyCurrentColor</a></li><li><a href="global.html#applyCurrentNeume">applyCurrentNeume</a></li><li><a href="global.html#applyCurrentOctave">applyCurrentOctave</a></li><li><a href="global.html#applyCurrentPitch">applyCurrentPitch</a></li><li><a href="global.html#applyCurrentSource">applyCurrentSource</a></li><li><a href="global.html#applyCurrentStaff">applyCurrentStaff</a></li><li><a href="global.html#applyCurrentSyllable">applyCurrentSyllable</a></li><li><a href="global.html#applyCurrentType">applyCurrentType</a></li><li><a href="global.html#applyCurrentVariation">applyCurrentVariation</a></li><li><a href="global.html#applyCurrentVarSource">applyCurrentVarSource</a></li><li><a href="global.html#applyMetaDataChanges">applyMetaDataChanges</a></li><li><a href="global.html#applyNeumeDataChanges">applyNeumeDataChanges</a></li><li><a href="global.html#applyPitchDataChanges">applyPitchDataChanges</a></li><li><a href="global.html#applySourceDataChanges">applySourceDataChanges</a></li><li><a href="global.html#applyStaffDataChanges">applyStaffDataChanges</a></li><li><a href="global.html#applySyllableDataChanges">applySyllableDataChanges</a></li><li><a href="global.html#applyVariationDataChanges">applyVariationDataChanges</a></li><li><a href="global.html#changeValueForm">changeValueForm</a></li><li><a href="global.html#clefDataChangeForm">clefDataChangeForm</a></li><li><a href="global.html#clefForm">clefForm</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#createAdditionalVariation">createAdditionalVariation</a></li><li><a href="global.html#createClef">createClef</a></li><li><a href="global.html#createClefSelector">createClefSelector</a></li><li><a href="global.html#createColorSelector">createColorSelector</a></li><li><a href="global.html#createIntmSelector">createIntmSelector</a></li><li><a href="global.html#createMEIOutput">createMEIOutput</a></li><li><a href="global.html#createMetaData">createMetaData</a></li><li><a href="global.html#createNeume">createNeume</a></li><li><a href="global.html#createNeumeSelector">createNeumeSelector</a></li><li><a href="global.html#createNeumeWithPitches">createNeumeWithPitches</a></li><li><a href="global.html#createNewStaff">createNewStaff</a></li><li><a href="global.html#createOctaveSelector">createOctaveSelector</a></li><li><a href="global.html#createPitch">createPitch</a></li><li><a href="global.html#createPitchSelector">createPitchSelector</a></li><li><a href="global.html#createSource">createSource</a></li><li><a href="global.html#createSourceID">createSourceID</a></li><li><a href="global.html#createSourceSelector">createSourceSelector</a></li><li><a href="global.html#createStaff">createStaff</a></li><li><a href="global.html#createStaffID">createStaffID</a></li><li><a href="global.html#createStaffSelector">createStaffSelector</a></li><li><a href="global.html#createStaffWithClefs">createStaffWithClefs</a></li><li><a href="global.html#createSuppliedSourceSelector">createSuppliedSourceSelector</a></li><li><a href="global.html#createSVGOutput">createSVGOutput</a></li><li><a href="global.html#createSyllable">createSyllable</a></li><li><a href="global.html#createSyllableSelector">createSyllableSelector</a></li><li><a href="global.html#createSyllableWithNeumes">createSyllableWithNeumes</a></li><li><a href="global.html#createTypeSelector">createTypeSelector</a></li><li><a href="global.html#createVariation">createVariation</a></li><li><a href="global.html#createVarPitchSelector">createVarPitchSelector</a></li><li><a href="global.html#createVarSourceSelector">createVarSourceSelector</a></li><li><a href="global.html#currentClef">currentClef</a></li><li><a href="global.html#currentClefIndex">currentClefIndex</a></li><li><a href="global.html#currentColor">currentColor</a></li><li><a href="global.html#currentIntm">currentIntm</a></li><li><a href="global.html#currentN">currentN</a></li><li><a href="global.html#currentNeume">currentNeume</a></li><li><a href="global.html#currentNeumeIndex">currentNeumeIndex</a></li><li><a href="global.html#currentOctave">currentOctave</a></li><li><a href="global.html#currentPitch">currentPitch</a></li><li><a href="global.html#currentPitchIndex">currentPitchIndex</a></li><li><a href="global.html#currentSID">currentSID</a></li><li><a href="global.html#currentSource">currentSource</a></li><li><a href="global.html#currentStaff">currentStaff</a></li><li><a href="global.html#currentSyllable">currentSyllable</a></li><li><a href="global.html#currentSyllableIndex">currentSyllableIndex</a></li><li><a href="global.html#currentType">currentType</a></li><li><a href="global.html#currentVarPitch">currentVarPitch</a></li><li><a href="global.html#currentVarSourceIndex">currentVarSourceIndex</a></li><li><a href="global.html#d">d</a></li><li><a href="global.html#deleteClef">deleteClef</a></li><li><a href="global.html#deleteNeume">deleteNeume</a></li><li><a href="global.html#deletePitch">deletePitch</a></li><li><a href="global.html#deleteSource">deleteSource</a></li><li><a href="global.html#deleteStaff">deleteStaff</a></li><li><a href="global.html#deleteSyllable">deleteSyllable</a></li><li><a href="global.html#deleteVariationPitch">deleteVariationPitch</a></li><li><a href="global.html#downloadFile">downloadFile</a></li><li><a href="global.html#ellipse">ellipse</a></li><li><a href="global.html#indent">indent</a></li><li><a href="global.html#insertClef">insertClef</a></li><li><a href="global.html#insertNeume">insertNeume</a></li><li><a href="global.html#insertPitch">insertPitch</a></li><li><a href="global.html#insertSyllable">insertSyllable</a></li><li><a href="global.html#insertVariationPitch">insertVariationPitch</a></li><li><a href="global.html#intms">intms</a></li><li><a href="global.html#lines">lines</a></li><li><a href="global.html#metaData">metaData</a></li><li><a href="global.html#metaDataChangeForm">metaDataChangeForm</a></li><li><a href="global.html#metaDataForm">metaDataForm</a></li><li><a href="global.html#neumeDataChangeForm">neumeDataChangeForm</a></li><li><a href="global.html#neumeForm">neumeForm</a></li><li><a href="global.html#octaves">octaves</a></li><li><a href="global.html#output">output</a></li><li><a href="global.html#pitchCounter">pitchCounter</a></li><li><a href="global.html#pitchDataChangeForm">pitchDataChangeForm</a></li><li><a href="global.html#pitchForm">pitchForm</a></li><li><a href="global.html#pushedVariations">pushedVariations</a></li><li><a href="global.html#scrollDown">scrollDown</a></li><li><a href="global.html#scrollUp">scrollUp</a></li><li><a href="global.html#sourceCounter">sourceCounter</a></li><li><a href="global.html#sourceDataChangeForm">sourceDataChangeForm</a></li><li><a href="global.html#sourceForm">sourceForm</a></li><li><a href="global.html#sources">sources</a></li><li><a href="global.html#staffCounter">staffCounter</a></li><li><a href="global.html#staffDataChangeForm">staffDataChangeForm</a></li><li><a href="global.html#staffForm">staffForm</a></li><li><a href="global.html#staffs">staffs</a></li><li><a href="global.html#start">start</a></li><li><a href="global.html#startY">startY</a></li><li><a href="global.html#svg">svg</a></li><li><a href="global.html#svgAdded">svgAdded</a></li><li><a href="global.html#svgNS">svgNS</a></li><li><a href="global.html#syllableDataChangeForm">syllableDataChangeForm</a></li><li><a href="global.html#syllableForm">syllableForm</a></li><li><a href="global.html#syllables">syllables</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#toChangeClefData">toChangeClefData</a></li><li><a href="global.html#toChangeMetaData">toChangeMetaData</a></li><li><a href="global.html#toChangeNeumeData">toChangeNeumeData</a></li><li><a href="global.html#toChangePitchData">toChangePitchData</a></li><li><a href="global.html#toChangeSourceData">toChangeSourceData</a></li><li><a href="global.html#toChangeStaffData">toChangeStaffData</a></li><li><a href="global.html#toChangeSyllableData">toChangeSyllableData</a></li><li><a href="global.html#toChangeValues">toChangeValues</a></li><li><a href="global.html#toNeume">toNeume</a></li><li><a href="global.html#toNeumeFromVariations">toNeumeFromVariations</a></li><li><a href="global.html#toPitchesFromVariations">toPitchesFromVariations</a></li><li><a href="global.html#toSources">toSources</a></li><li><a href="global.html#toStaffs">toStaffs</a></li><li><a href="global.html#toSyllable">toSyllable</a></li><li><a href="global.html#toSyllableFromVariations">toSyllableFromVariations</a></li><li><a href="global.html#toVariant">toVariant</a></li><li><a href="global.html#translateNoteValue">translateNoteValue</a></li><li><a href="global.html#types">types</a></li><li><a href="global.html#variationForm">variationForm</a></li><li><a href="global.html#variations">variations</a></li><li><a href="global.html#xmlDoc">xmlDoc</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 12:12:29 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

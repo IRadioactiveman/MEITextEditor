@@ -236,6 +236,7 @@ Graphical variation:<select id=\"variation\">\
                                 <option value=\"liquescent\">liquescent</option>\
                                 <option value=\"strophicus\">strophicus</option>\
                     </select><br>\
+Supplied?        By " + createSuppliedSourceSelector() + "<br>\
 Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
 <button onclick=\"createPitch()\">save pitch</button><br><br>\
 <button onclick=\"toVariant()\"";
@@ -272,14 +273,8 @@ s += "Pitch:              <select id=\"pitch\">\
                                 <option value=\"a\">A</option>\
                                 <option value=\"b\">B</option>\
                             </select><br>\
-Octacve:            <select id=\"octave\">\
-                                <option value=\"none\">none</option>\
-                                <option value=\"1\">1</option>\
-                                <option value=\"2\">2</option>\
-                                <option value=\"3\">3</option>\
-                                <option value=\"4\">4</option>\
-                                <option value=\"5\">5</option>\
-                            </select><br>\
+Octacve:            " + createOctaveSelector("applyCurrentOctave()");
+s += "\
 From previous note: <select id=\"intm\">\
                                 <option value=\"none\">none</option>\
                                 <option value=\"s\">same</option>\
@@ -303,6 +298,14 @@ Tilt:               <select id=\"tilt\">\
                                 <option value=\"sw\">southwest</option>\
                                 <option value=\"se\">southeast</option>\
                             </select><br>\
+Graphical variation:<select id=\"variation\">\
+                                <option value=\"none\">none</option>\
+                                <option value=\"quilisma\">quilisma</option>\
+                                <option value=\"oriscus\">oriscus</option>\
+                                <option value=\"liquescent\">liquescent</option>\
+                                <option value=\"strophicus\">strophicus</option>\
+                    </select><br>\
+Supplied?        By " + createSuppliedSourceSelector() + "<br>\
 Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
 <button onclick=\"createVariation()\">save additional pitch for this source</button><br><br>\
 <button onclick=\"toPitchesFromVariations()\">add more original pitches</button><br><br>\
@@ -623,9 +626,9 @@ Neumes:<br>";
         }
         s += 
 "<button onclick=\"applySyllableDataChanges()\">apply changes</button><br><br>\
-<button onclick=\"toChangeNeumeData()\">change neumes</button><br>\
-<button onclick=\"insertSyllable(true)\">insert syllable before selected syllable</button><br>\
-<button onclick=\"insertSyllable(false)\">insert syllable after selected syllable</button><br>\
+<button onclick=\"toChangeNeumeData()\">change neumes</button><br><br>\
+<button onclick=\"insertSyllable(true)\">insert syllable before selected syllable</button><br><br>\
+<button onclick=\"insertSyllable(false)\">insert syllable after selected syllable</button><br><br>\
 <button onclick=\"deleteSyllable()\">delete syllable</button><br><br>\
 <button onclick=\"toSyllable()\">back to adding syllables</button><br><br>\
     </pre>\
@@ -647,7 +650,7 @@ function neumeDataChangeForm(){
 "<h4>Change neume:</h4>\
 <form>\
     <pre>";
-        s += "Select neume: " + createNeumeSelector("applyCurrentNeume()") + "<br>";
+        s += "Select neume:       " + createNeumeSelector("applyCurrentNeume()") + "<br>";
         
         currentNeume = currentSyllable.neumes[currentNeumeIndex];
         
@@ -656,7 +659,14 @@ function neumeDataChangeForm(){
         s += "Current neume type: " + currentNeume.type + "<br>";
     
     for(var i = 0; i < currentNeume.pitches.length; i++){
-        s += "  Pitch " + i + ": " + currentNeume.pitches[i].pitch + "<br>";
+        
+        s += "  Pitch " + i + ": ";
+        if(currentNeume.pitches[i].pitch){
+            s += currentNeume.pitches[i].pitch + "<br>";
+        }
+        else{
+            s += "Variant<br>";
+        }
     }
     
     s +=
@@ -736,6 +746,7 @@ Graphical variation:<select id=\"variation\">\
                                 <option value=\"liquescent\">liquescent</option>\
                                 <option value=\"strophicus\">strophicus</option>\
                     </select><br>\
+Supplied?        By " + createSuppliedSourceSelector() + "<br>\
 Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
 <button onclick=\"insertPitch(true)\">create pitch</button><br><br>\
 <button onclick=\"createAdditionalVariation()\"";
@@ -851,7 +862,12 @@ Graphical variation:<select id=\"variation\">\
             }
             s +=
 "<br>\
-Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea>";
+Supplied?        By " + createSuppliedSourceSelector();
+            if(currentVarPitch){
+                s += currentVarPitch.supplied;
+            }
+            s +=
+"<br>Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea>";
             if(currentVarPitch){
                 s += currentVarPitch.comment;
             }
@@ -928,6 +944,7 @@ Graphical variation:<select id=\"variation\">\
                                 <option value=\"liquescent\">liquescent</option>\
                                 <option value=\"strophicus\">strophicus</option>\
                     </select>"+ currentPitch.variation +"<br>\
+Supplied?        By " + createSuppliedSourceSelector() + currentPitch.supplied + "<br>\
 Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
 <button onclick=\"applyPitchDataChanges()\">apply changes</button><br><br>\
 <button onclick=\"insertPitch(true)\">insert new pitch before selected pitch</button><br><br>\
