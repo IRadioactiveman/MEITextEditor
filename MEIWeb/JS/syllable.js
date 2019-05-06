@@ -66,6 +66,8 @@ function Syllable(page, line, staff, syllable, initial, color, comment){
      */
     this.create = function(layer){
         
+        console.log(this.color);
+        
         if(this.page){
             var p = xmlDoc.createElement("pb");
             p.setAttribute("n", this.page);
@@ -95,11 +97,13 @@ function Syllable(page, line, staff, syllable, initial, color, comment){
         if(this.syllable){
             var sylString = xmlDoc.createTextNode(this.syllable);
             
-            if(color == "none"){
+            if(this.color == "none"){
                 var sylString = xmlDoc.createTextNode(this.syllable);
                 syl.appendChild(sylString);
+                console.log("none");
             }
             else{
+                console.log(this.color);
                 var rend = xmlDoc.createElement("rend");
                 rend.setAttribute("color", this.color);
                 rend.appendChild(sylString);

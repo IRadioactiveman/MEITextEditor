@@ -107,6 +107,9 @@ function createNewStaff(){
 
 /** Navigational, leads to syllable form.*/
 function toSyllable(){
+    if(syllables.length > 1){
+        currentColor = syllables[syllables.length-1].color;
+    }
     document.getElementById("input").innerHTML = syllableForm();
     document.getElementById("meiOutput").value = createMEIOutput();
 }
@@ -130,6 +133,8 @@ function createSyllable(){
     currentSyllable = new Syllable(page, line, staff, syllable, initial, color, comment);
     
     syllables.push(currentSyllable);
+    
+    currentColor = color;
     
     document.getElementById("meiOutput").value = createMEIOutput();
     document.getElementById("input").innerHTML = syllableForm();
@@ -508,7 +513,47 @@ function createPitch(){
             pitchCounter = 0;
             document.getElementById("input").innerHTML = neumeForm();
         }
-    } 
+    }
+    else if(currentNeume.type == "torculusresupinus"){
+        if(pitch == "none" && pitchCounter == 0){
+            p = new Pitch(pitch, octave, comment, intm, connection, tilt);
+            p.intm = "u";
+            currentNeume.pitches.push(p);
+            
+            p = new Pitch(pitch, octave, comment, intm, connection, tilt);
+            p.intm = "d";
+            currentNeume.pitches.push(p);
+            
+            p = new Pitch(pitch, octave, comment, intm, connection, tilt);
+            p.intm = "u";
+            currentNeume.pitches.push(p);
+            
+            document.getElementById("input").innerHTML = neumeForm();
+        }
+        else if(pitchCounter == 0){
+            currentIntm = "u";
+            pitchCounter++;
+            document.getElementById("input").innerHTML = pitchForm();
+        }
+        else if(pitchCounter == 1)
+        {
+            currentIntm = "d";
+            pitchCounter++;
+            document.getElementById("input").innerHTML = pitchForm();
+        }
+        else if(pitchCounter == 2)
+        {
+            currentIntm = "u";
+            pitchCounter++;
+            document.getElementById("input").innerHTML = pitchForm();
+        }
+        else if(pitchCounter == 3)
+        {
+            currentIntm = "none";
+            pitchCounter = 0;
+            document.getElementById("input").innerHTML = neumeForm();
+        }
+    }
     else{
         document.getElementById("input").innerHTML = pitchForm();
     }
@@ -879,13 +924,13 @@ function toChangeSyllableData(){
 
 /** Applies changes made to the selected syllable.*/
 function applySyllableDataChanges(){
+    
     var page = document.getElementById("page").value;
     var line = document.getElementById("line").value;
     var staff = document.getElementById("staff").value;
     var syllable = document.getElementById("syllabletext").value;
     var initial = document.getElementById("initial").checked;
     var color = document.getElementById("color").value;
-    var type = document.getElementById("type").value;
     var comment = document.getElementById("comment").value;
     
     if(page){
@@ -907,10 +952,6 @@ function applySyllableDataChanges(){
     
     if(color && color != "none"){
         currentSyllable.color = color;
-    }
-    
-    if(type){
-        currentSyllable.type = type;
     }
     
     if(comment){

@@ -147,10 +147,10 @@ function syllableForm(){
 Page:               <input id=\"page\" type=\"text\"><br>\
 Line:               <input id=\"line\" type=\"text\"><br>\
 Staff:              " + createStaffSelector();
+s += "Text color:         " + createColorSelector();
 s += "Syllable:           <input id=\"syllable\" type=\"text\"><br>\
 Initial?            <input type=\"checkbox\" id=\"initial\"><br>\
-Text color:         " + createColorSelector("applyCurrentColor()");
-s += "Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
+Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
 <button onclick=\"createSyllable()\">save syllable</button><br><br>\
 <button onclick=\"createSyllableWithNeumes()\">save syllable and add neumes</button>\
     </pre>\
