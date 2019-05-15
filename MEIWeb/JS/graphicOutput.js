@@ -57,95 +57,196 @@ function createSVGOutput(){
             
             for(var j = 0; j < syllables[i].neumes.length; j++){
                 
-                for(var k = 0; k < syllables[i].neumes[j].pitches.length; k++){
+                if(Array.isArray(syllables[i].neumes[j])){
                     
-                    if(Array.isArray(syllables[i].neumes[j].pitches[k])){
+                    for(var n = 0; n < syllables[i].neumes[j].length; n++){
                         
-                        for(var l = 0; l < syllables[i].neumes[j].pitches[k].length; l++){
+                        for(var o = 0; o < syllables[i].neumes[j][n].additionalNeumes.length; o++){
                             
-                            for(var m = 0; m < syllables[i].neumes[j].pitches[k][l].additionalPitches.length; m++){
+                            for(var k = 0; k < syllables[i].neumes[j][n].additionalNeumes[o].pitches.length; k++){
+                    
+                                if(Array.isArray(syllables[i].neumes[j][n].additionalNeumes[o].pitches[k])){
+                        
+                                    for(var l = 0; l < syllables[i].neumes[j][n].additionalNeumes[o].pitches[k].length; l++){
+                            
+                                        for(var m = 0; m < syllables[i].neumes[j][n].additionalNeumes[o].pitches[k][l].additionalPitches.length; m++){
                                 
-                                if(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].pitch != "none"){
-                                    lines(x, y, stride, svg);
+                                            if(syllables[i].neumes[j][n].additionalNeumes[o].pitches[k][l].additionalPitches[m].pitch != "none"){
+                                                lines(x, y, stride, svg);
                                 
-                                    var value = translateNoteValue(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].pitch);
-                                    ellipse(x+6,y+value,"blue", svg);
+                                                var value = translateNoteValue(syllables[i].neumes[j][n].additionalNeumes[o].pitches[k][l].additionalPitches[m].pitch);
+                                                ellipse(x+6,y+value,"blue", svg);
                                 
-                                    previousValue = y + value;
-                                }
-                                else if(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].intm){
-                                    lines(x, y, stride, svg);
-                                    if(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].intm == "d"){
-                                        ellipse(x+6,previousValue+10,"purple",svg);
+                                                previousValue = y + value;
+                                            }
+                                            else if(syllables[i].neumes[j][n].additionalNeumes[o].pitches[k][l].additionalPitches[m].intm){
+                                                lines(x, y, stride, svg);
+                                                if(syllables[i].neumes[j][n].additionalNeumes[o].pitches[k][l].additionalPitches[m].intm == "d"){
+                                                    ellipse(x+6,previousValue+10,"purple",svg);
                                     
-                                        previousValue += 10;
-                                    }
-                                    if(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].intm == "u"){
-                                        ellipse(x+6,previousValue-10,"purple",svg);
-                                        previousValue -= 10;
-                                    }
-                                    else{
-                                        ellipse(x+6,previousValue,"purple",svg);
+                                                    previousValue += 10;
+                                                }
+                                                if(syllables[i].neumes[j][n].additionalNeumes[o].pitches[k][l].additionalPitches[m].intm == "u"){
+                                                    ellipse(x+6,previousValue-10,"purple",svg);
+                                                    previousValue -= 10;
+                                                }
+                                                else{
+                                                    ellipse(x+6,previousValue,"purple",svg);
+                                                }
+                                            }
+                                            else{
+                                                lines(x, y, stride,svg);
+                                                ellipse(x+6,y+10,"purple",svg);
+                                
+                                                previousValue = y+10;
+                                            }
+                                            x += stride;
+                                            if(x >= (window.innerWidth - 100)){
+                                                x = 0;
+                                                y += 85;
+                                            }
+                                        }
                                     }
                                 }
                                 else{
-                                    lines(x, y, stride,svg);
-                                    ellipse(x+6,y+10,"purple",svg);
-                                
-                                    previousValue = y+10;
+                                    if(syllables[i].neumes[j][n].additionalNeumes[o].pitches[k].pitch != "none"){
+                                        lines(x, y, stride,svg);
+                        
+                                        var valu = translateNoteValue(syllables[i].neumes[j][n].additionalNeumes[o].pitches[k].pitch);
+                                        ellipse(x+6,y+valu,"blue",svg);
+                        
+                                        previousValue = y + valu;
+                                    }
+                                    else if(syllables[i].neumes[j][n].additionalNeumes[o].pitches[k].intm){
+                                        lines(x, y, stride,svg);
+                                        if(syllables[i].neumes[j][n].additionalNeumes[o].pitches[k].intm == "d"){
+                                            ellipse(x+6,previousValue+10,"purple",svg);
+                            
+                                            previousValue += 10;
+                                        }
+                                        if(syllables[i].neumes[j][n].additionalNeumes[o].pitches[k].intm == "u"){
+                                            ellipse(x+6,previousValue-10,"purple",svg);
+                                            previousValue -= 10;
+                                        }
+                                        else{
+                                            ellipse(x+6,previousValue,"purple",svg);
+                                        }
+                                    }
+                                    else{
+                                        lines(x, y, stride,svg);
+                        
+                                        ellipse(x+6,y+10,"red",svg);
+                        
+                                        previousValue = y + 10;
+                                    }
+                                    x += stride;
+                                    if(x >= 1000){
+                                        x = 0;
+                                        y += 85;
+                                        previousValue += 85;
+                                    }
                                 }
-                                x += stride;
-                                if(x >= (window.innerWidth - 100)){
-                                    x = 0;
-                                    y += 85;
-                                }
+                                notesLength += stride;
                             }
                         }
                     }
-                    else{
-                        if(syllables[i].neumes[j].pitches[k].pitch != "none"){
-                            lines(x, y, stride,svg);
+                    if(textLength > notesLength){
+                        var diff = textLength - notesLength;
+                        lines(x, y, diff,svg);
+                        x += diff;
+                    }
+                }
+                else{
+                    for(var k = 0; k < syllables[i].neumes[j].pitches.length; k++){
+                    
+                        if(Array.isArray(syllables[i].neumes[j].pitches[k])){
                         
-                            var valu = translateNoteValue(syllables[i].neumes[j].pitches[k].pitch);
-                            ellipse(x+6,y+valu,"black",svg);
-                        
-                            previousValue = y + valu;
-                        }
-                        else if(syllables[i].neumes[j].pitches[k].intm){
-                            lines(x, y, stride,svg);
-                            if(syllables[i].neumes[j].pitches[k].intm == "d"){
-                                ellipse(x+6,previousValue+10,"red",svg);
+                            for(var l = 0; l < syllables[i].neumes[j].pitches[k].length; l++){
                             
-                                previousValue += 10;
-                            }
-                            if(syllables[i].neumes[j].pitches[k].intm == "u"){
-                                ellipse(x+6,previousValue-10,"red",svg);
-                                previousValue -= 10;
-                            }
-                            else{
-                                ellipse(x+6,previousValue,"red",svg);
+                                for(var m = 0; m < syllables[i].neumes[j].pitches[k][l].additionalPitches.length; m++){
+                                
+                                    if(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].pitch != "none"){
+                                        lines(x, y, stride, svg);
+                                
+                                        var value = translateNoteValue(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].pitch);
+                                        ellipse(x+6,y+value,"blue", svg);
+                                
+                                        previousValue = y + value;
+                                    }
+                                    else if(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].intm){
+                                        lines(x, y, stride, svg);
+                                        if(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].intm == "d"){
+                                            ellipse(x+6,previousValue+10,"purple",svg);
+                                    
+                                            previousValue += 10;
+                                        }
+                                        if(syllables[i].neumes[j].pitches[k][l].additionalPitches[m].intm == "u"){
+                                            ellipse(x+6,previousValue-10,"purple",svg);
+                                            previousValue -= 10;
+                                        }
+                                        else{
+                                            ellipse(x+6,previousValue,"purple",svg);
+                                        }
+                                    }
+                                    else{
+                                        lines(x, y, stride,svg);
+                                        ellipse(x+6,y+10,"purple",svg);
+                                
+                                        previousValue = y+10;
+                                    }
+                                    x += stride;
+                                    if(x >= (window.innerWidth - 100)){
+                                        x = 0;
+                                        y += 85;
+                                    }
+                                }
                             }
                         }
                         else{
-                            lines(x, y, stride,svg);
+                            if(syllables[i].neumes[j].pitches[k].pitch != "none"){
+                                lines(x, y, stride,svg);
                         
-                            ellipse(x+6,y+10,"red",svg);
+                                var valu = translateNoteValue(syllables[i].neumes[j].pitches[k].pitch);
+                                ellipse(x+6,y+valu,"black",svg);
                         
-                            previousValue = y + 10;
+                                previousValue = y + valu;
+                            }
+                            else if(syllables[i].neumes[j].pitches[k].intm){
+                                lines(x, y, stride,svg);
+                                if(syllables[i].neumes[j].pitches[k].intm == "d"){
+                                    ellipse(x+6,previousValue+10,"red",svg);
+                            
+                                    previousValue += 10;
+                                }
+                                if(syllables[i].neumes[j].pitches[k].intm == "u"){
+                                    ellipse(x+6,previousValue-10,"red",svg);
+                                    previousValue -= 10;
+                                }
+                                else{
+                                    ellipse(x+6,previousValue,"red",svg);
+                                }
+                            }
+                            else{
+                                lines(x, y, stride,svg);
+                        
+                                ellipse(x+6,y+10,"red",svg);
+                        
+                                previousValue = y + 10;
+                            }
+                            x += stride;
+                            if(x >= 1000){
+                                x = 0;
+                                y += 85;
+                                previousValue += 85;
+                            }
                         }
-                        x += stride;
-                        if(x >= 1000){
-                            x = 0;
-                            y += 85;
-                            previousValue += 85;
-                        }
+                        notesLength += stride;
                     }
-                    notesLength += stride;
-                }
-                if(textLength > notesLength){
-                    var diff = textLength - notesLength;
-                    lines(x, y, diff,svg);
-                    x += diff;
+                    if(textLength > notesLength){
+                        var diff = textLength - notesLength;
+                        lines(x, y, diff,svg);
+                        x += diff;
+                    }
                 }
             }
         }

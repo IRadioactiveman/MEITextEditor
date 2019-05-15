@@ -183,6 +183,46 @@ Neume type:         " + createTypeSelector("applyCurrentType()") + "<br>";
 "<button onclick=\"createNeume()\">save neume</button><br><br>\
 <button onclick=\"createNeumeWithPitches()\">save neume and add pitches</button><br><br>\
 <button onclick=\"toSyllable()\">add another syllable</button><br><br>\
+<button onclick=\"toChangeSyllableData()\">change syllables</button><br><br>\
+<button onclick=\"toNeumeVariationForm()\"";
+    
+    if(sources.length <= 1){
+        s += " disabled";
+    }
+    s += 
+">add variant</button>\
+    </pre>\
+</form><br>";
+    
+    return s;
+}
+
+/**
+ * The neume variation form.
+ * @function
+ * @returns {string} s - the neume variation form as a string
+ */
+function neumeVariationForm(){
+    var s = "";
+    s +=
+"<h4>Neume:</h4>\
+<form>\
+    <pre>\
+Source:             "+createSourceSelector();
+s += "Neume type:         " + createTypeSelector("applyCurrentTypeVariation()") + "<br>";
+    if(isClimacus){
+        s += 
+"Number of Pitches:  <select id=\"numberofpitches\">\
+                        <option value=\"3\">3</option>\
+                        <option value=\"4\">4</option>\
+                        <option value=\"5\">5</option>\
+                    </select><br><br>";
+    }
+    s +=
+"<button onclick=\"createNeumeVariation()\">save neume for this source</button><br><br>\
+<button onclick=\"createNeumeVariationWithPitches()\">save neume for this source and add pitches</button><br><br>\
+<button onclick=\"toNeumeFromNeumeVariations()\">add more neumes</button><br><br>\
+<button onclick=\"toSyllableFromNeumeVariations()\">add another syllable</button><br><br>\
 <button onclick=\"toChangeSyllableData()\">change syllables</button>\
     </pre>\
 </form><br>";
@@ -644,38 +684,80 @@ Neumes:<br>";
  */
 function neumeDataChangeForm(){
     var s = "";
+    var isNeumeVariation = false;
     
     if(currentSyllable.neumes.length >= 1){
-       s +=
+        s +=
 "<h4>Change neume:</h4>\
 <form>\
     <pre>";
         s += "Select neume:       " + createNeumeSelector("applyCurrentNeume()") + "<br>";
         
-        currentNeume = currentSyllable.neumes[currentNeumeIndex];
-        
-        s +=
+        if(Array.isArray(currentSyllable.neumes[currentNeumeIndex])){
+            s += "Select variant:     " + createNeumeVariationSelector("applyCurrentNeumeVariation()") + "<br>";
+            if(currentSyllable.neumes[currentNeumeIndex][currentNeumeVariationIndex].additionalNeumes.length > 0){
+                s += "Select variant neume:" + createNeumeInVariationSelector("applyCurrentNeumeInVariation()") + "<br>";
+            }
+            currentNeume = currentSyllable.neumes[currentNeumeIndex][currentNeumeVariationIndex].additionalNeumes[currentNeumeInVariationIndex];
+            
+            s +=
 "Neume type:         " + createTypeSelector();
-        s += "Current neume type: " + currentNeume.type + "<br>";
-    
-    for(var i = 0; i < currentNeume.pitches.length; i++){
-        
-        s += "  Pitch " + i + ": ";
-        if(currentNeume.pitches[i].pitch){
-            s += currentNeume.pitches[i].pitch + "<br>";
+            ///if(currentNeume.type){
+            ///    s += "Current neume type: " + currentNeume.type + "<br>";
+            ///}
+            
+            isNeumeVariation = true;
         }
         else{
-            s += "Variant<br>";
-        }
-    }
+        
+            currentNeume = currentSyllable.neumes[currentNeumeIndex];
+            
+            s +=
+"Neume type:         " + createTypeSelector();
+            s += "Current neume type: " + currentNeume.type + "<br>";
     
-    s +=
+            for(var i = 0; i < currentNeume.pitches.length; i++){
+        
+                s += "  Pitch " + i + ": ";
+                if(currentNeume.pitches[i].pitch){
+                    s += currentNeume.pitches[i].pitch + "<br>";
+                }
+                else{
+                    s += "Variant<br>";
+                }
+            }
+        }
+    
+        s +=
 "<button onclick=\"applyNeumeDataChanges()\">apply changes</button><br><br>\
-<button onclick=\"toChangePitchData()\">change pitches</button><br><br>\
+<button onclick=\"toChangePitchData()\"";
+        
+        
+        if(isNeumeVariation && currentSyllable.neumes[currentNeumeIndex][currentNeumeVariationIndex].additionalNeumes.length <= 0){
+           s += " disabled";
+        }
+        
+        
+        s += ">change pitches</button><br><br>\
 <button onclick=\"insertNeume(true)\">insert neume before selected neume</button><br><br>\
 <button onclick=\"insertNeume(false)\">insert neume after selected neume</button><br><br>\
-<button onclick=\"deleteNeume()\">delete neume</button><br><br>\
-    </pre>\
+<button onclick=\"deleteNeume()\">delete neume/variant</button><br><br>";
+        
+        if(sources.length < 1){
+            s +=
+"<button onclick=\"insertNeumeVariant(true)\">insert neume variant before selected neume</button><br><br>\
+<button onclick=\"insertNeumeVariant(false)\">insert neume variant after selected neume</button><br><br>";
+        }
+        
+        if(Array.isArray(currentSyllable.neumes[currentNeumeIndex])){
+            s +=
+"<button onclick=\"insertNeumeInVariant(true)\">insert neume in variant before selected neume</button><br><br>\
+<button onclick=\"insertNeumeInVariant(false)\">insert neume in variant after selected neume</button><br><br>\
+<button onclick=\"deleteNeumeInVariant()\">delete selected neume in variant</button>";
+        }
+        
+        s +=
+    "</pre>\
 </form><br>";
     }
     else{

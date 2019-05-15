@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Neume</title>
+    <title>JSDoc: Class: NeumeVariation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Neume</h1>
+    <h1 class="page-title">Class: NeumeVariation</h1>
 
     
 
@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Neume<span class="signature">()</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>NeumeVariation<span class="signature">(id)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -41,7 +41,7 @@
     
 
     
-    <h4 class="name" id="Neume"><span class="type-signature"></span>new Neume<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="NeumeVariation"><span class="type-signature"></span>new NeumeVariation<span class="signature">(id)</span><span class="type-signature"></span></h4>
     
 
     
@@ -49,7 +49,7 @@
 
 
 <div class="description">
-    A class representing a neume.
+    A class representing a neume variant.
 </div>
 
 
@@ -58,6 +58,50 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the id of the source that contains the variant</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -93,7 +137,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="neume.js.html">neume.js</a>, <a href="neume.js.html#line5">line 5</a>
+        <a href="neumeVariation.js.html">neumeVariation.js</a>, <a href="neumeVariation.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -141,13 +185,13 @@
 
         
             
-<h4 class="name" id="pitches"><span class="type-signature"></span>pitches<span class="type-signature"> :Object</span></h4>
+<h4 class="name" id="additionalNeumes"><span class="type-signature"></span>additionalNeumes<span class="type-signature"> :Object</span></h4>
 
 
 
 
 <div class="description">
-    An array containing the pitches of a neume.
+    Additional neumes as specified in the source.
 </div>
 
 
@@ -195,7 +239,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="neume.js.html">neume.js</a>, <a href="neume.js.html#line16">line 16</a>
+        <a href="neumeVariation.js.html">neumeVariation.js</a>, <a href="neumeVariation.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -213,13 +257,13 @@
 
         
             
-<h4 class="name" id="type"><span class="type-signature"></span>type<span class="type-signature"> :string</span></h4>
+<h4 class="name" id="sourceID"><span class="type-signature"></span>sourceID<span class="type-signature"> :string</span></h4>
 
 
 
 
 <div class="description">
-    Specifies the type of the neume.
+    Specifies the ID of the source containing the variant.
 </div>
 
 
@@ -267,7 +311,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="neume.js.html">neume.js</a>, <a href="neume.js.html#line10">line 10</a>
+        <a href="neumeVariation.js.html">neumeVariation.js</a>, <a href="neumeVariation.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -295,7 +339,7 @@
     
 
     
-    <h4 class="name" id="create"><span class="type-signature"></span>create<span class="signature">(syllable)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create"><span class="type-signature"></span>create<span class="signature">(app)</span><span class="type-signature"></span></h4>
     
 
     
@@ -303,7 +347,7 @@
 
 
 <div class="description">
-    Creates the XML representation of a neume. The created element is appended to a syllable element.
+    Creates an XML representation of a variant and append it to a specified app element.
 </div>
 
 
@@ -339,7 +383,7 @@
 
         <tr>
             
-                <td class="name"><code>syllable</code></td>
+                <td class="name"><code>app</code></td>
             
 
             <td class="type">
@@ -350,7 +394,7 @@
 
             
 
-            <td class="description last">the syllable parent element that the created neume is appended to</td>
+            <td class="description last">an app element to append the created element to</td>
         </tr>
 
     
@@ -391,7 +435,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="neume.js.html">neume.js</a>, <a href="neume.js.html#line23">line 23</a>
+        <a href="neumeVariation.js.html">neumeVariation.js</a>, <a href="neumeVariation.js.html#line25">line 25</a>
     </li></ul></dd>
     
 

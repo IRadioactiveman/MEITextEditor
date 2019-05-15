@@ -120,6 +120,35 @@ function toNeume(){
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
+/** Navigational, leads to neume variation form.*/
+function toNeumeVariationForm(){
+    
+    document.getElementById("input").innerHTML = neumeVariationForm();
+    document.getElementById("meiOutput").value = createMEIOutput();
+}
+
+/** Navigational, leads to neume form.*/
+function toNeumeFromNeumeVariations(){
+    pushedNeumeVariations = false;
+    neumeVariations = new Array();
+    
+    document.getElementById("input").innerHTML = neumeForm();
+    document.getElementById("meiOutput").value = createMEIOutput();
+}
+
+/** Navigational, leads to syllable form.*/
+function toSyllableFromNeumeVariations(){
+    pushedNeumeVariations = false;
+    neumeVariations = new Array();
+    
+    if(syllables.length > 1){
+        currentColor = syllables[syllables.length-1].color;
+    }
+    
+    document.getElementById("input").innerHTML = syllableForm();
+    document.getElementById("meiOutput").value = createMEIOutput();
+}
+
 /** Reads the data entered in the syllable form and saves it.*/
 function createSyllable(){
     var page = document.getElementById("page").value;
@@ -296,6 +325,167 @@ function createNeume(){
     createSVGOutput();
 }
 
+/** Reads the data entered in the neume variation form and saves it. If no pitch is given and the neume type is virga, punctum, pes, clivis, torculus, porrectus, scandicus, climacus or torculusresupinus, all needed pitches will be automatically added.*/
+function createNeumeVariation(){
+    var sourceID = document.getElementById("source").value;
+    var type = document.getElementById("type").value;
+    
+    if(isClimacus){
+        maxPitches = document.getElementById("numberofpitches").value;
+    }
+    
+    currentSID = sourceID;
+    
+    currentNeume = new Neume();
+    currentNeume.type = type;
+    
+    if(type == "virga" || type == "punctum"){
+        var p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+    }
+    else if(currentNeume.type == "pes"){
+        var p;
+        
+        p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "u";
+        currentNeume.pitches.push(p);
+    }
+    else if(currentNeume.type == "clivis"){
+        var p;
+        
+        p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "d";
+        currentNeume.pitches.push(p);
+    }
+    else if(currentNeume.type == "torculus"){
+        var p;
+        
+        p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "u";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "d";
+        currentNeume.pitches.push(p);
+    }
+    else if(currentNeume.type == "porrectus"){
+        var p;
+        
+        p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "d";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "u";
+        currentNeume.pitches.push(p);
+    }
+    else if(currentNeume.type == "climacus"){
+        var p;
+        
+        p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "d";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "d";
+        currentNeume.pitches.push(p);
+        
+        if(maxPitches == 4){
+            p = new Pitch();
+            p.pitch = "none";
+            p.intm = "d";
+            currentNeume.pitches.push(p);
+        }
+        
+        if(maxPitches == 5){
+            p = new Pitch();
+            p.pitch = "none";
+            p.intm = "d";
+            currentNeume.pitches.push(p);
+            
+            p = new Pitch();
+            p.pitch = "none";
+            p.intm = "d";
+            currentNeume.pitches.push(p);
+        }
+    }
+    else if(currentNeume.type == "scandicus"){
+        var p;
+        
+        p = new Pitch();
+        p.pitch = "none";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "u";
+        currentNeume.pitches.push(p);
+        
+        p = new Pitch();
+        p.pitch = "none";
+        p.intm = "u";
+        currentNeume.pitches.push(p);
+    }
+    
+    var i;
+    
+    if(neumeVariations.length < 1){
+        for(i = 0; i < sources.length; i++){
+            var neumeVariation = new NeumeVariation(sources[i].id);
+            neumeVariations.push(neumeVariation);
+        }
+    }
+    
+    for(i = 0; i < neumeVariations.length; i++){
+        if(neumeVariations[i].sourceID == sourceID){
+            neumeVariations[i].additionalNeumes.push(currentNeume);
+            break;
+        }
+    }
+    
+    if(!pushedNeumeVariations){
+        currentSyllable.neumes.push(neumeVariations);
+        pushedNeumeVariations = true;
+    }
+    else{
+        currentSyllable.neumes.pop();
+        currentSyllable.neumes.push(neumeVariations);
+    }
+    
+    document.getElementById("meiOutput").value = createMEIOutput();
+    document.getElementById("input").innerHTML = neumeVariationForm();
+    createSVGOutput();
+}
+
 /** Reads the data entered in the neume form and saves it, leading to the pitch form afterwards.*/
 function createNeumeWithPitches(){
     var type = document.getElementById("type").value;
@@ -308,6 +498,48 @@ function createNeumeWithPitches(){
     currentNeume.type = type;
     
     currentSyllable.neumes.push(currentNeume);
+    document.getElementById("meiOutput").value = createMEIOutput();
+    document.getElementById("input").innerHTML = pitchForm();
+    createSVGOutput();
+}
+
+/** Reads the data entered in the neume variation form and saves it, leading to the pitch form afterwards.*/
+function createNeumeVariationWithPitches(){
+    var sourceID = document.getElementById("source").value;
+    var type = document.getElementById("type").value;
+    
+    if(isClimacus){
+        maxPitches = document.getElementById("numberofpitches").value;
+    }
+    
+    currentNeume = new Neume();
+    currentNeume.type = type;
+    
+    var i;
+    
+    if(neumeVariations.length < 1){
+        for(i = 0; i < sources.length; i++){
+            var neumeVariation = new NeumeVariation(sources[i].id);
+            neumeVariations.push(neumeVariation);
+        }
+    }
+    
+    for(i = 0; i < neumeVariations.length; i++){
+        if(neumeVariations[i].sourceID == sourceID){
+            neumeVariations[i].additionalNeumes.push(currentNeume);
+            break;
+        }
+    }
+    
+    if(!pushedNeumeVariations){
+        currentSyllable.neumes.push(neumeVariations);
+        pushedNeumeVariations = true;
+    }
+    else{
+        currentSyllable.neumes.pop();
+        currentSyllable.neumes.push(neumeVariations);
+    }
+    
     document.getElementById("meiOutput").value = createMEIOutput();
     document.getElementById("input").innerHTML = pitchForm();
     createSVGOutput();
@@ -622,6 +854,10 @@ function toSyllableFromVariations(){
     pushedVariations = false;
     variations = new Array();
     
+    if(syllables.length > 1){
+        currentColor = syllables[syllables.length-1].color;
+    }
+    
     document.getElementById("input").innerHTML = syllableForm();
     document.getElementById("meiOutput").value = createMEIOutput();
     createSVGOutput();
@@ -649,6 +885,13 @@ function toPitchesFromVariations(){
 
 /** Navigational, leads to change values form.*/
 function toChangeValues(){
+    currentClefIndex = 0;
+    currentSyllableIndex = 0;
+    currentNeumeIndex = 0;
+    currentNeumeVariationIndex = 0;
+    currentNeumeInVariationIndex = 0;
+    currentVarPitchIndex = 0;
+    
     document.getElementById("input").innerHTML = changeValueForm();
 }
 
@@ -919,6 +1162,7 @@ function toChangeSyllableData(){
         currentType = syllables[0].type;
         currentColor = syllables[0].color;
     }
+    pushedNeumeVariations = false;
     document.getElementById("input").innerHTML = syllableDataChangeForm();
 }
 
@@ -1053,6 +1297,7 @@ function deleteNeume(){
 /** Navigational, leads to pitch change form.*/
 function toChangePitchData(){
     document.getElementById("input").innerHTML = pitchDataChangeForm();
+    createSVGOutput();
 }
 
 /** Applies changes made to the selected pitch.*/
@@ -1230,6 +1475,63 @@ function deleteVariationPitch(){
     createSVGOutput();
 }
 
+/** Reads data from the neume variant form, creates the neume and inserts it into a variation before or after the selected neume in the variation.
+  * @param {boolean} before - declares whether the element should be inserted before
+  */
+function insertNeumeInVariant(before){
+    var type = document.getElementById("type").value;
+    
+    var neume = new Neume();
+    neume.type = type;
+    
+    if(before){
+        currentSyllable.neumes[currentNeumeIndex][currentNeumeVariationIndex].additionalNeumes.splice(currentNeumeInVariationIndex, 0, neume);
+    }
+    else{
+        currentSyllable.neumes[currentNeumeIndex][currentNeumeVariationIndex].additionalNeumes.splice(currentNeumeInVariationIndex + 1, 0, neume);
+    }
+
+    document.getElementById("meiOutput").value = createMEIOutput();
+    document.getElementById("input").innerHTML = neumeDataChangeForm();
+    createSVGOutput();
+}
+
+/** Deletes the neume in a variation.*/
+function deleteNeumeInVariant(){
+    currentSyllable.neumes[currentNeumeIndex][currentNeumeVariationIndex].additionalNeumes.splice(currentNeumeInVariationIndex, 1);
+    
+    currentNeumeInVariationIndex = 0;
+    
+    document.getElementById("input").innerHTML = neumeDataChangeForm();
+    document.getElementById("meiOutput").value = createMEIOutput();
+    createSVGOutput();
+}
+
+/** Reads data from the neume variant form, creates the neume variants and inserts them into the syllables' neumes before or after the selected neume in the variation.
+  * @param {boolean} before - declares whether the element should be inserted before
+  */
+function insertNeumeVariant(before){
+    
+    var neumeVariants = new Array();
+    
+    for(var i = 0; i < sources.length; i++){
+        var neumeVariant = new NeumeVariation(sources[i].id);
+        neumeVariants. push(neumeVariant);
+    }
+    
+    if(before){
+        currentSyllable.neumes.splice(currentNeumeIndex, 0, neumeVariants);
+    }
+    else{
+        currentSyllable.neumes.splice(currentNeumeIndex + 1, 0, neumeVariants);
+    }
+    
+
+    document.getElementById("meiOutput").value = createMEIOutput();
+    document.getElementById("input").innerHTML = neumeDataChangeForm();
+    createSVGOutput();
+}
+
 /** Set the selected source ID to be current source ID according to the form and reload it.*/
 function applyCurrentSource(){
     currentSID = document.getElementById("source").value;
@@ -1260,6 +1562,18 @@ function applyCurrentNeume(){
     document.getElementById("input").innerHTML = neumeDataChangeForm();
 }
 
+/** Set the selected neume to be current neume according to the form and reload it.*/
+function applyCurrentNeumeVariation(){
+    currentNeumeVariationIndex = document.getElementById("neumevariation").value;
+    document.getElementById("input").innerHTML = neumeDataChangeForm();
+}
+
+/** Set the selected neume to be current neume according to the form and reload it.*/
+function applyCurrentNeumeInVariation(){
+    currentNeumeInVariationIndex = document.getElementById("neumeinvariation").value;
+    document.getElementById("input").innerHTML = neumeDataChangeForm();
+}
+
 /** Set the selected neume type to be current current neume according to the form and reload it.*/
 function applyCurrentType(){
     currentType = document.getElementById("type").value;
@@ -1270,6 +1584,18 @@ function applyCurrentType(){
         isClimacus = false;
     }
     document.getElementById("input").innerHTML = neumeForm();
+}
+
+/** Set the selected neume type to be current current neume according to the form and reload it.*/
+function applyCurrentTypeVariation(){
+    currentType = document.getElementById("type").value;
+    if(currentType == "climacus"){
+        isClimacus = true;
+    }
+    else{
+        isClimacus = false;
+    }
+    document.getElementById("input").innerHTML = neumeVariationForm();
 }
 
 /** Set the selected pitch index to be current pitch index according to the form and reload it.*/

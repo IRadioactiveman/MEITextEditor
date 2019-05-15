@@ -233,11 +233,64 @@ function createNeumeSelector(onChange){
             s += " selected";
         }
         
-        s += ">"+currentSyllable.neumes[i].type+"</option>";
+        if(Array.isArray(currentSyllable.neumes[i])){
+            s += ">Variation</option>";
+        }
+        else{
+            s += ">"+currentSyllable.neumes[i].type+"</option>";
+        }
     }
     s += "</select>";
     return s;
 }
+
+/**
+ * This function creates a selector for variants of neumes.
+ * @param {string} onChange - a string representing a function that executes on change of an option
+ * @returns {string} s - a string conatining the html select element with the specified options
+ */
+function createNeumeVariationSelector(onChange){
+    var s ="";
+     s += "<select id=\"neumevariation\" width=\"200\"";
+    if(onChange){
+        s += "onchange=\""+ onChange +"\"";
+    }
+    s += ">";
+    for(var i = 0; i < currentSyllable.neumes[currentNeumeIndex].length; i++){
+        s += "<option value=\""+i+"\""
+        if(currentNeumeVariationIndex == i){
+            s += " selected";
+        }
+        s += ">"+currentSyllable.neumes[currentNeumeIndex][i].sourceID+"</option>";
+    }
+    s += "</select>";
+    return s;
+}
+
+/**
+ * This function creates a selector neumes in variants of neumes.
+ * @param {string} onChange - a string representing a function that executes on change of an option
+ * @returns {string} s - a string conatining the html select element with the specified options
+ */
+function createNeumeInVariationSelector(onChange){
+    var s ="";
+     s += "<select id=\"neumeinvariation\" width=\"200\"";
+    if(onChange){
+        s += "onchange=\""+ onChange +"\"";
+    }
+    s += ">";
+    for(var i = 0; i < currentSyllable.neumes[currentNeumeIndex][currentNeumeVariationIndex].additionalNeumes.length; i++){
+        s += "<option value=\""+i+"\""
+        if(currentNeumeInVariationIndex == i){
+            s += " selected";
+        }
+        s += ">" + currentSyllable.neumes[currentNeumeIndex][currentNeumeVariationIndex].additionalNeumes[i].type;
+    }
+    
+    s += "</select>";
+    return s;
+}
+
 
 /**
  * This function creates a selector for pitches.

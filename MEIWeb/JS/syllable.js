@@ -66,8 +66,6 @@ function Syllable(page, line, staff, syllable, initial, color, comment){
      */
     this.create = function(layer){
         
-        console.log(this.color);
-        
         if(this.page){
             var p = xmlDoc.createElement("pb");
             p.setAttribute("n", this.page);
@@ -103,7 +101,6 @@ function Syllable(page, line, staff, syllable, initial, color, comment){
                 console.log("none");
             }
             else{
-                console.log(this.color);
                 var rend = xmlDoc.createElement("rend");
                 rend.setAttribute("color", this.color);
                 rend.appendChild(sylString);
@@ -112,7 +109,16 @@ function Syllable(page, line, staff, syllable, initial, color, comment){
             s.appendChild(syl);
         }
         for(var i = 0; i < this.neumes.length; i++){
-            this.neumes[i].create(s);
+            if(Array.isArray(this.neumes[i])){
+                var app = xmlDoc.createElement("app");
+                for(var j = 0; j < this.neumes[i].length; j++){
+                    this.neumes[i][j].create(app);
+                }
+                s.appendChild(app);
+            }
+            else{
+                this.neumes[i].create(s);
+            }
         }
         layer.appendChild(s);
     }

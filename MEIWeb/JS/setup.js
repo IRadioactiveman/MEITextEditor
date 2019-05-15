@@ -107,6 +107,12 @@ var currentColor = "none";
 var currentNeume;
 
 /**
+ * This object holds the index of the currently worked on neume in a variant.
+ * @var {Object} currentNeumeInVariationIndex
+ */
+var currentNeumeInVariationIndex = 0;
+
+/**
  * This object holds the currently worked on pitch.
  * @var {Object} currentPitch
  */
@@ -123,6 +129,12 @@ var currentVarPitch;
  * @var {number} currentNeumeIndex
  */
 var currentNeumeIndex = 0;
+
+/**
+ * This variable holds the index of the currently worked on neume variant.
+ * @var {number} currentNeumeVariationIndex
+ */
+var currentNeumeVariationIndex = 0;
 
 /**
  * This variable holds the index of the currently worked on pitch.
@@ -218,16 +230,28 @@ colors.push("blue");
 colors.push("green");
 
 /**
- * This array contains variations for each source. It serves as a temporary buffer.
+ * This array contains pitch variations for each source. It serves as a temporary buffer.
  * @var {Object} variations
  */
 var variations = new Array();
 
 /**
- * This variable indicates whether the variations were pushed into an array of pitches.
+ * This array contains neume variations for each source. It serves as a temporary buffer.
+ * @var {Object} neumeVariations
+ */
+var neumeVariations = new Array();
+
+/**
+ * This variable indicates whether the pitch variations were pushed into an array of pitches.
  * @var {boolean} pushedVariations
  */
 var pushedVariations = false;
+
+/**
+ * This variable indicates whether the neume variations were pushed into an array of pitches.
+ * @var {boolean} pushedNeumeVariations
+ */
+var pushedNeumeVariations = false;
 
 /**
  * This variable is the starting Y coordinate of the graphical output.
