@@ -254,6 +254,12 @@ var pushedVariations = false;
 var pushedNeumeVariations = false;
 
 /**
+ * This variable indicates whether the current neume is a variant.
+ * @var {boolean} isNeumeVariant
+ */
+var isNeumeVariant = false;
+
+/**
  * This variable is the starting Y coordinate of the graphical output.
  * @var {number} startY
  */

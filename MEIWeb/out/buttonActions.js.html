@@ -155,19 +155,23 @@ function toNeumeVariationForm(){
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
-/** Navigational, leads to neume form.*/
+/** Navigational, leads to neume form from neume variants.*/
 function toNeumeFromNeumeVariations(){
     pushedNeumeVariations = false;
     neumeVariations = new Array();
+    
+    isNeumeVariant = false;
     
     document.getElementById("input").innerHTML = neumeForm();
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
-/** Navigational, leads to syllable form.*/
+/** Navigational, leads to syllable form from neume variants.*/
 function toSyllableFromNeumeVariations(){
     pushedNeumeVariations = false;
     neumeVariations = new Array();
+    
+    isNeumeVariant = false;
     
     if(syllables.length > 1){
         currentColor = syllables[syllables.length-1].color;
@@ -509,6 +513,8 @@ function createNeumeVariation(){
         currentSyllable.neumes.push(neumeVariations);
     }
     
+    isNeumeVariant = true;
+    
     document.getElementById("meiOutput").value = createMEIOutput();
     document.getElementById("input").innerHTML = neumeVariationForm();
     createSVGOutput();
@@ -568,6 +574,8 @@ function createNeumeVariationWithPitches(){
         currentSyllable.neumes.push(neumeVariations);
     }
     
+    isNeumeVariant = true;
+    
     document.getElementById("meiOutput").value = createMEIOutput();
     document.getElementById("input").innerHTML = pitchForm();
     createSVGOutput();
@@ -588,14 +596,25 @@ function createPitch(){
     currentNeume.pitches.push(p);
     
     if(currentNeume.type == "virga" || currentNeume.type == "punctum"){
-        document.getElementById("input").innerHTML = neumeForm();
+        if(isNeumeVariant){
+            document.getElementById("input").innerHTML = neumeVariationForm();
+        }
+        else{
+            document.getElementById("input").innerHTML = neumeForm();
+        }
     }
     else if(currentNeume.type == "pes"){
         if(pitch == "none" &amp;&amp; pitchCounter == 0){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "u";
             currentNeume.pitches.push(p);
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "u";
@@ -606,7 +625,13 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else if(currentNeume.type == "clivis"){
@@ -614,7 +639,13 @@ function createPitch(){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "d";
             currentNeume.pitches.push(p);
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "d";
@@ -625,7 +656,13 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else if(currentNeume.type == "torculus"){
@@ -638,7 +675,12 @@ function createPitch(){
             p.intm = "d";
             currentNeume.pitches.push(p);
             
-            document.getElementById("input").innerHTML = neumeForm();
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "u";
@@ -655,7 +697,13 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else if(currentNeume.type == "porrectus"){
@@ -668,7 +716,12 @@ function createPitch(){
             p.intm = "d";
             currentNeume.pitches.push(p);
             
-            document.getElementById("input").innerHTML = neumeForm();
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "d";
@@ -685,7 +738,13 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else if(currentNeume.type == "climacus"){
@@ -698,7 +757,12 @@ function createPitch(){
             p.intm = "d";
             currentNeume.pitches.push(p);
             
-            document.getElementById("input").innerHTML = neumeForm();
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "d";
@@ -721,7 +785,13 @@ function createPitch(){
             else{
                 currentIntm = "none";
                 pitchCounter = 0;
-                document.getElementById("input").innerHTML = neumeForm();
+                
+                if(isNeumeVariant){
+                    document.getElementById("input").innerHTML = neumeVariationForm();
+                }
+                else{
+                    document.getElementById("input").innerHTML = neumeForm();
+                }
             }
         }
         else if(pitchCounter == 3)
@@ -734,14 +804,26 @@ function createPitch(){
             else{
                 currentIntm = "none";
                 pitchCounter = 0;
-                document.getElementById("input").innerHTML = neumeForm();
+                
+                if(isNeumeVariant){
+                    document.getElementById("input").innerHTML = neumeVariationForm();
+                }
+                else{
+                    document.getElementById("input").innerHTML = neumeForm();
+                }
             }
         }
         else if(pitchCounter == 4)
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm(); 
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else if(currentNeume.type == "scandicus"){
@@ -754,7 +836,12 @@ function createPitch(){
             p.intm = "d";
             currentNeume.pitches.push(p);
             
-            document.getElementById("input").innerHTML = neumeForm();
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "u";
@@ -771,7 +858,13 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else if(currentNeume.type == "torculusresupinus"){
@@ -788,7 +881,12 @@ function createPitch(){
             p.intm = "u";
             currentNeume.pitches.push(p);
             
-            document.getElementById("input").innerHTML = neumeForm();
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "u";
@@ -811,7 +909,13 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else{
@@ -918,7 +1022,9 @@ function toChangeValues(){
     currentNeumeIndex = 0;
     currentNeumeVariationIndex = 0;
     currentNeumeInVariationIndex = 0;
+    currentPitchIndex = 0;
     currentVarPitchIndex = 0;
+    currentVarSourceIndex = 0;
     
     document.getElementById("input").innerHTML = changeValueForm();
 }
@@ -1385,7 +1491,12 @@ function insertPitch(before){
     var p = new Pitch(pitch, octave, comment, intm, connection, tilt, graphicalVariation, supplied);
     
     if(before){
-        currentNeume.pitches.splice(currentPitchIndex, 0, p);
+        if(currentNeume.pitches.length > 0){
+            currentNeume.pitches.splice(currentPitchIndex, 0, p);
+        }
+        else{
+            currentNeume.pitches.push(p);
+        }
     }
     else{
         currentNeume.pitches.splice(currentPitchIndex + 1, 0, p);
@@ -1664,13 +1775,13 @@ function applyCurrentColor(){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Clef.html">Clef</a></li><li><a href="MetaData.html">MetaData</a></li><li><a href="Neume.html">Neume</a></li><li><a href="NeumeVariation.html">NeumeVariation</a></li><li><a href="Pitch.html">Pitch</a></li><li><a href="Source.html">Source</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Syllable.html">Syllable</a></li><li><a href="Variation.html">Variation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#applyClefDataChanges">applyClefDataChanges</a></li><li><a href="global.html#applyCurrentClef">applyCurrentClef</a></li><li><a href="global.html#applyCurrentColor">applyCurrentColor</a></li><li><a href="global.html#applyCurrentNeume">applyCurrentNeume</a></li><li><a href="global.html#applyCurrentNeumeInVariation">applyCurrentNeumeInVariation</a></li><li><a href="global.html#applyCurrentNeumeVariation">applyCurrentNeumeVariation</a></li><li><a href="global.html#applyCurrentOctave">applyCurrentOctave</a></li><li><a href="global.html#applyCurrentPitch">applyCurrentPitch</a></li><li><a href="global.html#applyCurrentSource">applyCurrentSource</a></li><li><a href="global.html#applyCurrentStaff">applyCurrentStaff</a></li><li><a href="global.html#applyCurrentSyllable">applyCurrentSyllable</a></li><li><a href="global.html#applyCurrentType">applyCurrentType</a></li><li><a href="global.html#applyCurrentTypeVariation">applyCurrentTypeVariation</a></li><li><a href="global.html#applyCurrentVariation">applyCurrentVariation</a></li><li><a href="global.html#applyCurrentVarSource">applyCurrentVarSource</a></li><li><a href="global.html#applyMetaDataChanges">applyMetaDataChanges</a></li><li><a href="global.html#applyNeumeDataChanges">applyNeumeDataChanges</a></li><li><a href="global.html#applyPitchDataChanges">applyPitchDataChanges</a></li><li><a href="global.html#applySourceDataChanges">applySourceDataChanges</a></li><li><a href="global.html#applyStaffDataChanges">applyStaffDataChanges</a></li><li><a href="global.html#applySyllableDataChanges">applySyllableDataChanges</a></li><li><a href="global.html#applyVariationDataChanges">applyVariationDataChanges</a></li><li><a href="global.html#changeValueForm">changeValueForm</a></li><li><a href="global.html#clefDataChangeForm">clefDataChangeForm</a></li><li><a href="global.html#clefForm">clefForm</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#createAdditionalVariation">createAdditionalVariation</a></li><li><a href="global.html#createClef">createClef</a></li><li><a href="global.html#createClefSelector">createClefSelector</a></li><li><a href="global.html#createColorSelector">createColorSelector</a></li><li><a href="global.html#createIntmSelector">createIntmSelector</a></li><li><a href="global.html#createMEIOutput">createMEIOutput</a></li><li><a href="global.html#createMetaData">createMetaData</a></li><li><a href="global.html#createNeume">createNeume</a></li><li><a href="global.html#createNeumeInVariationSelector">createNeumeInVariationSelector</a></li><li><a href="global.html#createNeumeSelector">createNeumeSelector</a></li><li><a href="global.html#createNeumeVariation">createNeumeVariation</a></li><li><a href="global.html#createNeumeVariationSelector">createNeumeVariationSelector</a></li><li><a href="global.html#createNeumeVariationWithPitches">createNeumeVariationWithPitches</a></li><li><a href="global.html#createNeumeWithPitches">createNeumeWithPitches</a></li><li><a href="global.html#createNewStaff">createNewStaff</a></li><li><a href="global.html#createOctaveSelector">createOctaveSelector</a></li><li><a href="global.html#createPitch">createPitch</a></li><li><a href="global.html#createPitchSelector">createPitchSelector</a></li><li><a href="global.html#createSource">createSource</a></li><li><a href="global.html#createSourceID">createSourceID</a></li><li><a href="global.html#createSourceSelector">createSourceSelector</a></li><li><a href="global.html#createStaff">createStaff</a></li><li><a href="global.html#createStaffID">createStaffID</a></li><li><a href="global.html#createStaffSelector">createStaffSelector</a></li><li><a href="global.html#createStaffWithClefs">createStaffWithClefs</a></li><li><a href="global.html#createSuppliedSourceSelector">createSuppliedSourceSelector</a></li><li><a href="global.html#createSVGOutput">createSVGOutput</a></li><li><a href="global.html#createSyllable">createSyllable</a></li><li><a href="global.html#createSyllableSelector">createSyllableSelector</a></li><li><a href="global.html#createSyllableWithNeumes">createSyllableWithNeumes</a></li><li><a href="global.html#createTypeSelector">createTypeSelector</a></li><li><a href="global.html#createVariation">createVariation</a></li><li><a href="global.html#createVarPitchSelector">createVarPitchSelector</a></li><li><a href="global.html#createVarSourceSelector">createVarSourceSelector</a></li><li><a href="global.html#currentClef">currentClef</a></li><li><a href="global.html#currentClefIndex">currentClefIndex</a></li><li><a href="global.html#currentColor">currentColor</a></li><li><a href="global.html#currentIntm">currentIntm</a></li><li><a href="global.html#currentN">currentN</a></li><li><a href="global.html#currentNeume">currentNeume</a></li><li><a href="global.html#currentNeumeIndex">currentNeumeIndex</a></li><li><a href="global.html#currentNeumeInVariationIndex">currentNeumeInVariationIndex</a></li><li><a href="global.html#currentNeumeVariationIndex">currentNeumeVariationIndex</a></li><li><a href="global.html#currentOctave">currentOctave</a></li><li><a href="global.html#currentPitch">currentPitch</a></li><li><a href="global.html#currentPitchIndex">currentPitchIndex</a></li><li><a href="global.html#currentSID">currentSID</a></li><li><a href="global.html#currentSource">currentSource</a></li><li><a href="global.html#currentStaff">currentStaff</a></li><li><a href="global.html#currentSyllable">currentSyllable</a></li><li><a href="global.html#currentSyllableIndex">currentSyllableIndex</a></li><li><a href="global.html#currentType">currentType</a></li><li><a href="global.html#currentVarPitch">currentVarPitch</a></li><li><a href="global.html#currentVarSourceIndex">currentVarSourceIndex</a></li><li><a href="global.html#d">d</a></li><li><a href="global.html#deleteClef">deleteClef</a></li><li><a href="global.html#deleteNeume">deleteNeume</a></li><li><a href="global.html#deleteNeumeInVariant">deleteNeumeInVariant</a></li><li><a href="global.html#deletePitch">deletePitch</a></li><li><a href="global.html#deleteSource">deleteSource</a></li><li><a href="global.html#deleteStaff">deleteStaff</a></li><li><a href="global.html#deleteSyllable">deleteSyllable</a></li><li><a href="global.html#deleteVariationPitch">deleteVariationPitch</a></li><li><a href="global.html#downloadFile">downloadFile</a></li><li><a href="global.html#ellipse">ellipse</a></li><li><a href="global.html#indent">indent</a></li><li><a href="global.html#insertClef">insertClef</a></li><li><a href="global.html#insertNeume">insertNeume</a></li><li><a href="global.html#insertNeumeInVariant">insertNeumeInVariant</a></li><li><a href="global.html#insertNeumeVariant">insertNeumeVariant</a></li><li><a href="global.html#insertPitch">insertPitch</a></li><li><a href="global.html#insertSyllable">insertSyllable</a></li><li><a href="global.html#insertVariationPitch">insertVariationPitch</a></li><li><a href="global.html#intms">intms</a></li><li><a href="global.html#lines">lines</a></li><li><a href="global.html#metaData">metaData</a></li><li><a href="global.html#metaDataChangeForm">metaDataChangeForm</a></li><li><a href="global.html#metaDataForm">metaDataForm</a></li><li><a href="global.html#neumeDataChangeForm">neumeDataChangeForm</a></li><li><a href="global.html#neumeForm">neumeForm</a></li><li><a href="global.html#neumeVariationForm">neumeVariationForm</a></li><li><a href="global.html#neumeVariations">neumeVariations</a></li><li><a href="global.html#octaves">octaves</a></li><li><a href="global.html#output">output</a></li><li><a href="global.html#pitchCounter">pitchCounter</a></li><li><a href="global.html#pitchDataChangeForm">pitchDataChangeForm</a></li><li><a href="global.html#pitchForm">pitchForm</a></li><li><a href="global.html#pushedNeumeVariations">pushedNeumeVariations</a></li><li><a href="global.html#pushedVariations">pushedVariations</a></li><li><a href="global.html#scrollDown">scrollDown</a></li><li><a href="global.html#scrollUp">scrollUp</a></li><li><a href="global.html#sourceCounter">sourceCounter</a></li><li><a href="global.html#sourceDataChangeForm">sourceDataChangeForm</a></li><li><a href="global.html#sourceForm">sourceForm</a></li><li><a href="global.html#sources">sources</a></li><li><a href="global.html#staffCounter">staffCounter</a></li><li><a href="global.html#staffDataChangeForm">staffDataChangeForm</a></li><li><a href="global.html#staffForm">staffForm</a></li><li><a href="global.html#staffs">staffs</a></li><li><a href="global.html#start">start</a></li><li><a href="global.html#startY">startY</a></li><li><a href="global.html#svg">svg</a></li><li><a href="global.html#svgAdded">svgAdded</a></li><li><a href="global.html#svgNS">svgNS</a></li><li><a href="global.html#syllableDataChangeForm">syllableDataChangeForm</a></li><li><a href="global.html#syllableForm">syllableForm</a></li><li><a href="global.html#syllables">syllables</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#toChangeClefData">toChangeClefData</a></li><li><a href="global.html#toChangeMetaData">toChangeMetaData</a></li><li><a href="global.html#toChangeNeumeData">toChangeNeumeData</a></li><li><a href="global.html#toChangePitchData">toChangePitchData</a></li><li><a href="global.html#toChangeSourceData">toChangeSourceData</a></li><li><a href="global.html#toChangeStaffData">toChangeStaffData</a></li><li><a href="global.html#toChangeSyllableData">toChangeSyllableData</a></li><li><a href="global.html#toChangeValues">toChangeValues</a></li><li><a href="global.html#toNeume">toNeume</a></li><li><a href="global.html#toNeumeFromNeumeVariations">toNeumeFromNeumeVariations</a></li><li><a href="global.html#toNeumeFromVariations">toNeumeFromVariations</a></li><li><a href="global.html#toNeumeVariationForm">toNeumeVariationForm</a></li><li><a href="global.html#toPitchesFromVariations">toPitchesFromVariations</a></li><li><a href="global.html#toSources">toSources</a></li><li><a href="global.html#toStaffs">toStaffs</a></li><li><a href="global.html#toSyllable">toSyllable</a></li><li><a href="global.html#toSyllableFromNeumeVariations">toSyllableFromNeumeVariations</a></li><li><a href="global.html#toSyllableFromVariations">toSyllableFromVariations</a></li><li><a href="global.html#toVariant">toVariant</a></li><li><a href="global.html#translateNoteValue">translateNoteValue</a></li><li><a href="global.html#types">types</a></li><li><a href="global.html#variationForm">variationForm</a></li><li><a href="global.html#variations">variations</a></li><li><a href="global.html#xmlDoc">xmlDoc</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Clef.html">Clef</a></li><li><a href="MetaData.html">MetaData</a></li><li><a href="Neume.html">Neume</a></li><li><a href="NeumeVariation.html">NeumeVariation</a></li><li><a href="Pitch.html">Pitch</a></li><li><a href="Source.html">Source</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Syllable.html">Syllable</a></li><li><a href="Variation.html">Variation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#applyClefDataChanges">applyClefDataChanges</a></li><li><a href="global.html#applyCurrentClef">applyCurrentClef</a></li><li><a href="global.html#applyCurrentColor">applyCurrentColor</a></li><li><a href="global.html#applyCurrentNeume">applyCurrentNeume</a></li><li><a href="global.html#applyCurrentNeumeInVariation">applyCurrentNeumeInVariation</a></li><li><a href="global.html#applyCurrentNeumeVariation">applyCurrentNeumeVariation</a></li><li><a href="global.html#applyCurrentOctave">applyCurrentOctave</a></li><li><a href="global.html#applyCurrentPitch">applyCurrentPitch</a></li><li><a href="global.html#applyCurrentSource">applyCurrentSource</a></li><li><a href="global.html#applyCurrentStaff">applyCurrentStaff</a></li><li><a href="global.html#applyCurrentSyllable">applyCurrentSyllable</a></li><li><a href="global.html#applyCurrentType">applyCurrentType</a></li><li><a href="global.html#applyCurrentTypeVariation">applyCurrentTypeVariation</a></li><li><a href="global.html#applyCurrentVariation">applyCurrentVariation</a></li><li><a href="global.html#applyCurrentVarSource">applyCurrentVarSource</a></li><li><a href="global.html#applyMetaDataChanges">applyMetaDataChanges</a></li><li><a href="global.html#applyNeumeDataChanges">applyNeumeDataChanges</a></li><li><a href="global.html#applyPitchDataChanges">applyPitchDataChanges</a></li><li><a href="global.html#applySourceDataChanges">applySourceDataChanges</a></li><li><a href="global.html#applyStaffDataChanges">applyStaffDataChanges</a></li><li><a href="global.html#applySyllableDataChanges">applySyllableDataChanges</a></li><li><a href="global.html#applyVariationDataChanges">applyVariationDataChanges</a></li><li><a href="global.html#changeValueForm">changeValueForm</a></li><li><a href="global.html#clefDataChangeForm">clefDataChangeForm</a></li><li><a href="global.html#clefForm">clefForm</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#createAdditionalVariation">createAdditionalVariation</a></li><li><a href="global.html#createClef">createClef</a></li><li><a href="global.html#createClefSelector">createClefSelector</a></li><li><a href="global.html#createColorSelector">createColorSelector</a></li><li><a href="global.html#createIntmSelector">createIntmSelector</a></li><li><a href="global.html#createMEIOutput">createMEIOutput</a></li><li><a href="global.html#createMetaData">createMetaData</a></li><li><a href="global.html#createNeume">createNeume</a></li><li><a href="global.html#createNeumeInVariationSelector">createNeumeInVariationSelector</a></li><li><a href="global.html#createNeumeSelector">createNeumeSelector</a></li><li><a href="global.html#createNeumeVariation">createNeumeVariation</a></li><li><a href="global.html#createNeumeVariationSelector">createNeumeVariationSelector</a></li><li><a href="global.html#createNeumeVariationWithPitches">createNeumeVariationWithPitches</a></li><li><a href="global.html#createNeumeWithPitches">createNeumeWithPitches</a></li><li><a href="global.html#createNewStaff">createNewStaff</a></li><li><a href="global.html#createOctaveSelector">createOctaveSelector</a></li><li><a href="global.html#createPitch">createPitch</a></li><li><a href="global.html#createPitchSelector">createPitchSelector</a></li><li><a href="global.html#createSource">createSource</a></li><li><a href="global.html#createSourceID">createSourceID</a></li><li><a href="global.html#createSourceSelector">createSourceSelector</a></li><li><a href="global.html#createStaff">createStaff</a></li><li><a href="global.html#createStaffID">createStaffID</a></li><li><a href="global.html#createStaffSelector">createStaffSelector</a></li><li><a href="global.html#createStaffWithClefs">createStaffWithClefs</a></li><li><a href="global.html#createSuppliedSourceSelector">createSuppliedSourceSelector</a></li><li><a href="global.html#createSVGOutput">createSVGOutput</a></li><li><a href="global.html#createSyllable">createSyllable</a></li><li><a href="global.html#createSyllableSelector">createSyllableSelector</a></li><li><a href="global.html#createSyllableWithNeumes">createSyllableWithNeumes</a></li><li><a href="global.html#createTypeSelector">createTypeSelector</a></li><li><a href="global.html#createVariation">createVariation</a></li><li><a href="global.html#createVarPitchSelector">createVarPitchSelector</a></li><li><a href="global.html#createVarSourceSelector">createVarSourceSelector</a></li><li><a href="global.html#currentClef">currentClef</a></li><li><a href="global.html#currentClefIndex">currentClefIndex</a></li><li><a href="global.html#currentColor">currentColor</a></li><li><a href="global.html#currentIntm">currentIntm</a></li><li><a href="global.html#currentN">currentN</a></li><li><a href="global.html#currentNeume">currentNeume</a></li><li><a href="global.html#currentNeumeIndex">currentNeumeIndex</a></li><li><a href="global.html#currentNeumeInVariationIndex">currentNeumeInVariationIndex</a></li><li><a href="global.html#currentNeumeVariationIndex">currentNeumeVariationIndex</a></li><li><a href="global.html#currentOctave">currentOctave</a></li><li><a href="global.html#currentPitch">currentPitch</a></li><li><a href="global.html#currentPitchIndex">currentPitchIndex</a></li><li><a href="global.html#currentSID">currentSID</a></li><li><a href="global.html#currentSource">currentSource</a></li><li><a href="global.html#currentStaff">currentStaff</a></li><li><a href="global.html#currentSyllable">currentSyllable</a></li><li><a href="global.html#currentSyllableIndex">currentSyllableIndex</a></li><li><a href="global.html#currentType">currentType</a></li><li><a href="global.html#currentVarPitch">currentVarPitch</a></li><li><a href="global.html#currentVarSourceIndex">currentVarSourceIndex</a></li><li><a href="global.html#d">d</a></li><li><a href="global.html#deleteClef">deleteClef</a></li><li><a href="global.html#deleteNeume">deleteNeume</a></li><li><a href="global.html#deleteNeumeInVariant">deleteNeumeInVariant</a></li><li><a href="global.html#deletePitch">deletePitch</a></li><li><a href="global.html#deleteSource">deleteSource</a></li><li><a href="global.html#deleteStaff">deleteStaff</a></li><li><a href="global.html#deleteSyllable">deleteSyllable</a></li><li><a href="global.html#deleteVariationPitch">deleteVariationPitch</a></li><li><a href="global.html#downloadFile">downloadFile</a></li><li><a href="global.html#ellipse">ellipse</a></li><li><a href="global.html#indent">indent</a></li><li><a href="global.html#insertClef">insertClef</a></li><li><a href="global.html#insertNeume">insertNeume</a></li><li><a href="global.html#insertNeumeInVariant">insertNeumeInVariant</a></li><li><a href="global.html#insertNeumeVariant">insertNeumeVariant</a></li><li><a href="global.html#insertPitch">insertPitch</a></li><li><a href="global.html#insertSyllable">insertSyllable</a></li><li><a href="global.html#insertVariationPitch">insertVariationPitch</a></li><li><a href="global.html#intms">intms</a></li><li><a href="global.html#isNeumeVariant">isNeumeVariant</a></li><li><a href="global.html#lines">lines</a></li><li><a href="global.html#metaData">metaData</a></li><li><a href="global.html#metaDataChangeForm">metaDataChangeForm</a></li><li><a href="global.html#metaDataForm">metaDataForm</a></li><li><a href="global.html#neumeDataChangeForm">neumeDataChangeForm</a></li><li><a href="global.html#neumeForm">neumeForm</a></li><li><a href="global.html#neumeVariationForm">neumeVariationForm</a></li><li><a href="global.html#neumeVariations">neumeVariations</a></li><li><a href="global.html#octaves">octaves</a></li><li><a href="global.html#output">output</a></li><li><a href="global.html#pitchCounter">pitchCounter</a></li><li><a href="global.html#pitchDataChangeForm">pitchDataChangeForm</a></li><li><a href="global.html#pitchForm">pitchForm</a></li><li><a href="global.html#pushedNeumeVariations">pushedNeumeVariations</a></li><li><a href="global.html#pushedVariations">pushedVariations</a></li><li><a href="global.html#scrollDown">scrollDown</a></li><li><a href="global.html#scrollUp">scrollUp</a></li><li><a href="global.html#sourceCounter">sourceCounter</a></li><li><a href="global.html#sourceDataChangeForm">sourceDataChangeForm</a></li><li><a href="global.html#sourceForm">sourceForm</a></li><li><a href="global.html#sources">sources</a></li><li><a href="global.html#staffCounter">staffCounter</a></li><li><a href="global.html#staffDataChangeForm">staffDataChangeForm</a></li><li><a href="global.html#staffForm">staffForm</a></li><li><a href="global.html#staffs">staffs</a></li><li><a href="global.html#start">start</a></li><li><a href="global.html#startY">startY</a></li><li><a href="global.html#svg">svg</a></li><li><a href="global.html#svgAdded">svgAdded</a></li><li><a href="global.html#svgNS">svgNS</a></li><li><a href="global.html#syllableDataChangeForm">syllableDataChangeForm</a></li><li><a href="global.html#syllableForm">syllableForm</a></li><li><a href="global.html#syllables">syllables</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#toChangeClefData">toChangeClefData</a></li><li><a href="global.html#toChangeMetaData">toChangeMetaData</a></li><li><a href="global.html#toChangeNeumeData">toChangeNeumeData</a></li><li><a href="global.html#toChangePitchData">toChangePitchData</a></li><li><a href="global.html#toChangeSourceData">toChangeSourceData</a></li><li><a href="global.html#toChangeStaffData">toChangeStaffData</a></li><li><a href="global.html#toChangeSyllableData">toChangeSyllableData</a></li><li><a href="global.html#toChangeValues">toChangeValues</a></li><li><a href="global.html#toNeume">toNeume</a></li><li><a href="global.html#toNeumeFromNeumeVariations">toNeumeFromNeumeVariations</a></li><li><a href="global.html#toNeumeFromVariations">toNeumeFromVariations</a></li><li><a href="global.html#toNeumeVariationForm">toNeumeVariationForm</a></li><li><a href="global.html#toPitchesFromVariations">toPitchesFromVariations</a></li><li><a href="global.html#toSources">toSources</a></li><li><a href="global.html#toStaffs">toStaffs</a></li><li><a href="global.html#toSyllable">toSyllable</a></li><li><a href="global.html#toSyllableFromNeumeVariations">toSyllableFromNeumeVariations</a></li><li><a href="global.html#toSyllableFromVariations">toSyllableFromVariations</a></li><li><a href="global.html#toVariant">toVariant</a></li><li><a href="global.html#translateNoteValue">translateNoteValue</a></li><li><a href="global.html#types">types</a></li><li><a href="global.html#variationForm">variationForm</a></li><li><a href="global.html#variations">variations</a></li><li><a href="global.html#xmlDoc">xmlDoc</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 15 2019 04:54:33 GMT+0200 (GMT+02:00)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jun 16 2019 14:50:03 GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>

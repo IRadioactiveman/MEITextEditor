@@ -205,7 +205,7 @@ Neume type:         " + createTypeSelector("applyCurrentType()") + "<br>";
 function neumeVariationForm(){
     var s = "";
     s +=
-"<h4>Neume:</h4>\
+"<h4>Neume variant:</h4>\
 <form>\
     <pre>\
 Source:             "+createSourceSelector();
@@ -283,10 +283,21 @@ Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=
     if(sources.length <= 1){
         s += " disabled";
     }
-        s += ">add variant</button><br><br>\
-<button onclick=\"toNeume()\">add another neume</button><br><br>\
-<button onclick=\"toSyllable()\">add another syllable</button>\
-    </pre>\
+        s += ">add variant</button><br><br>";
+    
+    if(isNeumeVariant){
+        s +=
+"<button onclick=\"toNeumeVariationForm()\">add pitches to other source</button><br><br>\
+<button onclick=\"toNeumeFromNeumeVariations()\">add another neume</button><br><br>\
+<button onclick=\"toSyllableFromNeumeVariations()\">add another syllable</button>";
+    }
+    else{
+        s +=
+"<button onclick=\"toNeume()\">add another neume</button><br><br>\
+<button onclick=\"toSyllable()\">add another syllable</button>";
+    }
+    s +=
+"</pre>\
 </form><br>";
     return s;
 }
@@ -743,7 +754,7 @@ function neumeDataChangeForm(){
 <button onclick=\"insertNeume(false)\">insert neume after selected neume</button><br><br>\
 <button onclick=\"deleteNeume()\">delete neume/variant</button><br><br>";
         
-        if(sources.length < 1){
+        if(sources.length > 1){
             s +=
 "<button onclick=\"insertNeumeVariant(true)\">insert neume variant before selected neume</button><br><br>\
 <button onclick=\"insertNeumeVariant(false)\">insert neume variant after selected neume</button><br><br>";
@@ -987,27 +998,27 @@ Pitch:              <select id=\"pitch\">\
                                 <option value=\"g\">G</option>\
                                 <option value=\"a\">A</option>\
                                 <option value=\"b\">B</option>\
-                            </select>"+ currentPitch.pitch +"<br>\
-Octacve:            <select id=\"octave\">\
+                            </select>" + currentPitch.pitch +"<br>\
+Octave:             <select id=\"octave\">\
                                 <option value=\"none\">none</option>\
                                 <option value=\"1\">1</option>\
                                 <option value=\"2\">2</option>\
                                 <option value=\"3\">3</option>\
                                 <option value=\"4\">4</option>\
                                 <option value=\"5\">5</option>\
-                            </select>"+ currentPitch.octave +"<br>\
+                            </select>" + currentPitch.octave +"<br>\
 From previous note: <select id=\"intm\">\
                                 <option value=\"none\">none</option>\
                                 <option value=\"s\">same</option>\
                                 <option value=\"d\">went down</option>\
                                 <option value=\"u\">went up</option>\
-                            </select>"+ currentPitch.intm +"<br>\
+                            </select>" + currentPitch.intm +"<br>\
 Connection:         <select id=\"connection\">\
                                 <option value=\"none\">none</option>\
                                 <option value=\"g\">gapped</option>\
                                 <option value=\"l\">loop</option>\
                                 <option value=\"e\">extended</option>\
-                            </select>"+ currentPitch.connection +"<br>\
+                            </select>" + currentPitch.connection +"<br>\
 Tilt:               <select id=\"tilt\">\
                                 <option value=\"none\">none</option>\
                                 <option value=\"n\">north</option>\
@@ -1018,14 +1029,14 @@ Tilt:               <select id=\"tilt\">\
                                 <option value=\"ne\">northeast</option>\
                                 <option value=\"sw\">southwest</option>\
                                 <option value=\"se\">southeast</option>\
-                            </select>"+ currentPitch.tilt +"<br>\
+                            </select>" + currentPitch.tilt +"<br>\
 Graphical variation:<select id=\"variation\">\
                                 <option value=\"none\">none</option>\
                                 <option value=\"quilisma\">quilisma</option>\
                                 <option value=\"oriscus\">oriscus</option>\
                                 <option value=\"liquescent\">liquescent</option>\
                                 <option value=\"strophicus\">strophicus</option>\
-                    </select>"+ currentPitch.variation +"<br>\
+                    </select>" + currentPitch.variation +"<br>\
 Supplied?        By " + createSuppliedSourceSelector() + currentPitch.supplied + "<br>\
 Comments:           <textarea class=\"formArea\" id=\"comment\" rows=\"5\" cols=\"20\"></textarea><br><br>\
 <button onclick=\"applyPitchDataChanges()\">apply changes</button><br><br>\

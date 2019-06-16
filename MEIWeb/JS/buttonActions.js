@@ -127,19 +127,23 @@ function toNeumeVariationForm(){
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
-/** Navigational, leads to neume form.*/
+/** Navigational, leads to neume form from neume variants.*/
 function toNeumeFromNeumeVariations(){
     pushedNeumeVariations = false;
     neumeVariations = new Array();
+    
+    isNeumeVariant = false;
     
     document.getElementById("input").innerHTML = neumeForm();
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
-/** Navigational, leads to syllable form.*/
+/** Navigational, leads to syllable form from neume variants.*/
 function toSyllableFromNeumeVariations(){
     pushedNeumeVariations = false;
     neumeVariations = new Array();
+    
+    isNeumeVariant = false;
     
     if(syllables.length > 1){
         currentColor = syllables[syllables.length-1].color;
@@ -481,6 +485,8 @@ function createNeumeVariation(){
         currentSyllable.neumes.push(neumeVariations);
     }
     
+    isNeumeVariant = true;
+    
     document.getElementById("meiOutput").value = createMEIOutput();
     document.getElementById("input").innerHTML = neumeVariationForm();
     createSVGOutput();
@@ -540,6 +546,8 @@ function createNeumeVariationWithPitches(){
         currentSyllable.neumes.push(neumeVariations);
     }
     
+    isNeumeVariant = true;
+    
     document.getElementById("meiOutput").value = createMEIOutput();
     document.getElementById("input").innerHTML = pitchForm();
     createSVGOutput();
@@ -560,14 +568,25 @@ function createPitch(){
     currentNeume.pitches.push(p);
     
     if(currentNeume.type == "virga" || currentNeume.type == "punctum"){
-        document.getElementById("input").innerHTML = neumeForm();
+        if(isNeumeVariant){
+            document.getElementById("input").innerHTML = neumeVariationForm();
+        }
+        else{
+            document.getElementById("input").innerHTML = neumeForm();
+        }
     }
     else if(currentNeume.type == "pes"){
         if(pitch == "none" && pitchCounter == 0){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "u";
             currentNeume.pitches.push(p);
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "u";
@@ -578,7 +597,13 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else if(currentNeume.type == "clivis"){
@@ -586,7 +611,13 @@ function createPitch(){
             p = new Pitch(pitch, octave, comment, intm, connection, tilt);
             p.intm = "d";
             currentNeume.pitches.push(p);
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "d";
@@ -597,7 +628,13 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else if(currentNeume.type == "torculus"){
@@ -610,7 +647,12 @@ function createPitch(){
             p.intm = "d";
             currentNeume.pitches.push(p);
             
-            document.getElementById("input").innerHTML = neumeForm();
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "u";
@@ -627,7 +669,13 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else if(currentNeume.type == "porrectus"){
@@ -640,7 +688,12 @@ function createPitch(){
             p.intm = "d";
             currentNeume.pitches.push(p);
             
-            document.getElementById("input").innerHTML = neumeForm();
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "d";
@@ -657,7 +710,13 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else if(currentNeume.type == "climacus"){
@@ -670,7 +729,12 @@ function createPitch(){
             p.intm = "d";
             currentNeume.pitches.push(p);
             
-            document.getElementById("input").innerHTML = neumeForm();
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "d";
@@ -693,7 +757,13 @@ function createPitch(){
             else{
                 currentIntm = "none";
                 pitchCounter = 0;
-                document.getElementById("input").innerHTML = neumeForm();
+                
+                if(isNeumeVariant){
+                    document.getElementById("input").innerHTML = neumeVariationForm();
+                }
+                else{
+                    document.getElementById("input").innerHTML = neumeForm();
+                }
             }
         }
         else if(pitchCounter == 3)
@@ -706,14 +776,26 @@ function createPitch(){
             else{
                 currentIntm = "none";
                 pitchCounter = 0;
-                document.getElementById("input").innerHTML = neumeForm();
+                
+                if(isNeumeVariant){
+                    document.getElementById("input").innerHTML = neumeVariationForm();
+                }
+                else{
+                    document.getElementById("input").innerHTML = neumeForm();
+                }
             }
         }
         else if(pitchCounter == 4)
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm(); 
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else if(currentNeume.type == "scandicus"){
@@ -726,7 +808,12 @@ function createPitch(){
             p.intm = "d";
             currentNeume.pitches.push(p);
             
-            document.getElementById("input").innerHTML = neumeForm();
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "u";
@@ -743,7 +830,13 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else if(currentNeume.type == "torculusresupinus"){
@@ -760,7 +853,12 @@ function createPitch(){
             p.intm = "u";
             currentNeume.pitches.push(p);
             
-            document.getElementById("input").innerHTML = neumeForm();
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
         else if(pitchCounter == 0){
             currentIntm = "u";
@@ -783,7 +881,13 @@ function createPitch(){
         {
             currentIntm = "none";
             pitchCounter = 0;
-            document.getElementById("input").innerHTML = neumeForm();
+            
+            if(isNeumeVariant){
+                document.getElementById("input").innerHTML = neumeVariationForm();
+            }
+            else{
+                document.getElementById("input").innerHTML = neumeForm();
+            }
         }
     }
     else{
@@ -890,7 +994,9 @@ function toChangeValues(){
     currentNeumeIndex = 0;
     currentNeumeVariationIndex = 0;
     currentNeumeInVariationIndex = 0;
+    currentPitchIndex = 0;
     currentVarPitchIndex = 0;
+    currentVarSourceIndex = 0;
     
     document.getElementById("input").innerHTML = changeValueForm();
 }
@@ -1357,7 +1463,12 @@ function insertPitch(before){
     var p = new Pitch(pitch, octave, comment, intm, connection, tilt, graphicalVariation, supplied);
     
     if(before){
-        currentNeume.pitches.splice(currentPitchIndex, 0, p);
+        if(currentNeume.pitches.length > 0){
+            currentNeume.pitches.splice(currentPitchIndex, 0, p);
+        }
+        else{
+            currentNeume.pitches.push(p);
+        }
     }
     else{
         currentNeume.pitches.splice(currentPitchIndex + 1, 0, p);
