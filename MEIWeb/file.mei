@@ -1,0 +1,1575 @@
+<mei
+	xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
+	<meiHead>
+		<fileDesc>
+			<titleStmt>
+				<title>O splendidissima gemma</title>
+				<composer>Hildegard von Bingen</composer>
+			</titleStmt>
+			<pubStmt>
+				<respStmt>
+					<persName></persName>
+				</respStmt>
+			</pubStmt>
+		</fileDesc>
+		<manifestationList>
+			<manifestation xml:id="source0">
+				<langUsage>
+					<language>latin</language>
+				</langUsage>
+				<biblList>
+					<bibl>
+						<title>Facsimile Codex D</title>
+						<composer>Hildegard von Bingen</composer>
+					</bibl>
+				</biblList>
+				<componentList>
+					<item>
+						<availability>unpublished manuscript</availability>
+						<physDesc>
+							<extent>f. 154 line 7 - f. 154v line 1</extent>
+							<physMedium>parchment, brown ink</physMedium>
+							<dimensions unit="cm">20 x 29cm</dimensions>
+							<condition>good condition, some folios missing</condition>
+						</physDesc>
+						<physLoc>
+							<repository>Abdij Dendermonde, Belgium</repository>
+						</physLoc>
+						<history>
+							<provenance>
+								<corpName>Abdij Dendermonde, Belgium, cod. 9</corpName>
+							</provenance>
+						</history>
+					</item>
+				</componentList>
+			</manifestation>
+			<manifestation xml:id="source1">
+				<langUsage>
+					<language>latin</language>
+				</langUsage>
+				<biblList>
+					<bibl>
+						<title>Facsimile Codex R</title>
+						<composer>Hildegard von Bingen</composer>
+					</bibl>
+				</biblList>
+				<componentList>
+					<item>
+						<availability>unpublished manuscript</availability>
+						<physDesc>
+							<extent>f. 466b line 2 - f. 466b line 3</extent>
+							<physMedium>parchment, brown ink</physMedium>
+							<dimensions unit="cm">46 x 30cm</dimensions>
+							<condition>good condition, some folios missing</condition>
+						</physDesc>
+						<physLoc>
+							<repository>Hessische Landesbibliothek Wiesbaden</repository>
+						</physLoc>
+						<history>
+							<provenance>
+								<corpName>Hessische Landesbibliothek Wiesbaden, Hs. 2</corpName>
+							</provenance>
+						</history>
+					</item>
+				</componentList>
+			</manifestation>
+		</manifestationList>
+	</meiHead>
+	<music>
+		<body>
+			<mdiv>
+				<score>
+					<scoreDef>
+						<staffGrp xml:id="all">
+							<staffDef xml:id="staff0" n="1"/>
+						</staffGrp>
+					</scoreDef>
+					<section>
+						<staff def="1">
+							<layer>
+								<pb n="154r"/>
+								<sb n="7"/>
+								<syllable>
+									<syl type="initial">
+										<rend color="red">O</rend>
+									</syl>
+									<neume type="porrectus">
+										<nc pname="e" oct="3"/>
+										<nc pname="d" oct="3" intm="d"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>splen_</syl>
+									<neume type="clivis">
+										<nc pname="g" oct="3"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>di_</syl>
+									<neume type="climacus">
+										<nc pname="f" oct="3"/>
+										<nc pname="d" oct="3" intm="d"/>
+										<nc pname="c" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>dis_</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>si_</syl>
+									<neume type="scandicus">
+										<nc pname="a" oct="2"/>
+										<nc pname="b" oct="2" intm="u"/>
+										<nc pname="c" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ma</syl>
+									<neume type="clivis">
+										<nc pname="b" oct="2"/>
+										<nc pname="a" oct="2" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>gem_</syl>
+									<neume type="clivis">
+										<nc pname="e" oct="3"/>
+										<nc pname="d" oct="3" intm="d"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ma</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>et</syl>
+									<neume type="virga">
+										<nc pname="d" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>se_</syl>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="f" oct="3"/>
+										<nc pname="g" oct="3" intm="u"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="f" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="d" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="a" oct="3" intm="u"/>
+									</neume>
+									<neume type="virga">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="g" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="f" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="d" oct="3"/>
+									</neume>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>re_</syl>
+									<neume type="punctum">
+										<nc pname="d" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="f" oct="3"/>
+										<nc pname="g" oct="3" intm="u"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="f" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="d" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="a" oct="3" intm="u"/>
+									</neume>
+									<neume type="climacus">
+										<nc pname="a" oct="3"/>
+										<nc pname="g" oct="3" intm="d"/>
+										<nc pname="f" oct="3" intm="d"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>num</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>de_</syl>
+									<neume type="pessubpunctis">
+										<nc pname="e" oct="3"/>
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3"/>
+										<nc pname="d" oct="3"/>
+									</neume>
+									<neume type="climacus">
+										<nc pname="g" oct="3"/>
+										<nc pname="f" oct="3" intm="d"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>cus</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>so_</syl>
+									<neume type="punctum">
+										<nc pname="g" oct="3"/>
+									</neume>
+									<app>
+										<rdg source="source0">
+											<neume type="punctum">
+												<nc pname="g" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1"/>
+									</app>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="virga">
+										<nc pname="c" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="climacus">
+										<nc pname="a" oct="3"/>
+										<nc pname="g" oct="3" intm="d"/>
+										<nc pname="f" oct="3" intm="d"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="d" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="f" oct="3"/>
+										<nc pname="g" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>lis</syl>
+									<neume type="clivis">
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>qui</syl>
+									<neume type="pessubpunctis">
+										<nc pname="d" oct="3"/>
+										<nc pname="a" oct="3"/>
+										<nc pname="g" oct="3"/>
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ti_</syl>
+									<neume type="climacus">
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3" intm="d"/>
+										<nc pname="d" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>bi</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>in_</syl>
+									<neume type="punctum">
+										<nc pname="d" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="f" oct="3"/>
+										<nc pname="g" oct="3" intm="u"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="f" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="d" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>fu_</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="a" oct="3" intm="u"/>
+									</neume>
+									<neume type="climacus">
+										<nc pname="a" oct="3"/>
+										<nc pname="g" oct="3" intm="d"/>
+										<nc pname="f" oct="3" intm="d"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>sus</syl>
+									<neume type="punctum">
+										<nc pname="d" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="f" oct="3"/>
+										<nc pname="g" oct="3" intm="u"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="f" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>est</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>fons</syl>
+									<neume type="climacus">
+										<nc pname="e" oct="3"/>
+										<nc pname="d" oct="3" intm="d"/>
+										<nc pname="b" oct="2" intm="d"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>sa_</syl>
+									<neume type="torculusresupinus">
+										<nc pname="e" oct="3"/>
+										<nc pname="b" oct="3" intm="u"/>
+										<nc pname="a" oct="3" intm="d"/>
+										<nc pname="b" oct="3" intm="u"/>
+									</neume>
+									<neume type="climacus">
+										<nc pname="e" oct="4"/>
+										<nc pname="d" oct="4" intm="d"/>
+										<nc pname="c" oct="4" intm="d"/>
+										<nc pname="b" oct="3" intm="d"/>
+									</neume>
+									<neume type="clivis">
+										<nc pname="c" oct="4"/>
+										<nc pname="b" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>li_</syl>
+									<neume type="virga">
+										<nc pname="c" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="g" oct="3"/>
+									</neume>
+									<app>
+										<rdg source="source0">
+											<neume type="oriscus">
+												<nc pname="g" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1"/>
+									</app>
+									<neume type="punctum">
+										<nc pname="f" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ens</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>de</syl>
+									<app>
+										<rdg source="source0">
+											<neume type="pes">
+												<nc pname="e" oct="3"/>
+												<nc pname="f" oct="3" intm="u"/>
+											</neume>
+											<neume type="punctum">
+												<nc pname="e" oct="3"/>
+											</neume>
+											<neume type="punctum">
+												<nc pname="d" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1">
+											<neume type="pes">
+												<nc pname="e" oct="3"/>
+												<nc pname="f" oct="3" intm="u"/>
+											</neume>
+										</rdg>
+									</app>
+								</syllable>
+								<syllable>
+									<syl>cor_</syl>
+									<neume type="climacus">
+										<nc pname="g" oct="3"/>
+										<nc pname="f" oct="3" intm="d"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="g" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="a" oct="3"/>
+										<nc pname="b" oct="3" intm="u"/>
+									</neume>
+									<neume type="virga">
+										<nc pname="c" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="g" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="f" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<app>
+										<rdg source="source0">
+											<neume type="oriscus">
+												<nc pname="e" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1"/>
+									</app>
+								</syllable>
+								<syllable>
+									<syl>de</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>pa_</syl>
+									<neume type="pes">
+										<nc pname="e" oct="3"/>
+										<nc pname="f" oct="3" intm="u"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="d" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="c" oct="3"/>
+									</neume>
+									<app>
+										<rdg source="source0"/>
+										<rdg source="source1">
+											<neume type="clivis">
+												<nc pname="d" oct="3"/>
+												<nc pname="c" oct="3" intm="d"/>
+											</neume>
+										</rdg>
+									</app>
+									<neume type="punctum">
+										<nc pname="d" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="f" oct="3"/>
+										<nc pname="g" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>tris</syl>
+									<neume type="clivis">
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>quod</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>e</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>u_</syl>
+									<neume type="pessubpunctis">
+										<nc pname="b" oct="3"/>
+										<nc pname="c" oct="4"/>
+										<nc pname="a" oct="3"/>
+										<nc pname="g" oct="3"/>
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ni_</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>cu</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ver_</syl>
+									<app>
+										<rdg source="source0">
+											<neume type="virga">
+												<nc pname="b" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1">
+											<neume type="virga">
+												<nc pname="c" oct="4"/>
+											</neume>
+										</rdg>
+									</app>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="g" oct="3"/>
+									</neume>
+									<app>
+										<rdg source="source0">
+											<neume type="virga">
+												<nc pname="a" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1">
+											<neume type="pes">
+												<nc pname="a" oct="3"/>
+												<nc pname="b" oct="3" intm="u"/>
+											</neume>
+										</rdg>
+									</app>
+								</syllable>
+								<syllable>
+									<syl>bum</syl>
+									<neume type="virga">
+										<nc pname="b" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>su_</syl>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="c" oct="4"/>
+										<nc pname="d" oct="4" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>um</syl>
+									<neume type="climacus">
+										<nc pname="d" oct="4"/>
+										<nc pname="c" oct="4" intm="d"/>
+										<nc pname="b" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>p</syl>
+									<neume type="virga">
+										<nc pname="b" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>qod</syl>
+									<neume type="bistropha">
+										<nc pname="e" oct="4"/>
+										<nc pname="e" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="d" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="c" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="g" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="a" oct="3"/>
+										<nc pname="b" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>cre_</syl>
+									<neume type="climacus">
+										<nc pname="c" oct="4"/>
+										<nc pname="a" oct="3" intm="d"/>
+										<nc pname="g" oct="3" intm="d"/>
+									</neume>
+									<neume type="virga">
+										<nc pname="a" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>a_</syl>
+									<neume type="climacus">
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3" intm="d"/>
+										<nc pname="d" oct="3" intm="d"/>
+										<nc pname="c" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>vit</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>mun_</syl>
+									<neume type="climacus">
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3" intm="d"/>
+										<nc pname="d" oct="3" intm="d"/>
+										<nc pname="c" oct="3" intm="d"/>
+									</neume>
+									<app>
+										<rdg source="source0">
+											<neume type="virga">
+												<nc pname="d" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1">
+											<neume type="pes">
+												<nc pname="d" oct="3"/>
+												<nc pname="e" oct="3" intm="u"/>
+											</neume>
+										</rdg>
+									</app>
+								</syllable>
+								<syllable>
+									<syl>di</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>pri_</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="g" oct="3" intm="u"/>
+									</neume>
+									<neume type="climacus">
+										<nc pname="a" oct="3"/>
+										<nc pname="g" oct="3" intm="d"/>
+										<nc pname="f" oct="3" intm="d"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ma</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ma_</syl>
+									<neume type="climacus">
+										<nc pname="b" oct="3"/>
+										<nc pname="a" oct="3" intm="d"/>
+										<nc pname="g" oct="3" intm="d"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="a" oct="3"/>
+										<nc pname="b" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>te_</syl>
+									<neume type="virga">
+										<nc pname="c" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="g" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="f" oct="3"/>
+									</neume>
+									<app>
+										<rdg source="source0"/>
+										<rdg source="source1">
+											<neume type="oriscus">
+												<nc pname="f" oct="3"/>
+											</neume>
+										</rdg>
+									</app>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ri_</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>am</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>quam</syl>
+									<neume type="pessubpunctis">
+										<nc pname="e" oct="3"/>
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3"/>
+										<nc pname="d" oct="3"/>
+										<nc pname="c" oct="3"/>
+									</neume>
+									<neume type="clivis">
+										<nc pname="d" oct="3"/>
+										<nc pname="c" oct="3" intm="d"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>e_</syl>
+									<neume type="pessubpunctis">
+										<nc pname="e" oct="3"/>
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3"/>
+										<nc pname="d" oct="3"/>
+									</neume>
+									<neume type="climacus">
+										<nc pname="g" oct="3"/>
+										<nc pname="f" oct="3" intm="d"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>va</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>tur_</syl>
+									<neume type="pes">
+										<nc pname="g" oct="3"/>
+										<nc pname="b" oct="3" intm="u"/>
+									</neume>
+									<neume type="virga">
+										<nc pname="c" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="g" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="f" oct="3"/>
+									</neume>
+									<app>
+										<rdg source="source0"/>
+										<rdg source="source1">
+											<neume type="oriscus">
+												<nc pname="f" oct="3"/>
+											</neume>
+										</rdg>
+									</app>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ba_</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>vit</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>hoc</syl>
+									<neume type="porrectus">
+										<nc pname="b" oct="3"/>
+										<nc pname="a" oct="3" intm="d"/>
+										<nc pname="b" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ver_</syl>
+									<neume type="climacus">
+										<nc pname="e" oct="4"/>
+										<nc pname="d" oct="4" intm="d"/>
+										<nc pname="c" oct="4" intm="d"/>
+										<nc pname="b" oct="3" intm="d"/>
+									</neume>
+									<neume type="virga">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="a" oct="3"/>
+										<nc pname="b" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>bum</syl>
+									<app>
+										<rdg source="source0">
+											<neume type="virga">
+												<nc pname="a" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1">
+											<neume type="virga">
+												<nc pname="b" oct="3"/>
+											</neume>
+										</rdg>
+									</app>
+								</syllable>
+								<syllable>
+									<syl>ef_</syl>
+									<neume type="climacus">
+										<nc pname="c" oct="4"/>
+										<nc pname="a" oct="3" intm="d"/>
+										<nc pname="g" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>fa_</syl>
+									<neume type="climacus">
+										<nc pname="a" oct="3"/>
+										<nc pname="f" oct="3" intm="d"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>bri_</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ca_</syl>
+									<neume type="pessubpunctis">
+										<nc pname="b" oct="3"/>
+										<nc pname="c" oct="4"/>
+										<nc pname="a" oct="3"/>
+										<nc pname="g" oct="3"/>
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>vit</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ti_</syl>
+									<neume type="climacus">
+										<nc pname="b" oct="3"/>
+										<nc pname="a" oct="3" intm="d"/>
+										<nc pname="g" oct="3" intm="d"/>
+									</neume>
+									<app>
+										<rdg source="source0">
+											<neume type="virga">
+												<nc pname="a" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1">
+											<neume type="virgastrata">
+												<nc pname="a" oct="3"/>
+												<nc pname="a" oct="3"/>
+											</neume>
+										</rdg>
+									</app>
+								</syllable>
+								<syllable>
+									<syl>bi</syl>
+									<neume type="virga">
+										<nc pname="b" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>pa_</syl>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="c" oct="3"/>
+										<nc pname="d" oct="3" intm="u"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="c" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ter</syl>
+									<neume type="pes">
+										<nc pname="a" oct="3"/>
+										<nc pname="e" oct="4" intm="u"/>
+									</neume>
+									<neume type="climacus">
+										<nc pname="e" oct="4"/>
+										<nc pname="d" oct="4" intm="d"/>
+										<nc pname="c" oct="4" intm="d"/>
+										<nc pname="b" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ho</syl>
+									<neume type="torculus">
+										<nc pname="b" oct="3"/>
+										<nc pname="c" oct="4" intm="u"/>
+										<nc pname="g" oct="3" intm="d"/>
+									</neume>
+									<neume type="clivis">
+										<nc pname="d" oct="4"/>
+										<nc pname="c" oct="4" intm="d"/>
+									</neume>
+									<neume type="pessubpunctis">
+										<nc pname="d" oct="4"/>
+										<nc pname="e" oct="4"/>
+										<nc pname="d" oct="4"/>
+										<nc pname="c" oct="4"/>
+										<nc pname="b" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>mi_</syl>
+									<neume type="pes">
+										<nc pname="a" oct="3"/>
+										<nc pname="b" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>nem</syl>
+									<neume type="virga">
+										<nc pname="b" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>et</syl>
+									<neume type="virga">
+										<nc pname="b" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ob</syl>
+									<app>
+										<rdg source="source0">
+											<neume type="virga">
+												<nc pname="a" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1">
+											<neume type="punctum">
+												<nc pname="a" oct="3"/>
+											</neume>
+										</rdg>
+									</app>
+								</syllable>
+								<syllable>
+									<syl>hoc</syl>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="c" oct="4"/>
+										<nc pname="d" oct="4" intm="u"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="c" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>es</syl>
+									<neume type="pes">
+										<nc pname="a" oct="3"/>
+										<nc pname="b" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>tu</syl>
+									<neume type="virga">
+										<nc pname="c" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="g" oct="3"/>
+									</neume>
+									<app>
+										<rdg source="source0">
+											<neume type="punctum">
+												<nc pname="f" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1"/>
+									</app>
+								</syllable>
+								<syllable>
+									<syl>il_</syl>
+									<neume type="clivis">
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>la</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>lu_</syl>
+									<neume type="clivis">
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ci_</syl>
+									<neume type="porrectus">
+										<nc pname="d" oct="3"/>
+										<nc pname="c" oct="3" intm="d"/>
+										<nc pname="d" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>da</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ma_</syl>
+									<neume type="pessubpunctis">
+										<nc pname="e" oct="3"/>
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3"/>
+										<nc pname="d" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>te_</syl>
+									<neume type="punctum">
+										<nc pname="f" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="g" oct="3"/>
+										<nc pname="a" oct="3" intm="u"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="g" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="f" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ri_</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>a</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>p</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>quam</syl>
+									<neume type="pessubpunctis">
+										<nc pname="b" oct="3"/>
+										<nc pname="c" oct="4"/>
+										<nc pname="a" oct="3"/>
+										<nc pname="g" oct="3"/>
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>es</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ip_</syl>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+									<app>
+										<rdg source="source0">
+											<neume type="pes">
+												<nc pname="b" oct="3"/>
+												<nc pname="d" oct="4" intm="u"/>
+											</neume>
+										</rdg>
+										<rdg source="source1">
+											<neume type="pes">
+												<nc pname="c" oct="4"/>
+												<nc pname="d" oct="4" intm="u"/>
+											</neume>
+										</rdg>
+									</app>
+								</syllable>
+								<syllable>
+									<syl>sum</syl>
+									<neume type="clivis">
+										<nc pname="c" oct="4"/>
+										<nc pname="b" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ver_</syl>
+									<neume type="pes">
+										<nc pname="a" oct="3"/>
+										<nc pname="e" oct="4" intm="u"/>
+									</neume>
+									<neume type="virga">
+										<nc pname="e" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="d" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="c" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+									<app>
+										<rdg source="source0">
+											<neume type="oriscus">
+												<nc pname="b" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1"/>
+									</app>
+								</syllable>
+								<syllable>
+									<syl>bum</syl>
+									<neume type="pes">
+										<nc pname="a" oct="3"/>
+										<nc pname="b" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ex_</syl>
+									<neume type="climacus">
+										<nc pname="c" oct="4"/>
+										<nc pname="a" oct="3" intm="d"/>
+										<nc pname="g" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>spi_</syl>
+									<neume type="climacus">
+										<nc pname="a" oct="3"/>
+										<nc pname="f" oct="3" intm="d"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ra_</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>vit</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<pb n="154v"/>
+								<sb n="1"/>
+								<syllable>
+									<syl>om_</syl>
+									<neume type="virga">
+										<nc pname="d" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>nes</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>vir_</syl>
+									<neume type="pessubpunctis">
+										<nc pname="e" oct="3"/>
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3"/>
+										<nc pname="d" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>tu_</syl>
+									<neume type="climacus">
+										<nc pname="g" oct="3"/>
+										<nc pname="f" oct="3" intm="d"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>tes</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ut</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>e_</syl>
+									<neume type="virga">
+										<nc pname="e" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>du_</syl>
+									<neume type="pes">
+										<nc pname="b" oct="3"/>
+										<nc pname="c" oct="4" intm="u"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="g" oct="3"/>
+									</neume>
+									<app>
+										<rdg source="source0">
+											<neume type="punctum">
+												<nc pname="f" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1">
+											<neume type="punctum">
+												<nc pname="e" oct="3"/>
+											</neume>
+										</rdg>
+									</app>
+								</syllable>
+								<syllable>
+									<syl>xit</syl>
+									<neume type="clivis">
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>in</syl>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="c" oct="4"/>
+										<nc pname="d" oct="4" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>pri_</syl>
+									<neume type="clivis">
+										<nc pname="c" oct="4"/>
+										<nc pname="b" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ma</syl>
+									<neume type="virga">
+										<nc pname="b" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ma_</syl>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+									<neume type="pes">
+										<nc pname="c" oct="4"/>
+										<nc pname="d" oct="4" intm="u"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="c" oct="4"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="b" oct="3"/>
+									</neume>
+									<neume type="punctum">
+										<nc pname="a" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>te_</syl>
+									<neume type="pes">
+										<nc pname="a" oct="3"/>
+										<nc pname="e" oct="4" intm="u"/>
+									</neume>
+									<neume type="climacus">
+										<nc pname="e" oct="4"/>
+										<nc pname="d" oct="4" intm="d"/>
+										<nc pname="c" oct="4" intm="d"/>
+										<nc pname="b" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ri_</syl>
+									<neume type="pes">
+										<nc pname="a" oct="3"/>
+										<nc pname="b" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>a</syl>
+									<neume type="virga">
+										<nc pname="b" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>om_</syl>
+									<neume type="climacus">
+										<nc pname="c" oct="4"/>
+										<nc pname="a" oct="3" intm="d"/>
+										<nc pname="g" oct="3" intm="d"/>
+										<nc pname="f" oct="3" intm="d"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>nes</syl>
+									<neume type="pes">
+										<nc pname="d" oct="3"/>
+										<nc pname="e" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>cre_</syl>
+									<neume type="punctum">
+										<nc pname="d" oct="3"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>a_</syl>
+									<neume type="punctum">
+										<nc pname="e" oct="3"/>
+									</neume>
+									<app>
+										<rdg source="source0"/>
+										<rdg source="source1">
+											<neume type="punctum">
+												<nc pname="f" oct="3"/>
+											</neume>
+										</rdg>
+									</app>
+									<neume type="pes">
+										<nc pname="f" oct="3"/>
+										<nc pname="g" oct="3" intm="u"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>tu_</syl>
+									<neume type="clivis">
+										<nc pname="f" oct="3"/>
+										<nc pname="e" oct="3" intm="d"/>
+									</neume>
+								</syllable>
+								<syllable>
+									<syl>ras.</syl>
+									<app>
+										<rdg source="source0">
+											<neume type="virga">
+												<nc pname="e" oct="3"/>
+											</neume>
+										</rdg>
+										<rdg source="source1">
+											<neume type="punctum">
+												<nc pname="e" oct="3"/>
+											</neume>
+										</rdg>
+									</app>
+								</syllable>
+							</layer>
+						</staff>
+					</section>
+				</score>
+			</mdiv>
+		</body>
+	</music>
+</mei>
