@@ -22,20 +22,78 @@
             The process is divided into a couple of steps:<br><br>
             Meta data:<br>
             This section contains general data about the work itself as well as information about the file itself. A title must be included.<br><br>
+            Inputs:<br><br>
+            Title: the title of the work<br>
+            Composer: the composer of the work<br>
+            Author: the author ofthe MEI File, probably yourself<br>
+            Availability: availability of the file, e.g. publication status<br>
+            Comments: comments for the method of encoding, for example special remarks in comments for syllables or for style of neumes
+            <br><br>
             Source data:<br>
             This section contains information about the sources of the musical work. Multiple sources may be added, at least one source is mandatory.<br><br>
+            Inputs:<br><br>
+            Author/Composer: the author of the source<br>
+            Source title: the title of the source<br>
+            Location: the location of the source<br>
+            Ownership: who owns the source<br>
+            Date: release date of the source<br>
+            Publication status: publication status of the source<br>
+            Dimensions: dimensions of the source in a specified unit<br>
+            Condition: the condition of the source<br>
+            Extent: the extent of the source<br>
+            Language: the language of the source <br>
+            Handwriting: handwriting remarks of the work in the source<br>
+            After entering the data and saving it you can add more sources or continue to add staffs.
+            <br><br>
             Staff data:<br>
             This section contains information about the staffs, e.g. the lines the notes are painted on, including associated clefs.<br><br>
+            Inputs:<br><br>
+            Line count: the amount of lines the neumes are drawn on<br>
+            Line color: the color of the lines<br>
+            Mode: the mode of the work<br>
+            After entering the data you have got the opportunity to skip any clefs or save the staff and add clefs to it.
+            <br><br>
+            Clef data:<br>
+            In this section you can add the shape of a clef and which line it is on in case there are any lines.<br><br>
+            Inputs:<br><br>
+            Line: the line the clef is on<br>
+            Shape: the shape of the clef<br>
+            After entering the data and saving a clef you can continue straight to entering syllables or you go back and add another clef.<br><br>
             Syllable data:<br>
-            This section displays the muscial content itself. First, there is the words that are sung, then you may enter the sung neumes and the corresponding pitches, including variations between sources.<br>
-            To make input easier, the basic neumes virga, punctum, pes, clivis, torculus, porrectus, climacus and scandicus are pre programmed in case you don't add any pitches, so do not worry if you suddenly get redirected to the neume surface. Also the length of the neumes is locked, so again you might be redirected to the neume surface.<br>
+            This section displays the muscial content itself. First, there is the words that are sung, then you may enter the sung neumes and the corresponding pitches, including variations between sources.<br><br>
+            Inputs:<br><br>
+            Page: page of the syllable, extra optional<br>
+            Line: line pf the syllable, extra optional<br>
+            Staff: select a staff that you created before<br>
+            Syllable: the textual content of the syllable<br>
+            Initial?: indicates whether the syllable is an initial<br>
+            Comments: a comment<br>
+            After entering the data you cn save the syllable without any content or add neumes to it.
+            <br><br>
+            Neume data:<br>
+            In this section you are able to enter certain neumes with and without any pitches. To make input easier, the basic neumes virga, punctum, pes, clivis, torculus, porrectus, climacus and scandicus are pre programmed in case you don't add any pitches, so do not worry if you suddenly get redirected to the neume surface. Also the length of the neumes is locked, so again you might be redirected to the neume surface.<br><br>
+            Inputs:<br><br>
+            Neume type: specify the type of the neume you would like to enter. If it is a climacus you also get to the chance to specify the length which is currently at a maximum length of five. You can add more pitches through the change values menu.<br>
+            After selecting a neume you can just save it, save it and add pitches to it, add a variant or go back to adding syllables.<br><br>
+            Pitch data:<br><br>
+            This tab allows you to add pitches to a neume if not added automatically as mentioned above.<br><br>
+            Inputs:<br><br>
+            Pitch: the note or pitch<br>
+            Octave: the octave of the pitch<br>
+            From previous note: the relative note movement compared to the note before<br>
+            Connection: describes a connection to the other pitches<br>
+            Tilt: describes the tilt of a pitch in cardinal points<br>
+            Graphical Variation: describes a graphical variation in a pitch<br>
+            Supplied?: indicates another source the pitch is taken over from<br>
+            Comments: a comment<br>
+            After entering the data you can save the pitch, add a variant, add another neume or another syllable.<br><br>
             Please notice that you do not have to specify the page and the line of a syllable in every step, you only have to adjust those parameters if they change.<br>
             On the pitch surface, the "Supplied?" field can be left at "none", it only needs specification if no pitch is given and you reference that pitch to another source.<br><br>
             On each surface you have to save what you have entered before continuing to another surface or the information will be lost, unless a button says otherwise.
         </p>
         <p>
             <h4>Correcting errors</h4>
-            From time to time an error will occur. If you are in the middle of creating the document, you can use one of the "change value" buttons on the top or the bottom of the site. You will be able to select the source, staff, syllable or any other element you created, and the on the right side you will see the current values of the selected item. You can then change the values, create new ones or delete values. When you are finished there you can go back to the respective form. <b>Watch out: the pre programmed neume types will not be considered if you use an "insert syllable" button!</b> They will have to be inserted by hand.
+            From time to time an error will occur. If you are in the middle of creating the document, you can use one of the "change value" buttons on the top or the bottom of the site. You will be able to select the source, staff, syllable or any other element you created, and the on the right side you will see the current values of the selected item. You can then change the values, create new ones or delete values. When you are finished there you can go back to the respective form. <b>Watch out: the pre programmed neume types will not be considered in terms of auto completion if you use an "insert neume" button!</b> The pitches will have to be inserted by hand.
         </p>
         <p>
             <h4>Graphical output</h4>

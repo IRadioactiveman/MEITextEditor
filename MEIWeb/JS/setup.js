@@ -260,6 +260,12 @@ var pushedNeumeVariations = false;
 var isNeumeVariant = false;
 
 /**
+ * This variable indicates whether sources are being changed.
+ * @var {boolean} isChangingSources
+ */
+var isChangingSources = false;
+
+/**
  * This variable is the starting Y coordinate of the graphical output.
  * @var {number} startY
  */
@@ -285,7 +291,7 @@ var currentIntm = "none";
 
 /**
  * This value indicates whether the current type is a climacus for the climacus can have a variable number of pitches. Initially set to false.
- * @var {boolean} svgNS
+ * @var {boolean} isClimacus
  */
 var isClimacus = false;
 

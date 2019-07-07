@@ -47,7 +47,12 @@ function createSource(){
     
     sources.push(currentSource);
     
-    document.getElementById("input").innerHTML = sourceForm();
+    if(isChangingSources){
+        document.getElementById("input").innerHTML = sourceDataChangeForm();
+    }
+    else{
+        document.getElementById("input").innerHTML = sourceForm();
+    }
     document.getElementById("meiOutput").value = createMEIOutput();
 }
 
@@ -1036,6 +1041,7 @@ function applyMetaDataChanges(){
 
 /** Navigational, leads to change sources form.*/
 function toChangeSourceData(){
+    isChangingSources = true;
     if(sources.length > 0){
        currentSID = sources[0].id;
     }
@@ -1113,7 +1119,7 @@ function deleteSource(id){
     for(i = 0; i < sources.length; i++){
         if(sources[i].id == id){
             if(sources.length == 1){
-                document.getElementById("input").innerHTML = sourceForm();
+                document.getElementById("input").innerHTML = sourceDataChangeForm();
                 document.getElementById("meiOutput").value = createMEIOutput();
                 createSVGOutput();
                 return;
@@ -1131,11 +1137,20 @@ function deleteSource(id){
     }
     for(i = 0; i < syllables.length; i++){
         for(var j = 0; j < syllables[i].neumes.length; j++){
-            for(var l = 0; l < syllables[i].neumes[j].pitches.length; l++){
-                if(Array.isArray(syllables[i].neumes[j].pitches[l])){
-                    for(var k = 0; k < syllables[i].neumes[j].pitches[l].length; k++){
-                        if(syllables[i].neumes[j].pitches[l][k].sourceID == id){
-                            syllables[i].neumes[j].pitches[l].splice(k, 1);
+            if(Array.isArray(syllables[i].neumes[j])){
+                for(var k = 0; k < syllables[i].neumes[j].length; k++){
+                    if(syllables[i].neumes[j][k].sourceID == id){
+                        syllables[i].neumes[j].splice(k, 1);
+                    }
+                }
+            }
+            else{
+                for(var l = 0; l < syllables[i].neumes[j].pitches.length; l++){
+                    if(Array.isArray(syllables[i].neumes[j].pitches[l])){
+                        for(var k = 0; k < syllables[i].neumes[j].pitches[l].length; k++){
+                            if(syllables[i].neumes[j].pitches[l][k].sourceID == id){
+                                syllables[i].neumes[j].pitches[l].splice(k, 1);
+                                }
                         }
                     }
                 }
@@ -1181,7 +1196,7 @@ function deleteStaff(n){
     for(i = 0; i < staffs.length; i++){
         if(staffs[i].n == n){
             if(staffs.length == 1){
-                document.getElementById("input").innerHTML = staffForm();
+                document.getElementById("input").innerHTML = staffDataChangeForm();
                 document.getElementById("meiOutput").value = createMEIOutput();
                 createSVGOutput();
                 return;
@@ -1198,8 +1213,9 @@ function deleteStaff(n){
         }
     }
     for(i = 0; i < syllables.length; i++){
-        if(syllables[i].staff.n == n){
+        if(syllables[i].staff == n){
             syllables.splice(i, 1);
+            i--;
         }
     }
     

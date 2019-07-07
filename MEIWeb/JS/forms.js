@@ -454,7 +454,7 @@ Extent:             <input id=\"extent\" type=\"text\">"+ currentSource.extent +
 Language:           <input id=\"language\" type=\"text\">"+ currentSource.language +"<br>\
 Handwriting:        <textarea class=\"formArea\" id=\"handwriting\" rows=\"5\" cols=\"20\"></textarea>"+ currentSource.handwriting +"<br><br>\
 <button onclick=\"applySourceDataChanges()\">apply changes</button><br><br>\
-<button onclick=\"toSources()\">create new source</button><br>\
+<button onclick=\"createSource()\">create new source</button><br>\
 <button onclick=\"deleteSource(currentSID)\">delete selected source</button>\
     </pre>\
 </form><br>";
