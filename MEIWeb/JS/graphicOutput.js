@@ -140,7 +140,7 @@ function createSVGOutput(){
                                         previousValue = y + 10;
                                     }
                                     x += stride;
-                                    if(x >= 1000){
+                                    if(x >= (window.innerWidth - 100)){
                                         x = 0;
                                         y += 85;
                                         previousValue += 85;
@@ -234,7 +234,7 @@ function createSVGOutput(){
                                 previousValue = y + 10;
                             }
                             x += stride;
-                            if(x >= 1000){
+                            if(x >= (window.innerWidth - 100)){
                                 x = 0;
                                 y += 85;
                                 previousValue += 85;

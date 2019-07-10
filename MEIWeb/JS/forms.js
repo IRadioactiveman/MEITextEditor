@@ -601,7 +601,7 @@ Shape:              <select id=\"shape\">\
     </pre>\
 </form><br>";
     }
-    s += "<button onclick=\"toStaffs()\">back to adding staffs</button><br><br>";
+    s += "<button onclick=\"toChangeStaffData()\">back to editing staffs</button><br><br>";
     return s;
 }
 

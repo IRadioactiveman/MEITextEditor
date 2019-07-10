@@ -48,6 +48,22 @@ function createSource(){
     sources.push(currentSource);
     
     if(isChangingSources){
+        for(i = 0; i < syllables.length; i++){
+            for(var j = 0; j < syllables[i].neumes.length; j++){
+                if(Array.isArray(syllables[i].neumes[j])){
+                    var neumeVariation = new NeumeVariation(currentSource.id);
+                    syllables[i].neumes[j].push(neumeVariation);
+                }
+                else{
+                    for(var l = 0; l < syllables[i].neumes[j].pitches.length; l++){
+                        if(Array.isArray(syllables[i].neumes[j].pitches[l])){
+                            var variation = new Variation(currentSource.id);
+                            syllables[i].neumes[j].pitches[l].push(variation);
+                        }
+                    }
+                }
+            }
+        }
         document.getElementById("input").innerHTML = sourceDataChangeForm();
     }
     else{
