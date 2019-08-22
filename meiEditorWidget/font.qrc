@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>font.bmp</file>
-        <file>font2.bmp</file>
-    </qresource>
-</RCC>
