@@ -2,3 +2,5 @@
 *.user
 *.user
 build-Debug-MSVC17-64bit
+build-Release-MSVC17-64bit
+meiEditorWidget
